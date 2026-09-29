@@ -1,11 +1,12 @@
 "use client";
 
-import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useState, type RefObject } from "react";
 import { ACESFilmicToneMapping } from "three";
 import { heroSceneConfig } from "../config";
 import { LoopClock } from "../core/LoopClock";
+import { PerformanceGovernor } from "../core/PerformanceGovernor";
+import { PixelBudget } from "../core/PixelBudget";
 import type { FocusArea } from "../core/framing";
 import type { PointerTarget } from "../interaction/types";
 import { InterfaceSculpture } from "../models/InterfaceSculpture";
@@ -23,20 +24,21 @@ export interface HeroSceneProps {
   onReady?: () => void;
 }
 
-const { loopDuration, restPhase, camera, dpr, floorY } = heroSceneConfig;
+const { loopDuration, restPhase, camera, dpr, pixelBudget, floorY } = heroSceneConfig;
 
 /** "low" is chosen automatically when the frame rate drops, and lowers the pixel ratio. */
 type Quality = "high" | "low";
 
 export function HeroScene({ active, reducedMotion, pointer, focusArea, onReady }: HeroSceneProps) {
   const [quality, setQuality] = useState<Quality>("high");
+  const [pixelRatio, setPixelRatio] = useState(1);
   const interactive = !reducedMotion;
   const frameloop = !active ? "never" : reducedMotion ? "demand" : "always";
 
   return (
     <Canvas
       frameloop={frameloop}
-      dpr={[1, quality === "high" ? dpr.high : dpr.low]}
+      dpr={pixelRatio}
       camera={{ fov: camera.fov, near: 1, far: 40, position: [0, 0, 10] }}
       gl={{
         antialias: true,
@@ -49,12 +51,8 @@ export function HeroScene({ active, reducedMotion, pointer, focusArea, onReady }
       onCreated={() => onReady?.()}
     >
       {/* Steps quality down when the frame rate can't keep up, and back up when it recovers. */}
-      <PerformanceMonitor
-        onDecline={() => setQuality("low")}
-        onIncline={() => setQuality("high")}
-        onFallback={() => setQuality("low")}
-        flipflops={3}
-      />
+      <PerformanceGovernor onDecline={() => setQuality("low")} onIncline={() => setQuality("high")} />
+      <PixelBudget maxDpr={dpr[quality]} budget={pixelBudget[quality]} onChange={setPixelRatio} />
       <LoopClock duration={loopDuration} running={!reducedMotion} restPhase={restPhase}>
         <CameraRig focusArea={focusArea} pointer={pointer} interactive={interactive} />
         <Suspense fallback={null}>

@@ -91,6 +91,8 @@ export function HeroStage({ label, children, className, contentClassName }: Hero
             />
           </div>
         )}
+        {/* Darkens the edges and fades the bottom into the next section. */}
+        <div className={styles.vignette} aria-hidden="true" />
       </div>
 
       <HeroFocusContext.Provider value={focusContext}>

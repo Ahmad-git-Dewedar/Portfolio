@@ -44,6 +44,8 @@ export const heroSceneConfig = {
 
   /** Device pixel ratio caps per quality tier. */
   dpr: { high: 1.5, low: 1 },
+  /** Max rendered pixels per frame per tier; large screens lower their DPR to fit. */
+  pixelBudget: { high: 3_200_000, low: 1_600_000 },
 } as const;
 
 export type HeroSceneConfig = typeof heroSceneConfig;

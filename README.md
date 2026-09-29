@@ -5,7 +5,7 @@ Premium 3D portfolio for **Ahmad Dewedar, Frontend Developer**. Desktop first, b
 ## Stack
 
 - [Next.js 16](https://nextjs.org) App Router, React 19, TypeScript (strict)
-- [React Three Fiber](https://r3f.docs.pmnd.rs) + drei for the hero model
+- [React Three Fiber](https://r3f.docs.pmnd.rs) for the hero model (no drei: the few helpers needed live in `components/three`)
 - CSS Modules on top of a single design-token file (no CSS framework)
 - `next/font` for Martel (English) and Alan Sans (Arabic)
 
@@ -48,7 +48,7 @@ src/
 - **Skills**: edit groups and items in `src/content/skills.ts`. Tool names are plain strings (kept left-to-right in Arabic); practices take `{ en, ar }`.
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.
-- **Theme**: all colors, type, spacing, radii and motion live in `src/styles/tokens.css`.
+- **Theme**: all colors, type, spacing, radii, shadows and motion live in `src/styles/tokens.css`. Use the channel tokens for translucency (`rgb(var(--rgb-accent) / 0.2)`), `--surface-card` + `--shadow-card` for new cards, and `<Eyebrow>` / `<SectionHeading>` for section intros.
 
 ## Hero scene
 
@@ -57,23 +57,29 @@ components/three/
   config.ts              All tunables: loop length, framing, pointer strength, DPR caps
   HeroStage/             Full-bleed stage: lazy-loads the canvas, CSS poster fallback,
                          layers page copy on top; <HeroFocusArea /> marks where the model sits
-  core/                  LoopClock (shared seamless phase), loop math, framing, disposal helpers
+  core/                  LoopClock (shared seamless phase), loop math, framing, PerformanceGovernor, PixelBudget
   interaction/           usePointerTarget: mouse tilt, touch drag with spring-back
-  scene/                 HeroScene (canvas, quality), CameraRig, ModelRig, StudioLighting
+  scene/                 HeroScene (canvas, quality), CameraRig, ModelRig, StudioLighting + StudioEnvironment
   models/InterfaceSculpture/
     layout.ts            Resting placement of every part
     motion.ts            Pure loop choreography per part
     materials.ts         Shared physical materials
     Display, GlassCard, Orb, AccentPill
-  effects/               SoftShadow (world-anchored contact shadow), BackGlow
+  effects/               SoftShadow (world-anchored contact shadow), BackGlow, FloorGlow
   textures/ geometry/    Procedural canvas textures and rounded-rect geometry
 ```
 
 - **Seamless loop**: every animated value is a pure function of one shared phase (`LoopClock`), built from integer-harmonic waves. One-shot effects (the screen sheen) reset while invisible. Pose at phase 0 equals pose at phase 1, so repeats never jump.
 - **Interaction**: mouse and pen tilt the model and add camera parallax (damped). On touch, a horizontal drag turns the model and it springs back on release; vertical swipes scroll the page (`touch-action: pan-y`).
 - **Framing**: the camera fits the model into `<HeroFocusArea />` for any viewport, so the layout decides where and how large the model appears.
-- **Performance**: rendering pauses offscreen, the pixel ratio drops automatically when the frame rate does (`PerformanceMonitor`), lighting is a one-time Lightformer environment (no HDR download), and shadows are textured quads instead of shadow maps.
+- **Performance**: rendering pauses offscreen, the pixel ratio fits a per-tier pixel budget and drops when the frame rate does (`PerformanceGovernor`), lighting is an environment baked once from emissive panels (no HDR download or loaders), and shadows are textured quads instead of shadow maps.
 - **Reduced motion**: the loop holds a still pose, interaction is off and the canvas renders on demand only.
+
+## Maintenance notes
+
+- `three` is pinned to `~0.182`: from r183 three.js logs a `THREE.Clock` deprecation warning that React Three Fiber 9 still triggers. Lift the pin once R3F moves to `THREE.Timer`.
+- Filled buttons use `--color-accent-fill` (not the brighter `--color-accent`) so white labels meet WCAG AA contrast.
+- The hero canvas renders at the highest pixel ratio that fits `pixelBudget` in `components/three/config.ts`, and drops a tier when the frame rate falls.
 
 ## RTL notes
 

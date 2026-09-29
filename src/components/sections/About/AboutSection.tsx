@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/motion";
-import { Icon, Section, type IconName } from "@/components/ui";
+import { Eyebrow, Icon, Section, type IconName } from "@/components/ui";
 import { sectionIds } from "@/config/navigation";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./AboutSection.module.css";
@@ -25,7 +25,7 @@ export function AboutSection({ content }: AboutSectionProps) {
     <Section id={sectionIds.about} tone="raised" containerSize="wide" aria-labelledby="about-title">
       <div className={styles.intro}>
         <Reveal className={styles.lede}>
-          <p className={styles.eyebrow}>{content.eyebrow}</p>
+          <Eyebrow>{content.eyebrow}</Eyebrow>
           <h2 id="about-title" className={styles.title}>
             {content.title}
           </h2>

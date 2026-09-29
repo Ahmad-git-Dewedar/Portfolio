@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/motion";
-import { Button, Icon, Section, type IconName } from "@/components/ui";
+import { Button, Eyebrow, Icon, Section, type IconName } from "@/components/ui";
 import { sectionIds } from "@/config/navigation";
 import { siteConfig, socialLinks } from "@/config/site";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -38,7 +38,7 @@ export function ContactSection({ content, externalLinkLabel }: ContactSectionPro
     <Section id={sectionIds.contact} tone="raised" containerSize="wide" aria-labelledby="contact-title">
       <div className={styles.panel}>
         <Reveal className={styles.pitch}>
-          <p className={styles.eyebrow}>{content.eyebrow}</p>
+          <Eyebrow>{content.eyebrow}</Eyebrow>
           <h2 id="contact-title" className={styles.title}>
             {content.title}
           </h2>

@@ -43,8 +43,34 @@
   transition: color var(--duration-fast) var(--ease-out);
 }
 
+/* Underline grows from the center on hover and marks the section in view. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 2px;
+  block-size: 1px;
+  border-radius: 1px;
+  background: currentColor;
+  scale: 0 1;
+  transition: scale var(--duration-base) var(--ease-out);
+}
+
 .link:hover {
   color: var(--color-text);
+}
+
+.link:hover::after {
+  scale: 1 1;
+}
+
+.link[aria-current] {
+  color: var(--color-text);
+}
+
+.link[aria-current]::after {
+  scale: 1 1;
+  background: var(--color-accent);
 }
 
 .actions {
@@ -64,7 +90,7 @@
 }
 
 .menuToggle:hover {
-  background: rgb(255 255 255 / 0.08);
+  background: var(--color-fill-3);
 }
 
 .menu {

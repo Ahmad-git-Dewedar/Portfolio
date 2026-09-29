@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { Eyebrow } from "../Eyebrow";
 import styles from "./SectionHeading.module.css";
 
 export interface SectionHeadingProps {
@@ -24,7 +25,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <header className={cn(styles.heading, styles[align], className)}>
-      {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <Heading id={id} className={styles.title}>
         {title}
       </Heading>

@@ -59,9 +59,18 @@
   aspect-ratio: 1.55;
   border-radius: var(--radius-md);
   background:
-    radial-gradient(80% 70% at 70% 20%, rgb(41 151 255 / 0.35), transparent 70%),
+    radial-gradient(80% 70% at 70% 20%, rgb(var(--rgb-accent) / 0.35), transparent 70%),
     linear-gradient(180deg, #0d1526, #04060b);
   border: 6px solid #2b2b2f;
   box-shadow: var(--shadow-lg);
   transform: perspective(1400px) rotateY(-20deg) rotateX(4deg);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 72%, var(--color-bg) 100%),
+    radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(0 0 0 / 0.55) 100%);
 }

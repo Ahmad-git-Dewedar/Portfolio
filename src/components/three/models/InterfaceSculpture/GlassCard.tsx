@@ -1,11 +1,11 @@
 "use client";
 
-import { RoundedBox } from "@react-three/drei";
 import type { RefObject } from "react";
 import type { Group } from "three";
 import { useLoopFrame } from "../../core/LoopClock";
 import { applyPose } from "../../core/applyPose";
 import { useDisposable } from "../../core/useDisposable";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { createRoundedRectGeometry } from "../../geometry/roundedRect";
 import { sceneTheme } from "../../theme";
 import { sculptureLayout } from "./layout";
@@ -23,6 +23,7 @@ interface GlassCardProps {
 export function GlassCard({ ref, materials }: GlassCardProps) {
   const [width, height, depth] = glassCard.size;
   const bar = useDisposable(() => createRoundedRectGeometry(1, 1, 0.5));
+  const shellGeometry = useDisposable(() => new RoundedBoxGeometry(width, height, depth, 6, 0.05));
 
   useLoopFrame((phase) => {
     if (ref.current) applyPose(ref.current, glassCardPose(phase));
@@ -33,9 +34,9 @@ export function GlassCard({ ref, materials }: GlassCardProps) {
 
   return (
     <group ref={ref} position={glassCard.position} rotation={glassCard.rotation}>
-      <RoundedBox args={[width, height, depth]} radius={0.05} smoothness={6}>
+      <mesh geometry={shellGeometry}>
         <primitive object={materials.glass} attach="material" />
-      </RoundedBox>
+      </mesh>
 
       <mesh position={[left + 0.1, height / 2 - 0.26, face]}>
         <circleGeometry args={[0.1, 32]} />

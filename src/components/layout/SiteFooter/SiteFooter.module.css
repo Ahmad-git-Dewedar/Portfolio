@@ -46,5 +46,5 @@
 
 .social:hover {
   color: var(--color-text);
-  background: rgb(255 255 255 / 0.08);
+  background: var(--color-fill-3);
 }

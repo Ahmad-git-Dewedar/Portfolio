@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Button, Container, Icon } from "@/components/ui";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/cn";
 import type { Locale } from "@/i18n/config";
 import { BrandMark } from "../BrandMark";
@@ -34,6 +35,8 @@ export function SiteHeader({ locale, brandName, homeHref, links, cta, labels }: 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuId = useId();
+  const sectionIds = useMemo(() => links.map((link) => link.href.replace(/^#/, "")), [links]);
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -62,7 +65,11 @@ export function SiteHeader({ locale, brandName, homeHref, links, cta, labels }: 
           <ul role="list" className={styles.links}>
             {links.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className={styles.link}>
+                <a
+                  href={link.href}
+                  className={styles.link}
+                  aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
+                >
                   {link.label}
                 </a>
               </li>

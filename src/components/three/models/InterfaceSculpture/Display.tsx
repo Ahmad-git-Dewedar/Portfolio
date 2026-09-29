@@ -1,11 +1,11 @@
 "use client";
 
-import { RoundedBox } from "@react-three/drei";
 import { useRef, type RefObject } from "react";
 import { AdditiveBlending, type Group, type MeshBasicMaterial, type Texture } from "three";
 import { useLoopFrame } from "../../core/LoopClock";
 import { applyPose } from "../../core/applyPose";
 import { useDisposable } from "../../core/useDisposable";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { createRoundedFrameGeometry, createRoundedRectGeometry } from "../../geometry/roundedRect";
 import { createInterfaceTexture } from "../../textures/createInterfaceTexture";
 import { createSheenTexture } from "../../textures/createSheenTexture";
@@ -27,6 +27,9 @@ interface DisplayProps {
 export function Display({ ref, materials }: DisplayProps) {
   const screenTexture = useDisposable<Texture>(() => createInterfaceTexture());
   const sheenTexture = useDisposable<Texture>(() => createSheenTexture());
+  const shellGeometry = useDisposable(
+    () => new RoundedBoxGeometry(display.width, display.height, display.depth, 6, display.radius),
+  );
   // Black glass bezel around (not behind) the screen, so the two never z-fight.
   const bezelGeometry = useDisposable(() =>
     createRoundedFrameGeometry(
@@ -50,9 +53,9 @@ export function Display({ ref, materials }: DisplayProps) {
 
   return (
     <group ref={ref} position={display.position}>
-      <RoundedBox args={[display.width, display.height, display.depth]} radius={display.radius} smoothness={6}>
+      <mesh geometry={shellGeometry}>
         <primitive object={materials.aluminium} attach="material" />
-      </RoundedBox>
+      </mesh>
 
       <mesh geometry={bezelGeometry} position={[0, 0, front + LAYER.face]}>
         <primitive object={materials.frontGlass} attach="material" />

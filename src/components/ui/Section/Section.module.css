@@ -1,6 +1,29 @@
 .section {
   position: relative;
   padding-block: var(--space-section);
+  isolation: isolate;
+}
+
+/* Hairline seam with a soft light at its center, instead of a hard border. */
+.section::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  background: var(--gradient-hairline);
+  opacity: 0.7;
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: min(420px, 60%);
+  background: radial-gradient(50% 100% at 50% 0%, rgb(var(--rgb-accent) / 0.07), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .base {
@@ -9,5 +32,4 @@
 
 .raised {
   background: var(--color-bg-raised);
-  border-block: 1px solid var(--color-border);
 }

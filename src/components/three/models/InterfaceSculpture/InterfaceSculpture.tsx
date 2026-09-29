@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import type { Group, Mesh } from "three";
 import { BackGlow } from "../../effects/BackGlow";
+import { FloorGlow } from "../../effects/FloorGlow";
 import { SoftShadow } from "../../effects/SoftShadow";
 import { sceneTheme } from "../../theme";
 import { AccentPill } from "./AccentPill";
@@ -34,6 +35,7 @@ export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
   return (
     <>
       <BackGlow color={sceneTheme.accent} position={[0.2, 0.3, -1.2]} scale={[9, 6]} intensity={0.5} />
+      <FloorGlow color={sceneTheme.accent} floorY={floorY} />
 
       <Display ref={display} materials={materials} />
       <GlassCard ref={card} materials={materials} />
