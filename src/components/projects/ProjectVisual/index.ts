@@ -1,0 +1,1 @@
+export { ProjectVisual } from "./ProjectVisual";

@@ -1,0 +1,13 @@
+.section {
+  position: relative;
+  padding-block: var(--space-section);
+}
+
+.base {
+  background: var(--color-bg);
+}
+
+.raised {
+  background: var(--color-bg-raised);
+  border-block: 1px solid var(--color-border);
+}

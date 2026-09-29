@@ -1,0 +1,103 @@
+.button {
+  --button-bg: transparent;
+  --button-fg: var(--color-text);
+  --button-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-block-size: var(--button-height);
+  padding-inline: var(--button-padding);
+  border: 1px solid var(--button-border);
+  border-radius: var(--radius-pill);
+  background: var(--button-bg);
+  color: var(--button-fg);
+  font-size: var(--button-font);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+/* Martel sits high on its baseline; nudge the label so it reads optically centered. */
+.button > span {
+  padding-block-start: 0.18em;
+}
+
+:lang(ar) .button > span {
+  padding-block-start: 0;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.icon {
+  flex-shrink: 0;
+  transition: translate var(--duration-base) var(--ease-out);
+}
+
+.button:hover .icon[class*="flip-rtl"] {
+  translate: 2px 0;
+}
+
+[dir="rtl"] .button:hover .icon[class*="flip-rtl"] {
+  translate: -2px 0;
+}
+
+/* Variants */
+.primary {
+  --button-bg: var(--color-accent);
+  --button-fg: var(--color-on-accent);
+}
+
+.primary:hover {
+  --button-bg: var(--color-accent-hover);
+}
+
+.secondary {
+  --button-bg: rgb(255 255 255 / 0.06);
+  --button-border: var(--color-border-strong);
+}
+
+.secondary:hover {
+  --button-bg: rgb(255 255 255 / 0.12);
+}
+
+.ghost {
+  --button-fg: var(--color-accent);
+}
+
+.ghost:hover {
+  --button-fg: var(--color-accent-hover);
+}
+
+/* Sizes */
+.sm {
+  --button-height: 34px;
+  --button-padding: var(--space-4);
+  --button-font: var(--text-sm);
+}
+
+.md {
+  --button-height: 44px;
+  --button-padding: var(--space-5);
+  --button-font: var(--text-base);
+}
+
+.lg {
+  --button-height: 54px;
+  --button-padding: var(--space-6);
+  --button-font: var(--text-md);
+}
+
+.ghost.sm,
+.ghost.md,
+.ghost.lg {
+  --button-padding: 0;
+}

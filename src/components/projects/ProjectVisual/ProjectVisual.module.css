@@ -1,0 +1,131 @@
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(70% 80% at 50% 0%, var(--tint-a), transparent 75%),
+    linear-gradient(180deg, var(--tint-b), var(--color-bg));
+  perspective: 1400px;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  pointer-events: none;
+}
+
+.device {
+  position: relative;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(145deg, #3a3a3e, #1a1a1c);
+  box-shadow: var(--shadow-lg), var(--shadow-inset);
+  transform: rotateX(8deg) rotateY(-14deg) translateY(4%);
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+[dir="rtl"] .device {
+  transform: rotateX(8deg) rotateY(14deg) translateY(4%);
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: calc(var(--radius-md) - 6px);
+  background: linear-gradient(180deg, #111826, #05070c);
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Variants */
+.browser {
+  inline-size: 72%;
+  aspect-ratio: 16 / 10;
+}
+
+.dashboard {
+  inline-size: 66%;
+  aspect-ratio: 4 / 3;
+}
+
+.mobile {
+  inline-size: 26%;
+  aspect-ratio: 9 / 19;
+  border-radius: 28px;
+}
+
+.mobile .screen {
+  border-radius: 22px;
+}
+
+/* Abstract interface placeholder */
+.skeleton {
+  display: grid;
+  align-content: start;
+  gap: 8%;
+  block-size: 100%;
+  padding: 8%;
+}
+
+.skeleton > span,
+.skGrid > span {
+  display: block;
+  border-radius: 999px;
+}
+
+.skTitle {
+  inline-size: 55%;
+  block-size: 0.6rem;
+  background: rgb(255 255 255 / 0.85);
+}
+
+.skLine {
+  inline-size: 35%;
+  block-size: 0.35rem;
+  background: rgb(255 255 255 / 0.25);
+}
+
+.skGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  gap: 6%;
+}
+
+.mobile .skGrid {
+  grid-template-columns: 1fr;
+}
+
+.skGrid > span.skCard {
+  aspect-ratio: 16 / 10;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+.skChart {
+  block-size: 2.5rem;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, rgb(41 151 255 / 0.4), rgb(41 151 255 / 0));
+  clip-path: polygon(0 80%, 15% 60%, 30% 70%, 48% 35%, 65% 50%, 82% 18%, 100% 30%, 100% 100%, 0 100%);
+}
+
+/* Straighten the device when its surrounding card is hovered or focused. */
+:global([data-hover-root]:hover) .device,
+:global([data-hover-root]:focus-within) .device {
+  transform: rotateX(4deg) rotateY(-6deg) translateY(2%) scale(1.03);
+}
+
+:global([dir="rtl"] [data-hover-root]:hover) .device,
+:global([dir="rtl"] [data-hover-root]:focus-within) .device {
+  transform: rotateX(4deg) rotateY(6deg) translateY(2%) scale(1.03);
+}

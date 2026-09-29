@@ -1,0 +1,120 @@
+/*
+ * Design tokens. Every visual decision in the UI should resolve to one of
+ * these variables so themes and brand tweaks stay a one-file change.
+ */
+:root {
+  /* Color: surfaces */
+  --color-bg: #000000;
+  --color-bg-raised: #0a0a0b;
+  --color-surface: #141416;
+  --color-surface-strong: #1d1d1f;
+  --color-surface-glass: rgb(22 22 24 / 0.72);
+
+  /* Color: content */
+  --color-text: #f5f5f7;
+  --color-text-muted: #a1a1a6;
+  --color-text-subtle: #6e6e73;
+  --color-border: rgb(255 255 255 / 0.08);
+  --color-border-strong: rgb(255 255 255 / 0.16);
+
+  /* Color: brand */
+  --color-accent: #2997ff;
+  --color-accent-hover: #5cb0ff;
+  --color-on-accent: #ffffff;
+  --color-focus: #6fb8ff;
+
+  /* Color: decorative gradients used by product visuals */
+  --gradient-hero-glow: radial-gradient(60% 50% at 50% 40%, rgb(41 151 255 / 0.18), transparent 70%);
+  --gradient-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0));
+  --gradient-text: linear-gradient(180deg, #ffffff 0%, #c7c7cc 100%);
+
+  /* Typography: families (the font variables are injected by next/font) */
+  --font-en: var(--font-martel), "Georgia", "Times New Roman", serif;
+  --font-ar: var(--font-alan-sans), "Segoe UI", "Tahoma", sans-serif;
+  --font-body: var(--font-en);
+  --font-display: var(--font-en);
+
+  /* Typography: fluid scale, tuned for desktop first */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.35vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.15rem + 0.6vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.3rem + 1.3vw, 2.5rem);
+  --text-3xl: clamp(2.25rem, 1.5rem + 2.2vw, 3.5rem);
+  --text-display: clamp(2.75rem, 1.4rem + 4vw, 5.5rem);
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-body: 1.6;
+
+  --tracking-display: -0.02em;
+  --tracking-eyebrow: 0.08em;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+
+  /* Spacing: 4px base */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-section: clamp(5rem, 3rem + 6vw, 10rem);
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-wide: 1440px;
+  --container-narrow: 760px;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  --header-height: 60px;
+
+  /* Shape */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  --shadow-lg: 0 40px 80px -30px rgb(0 0 0 / 0.8);
+  --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.06);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 600ms;
+
+  /* Layering */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-skip-link: 300;
+
+  color-scheme: dark;
+}
+
+/* Arabic swaps the type families and relaxes metrics for connected script. */
+:root:lang(ar) {
+  --font-body: var(--font-ar);
+  --font-display: var(--font-ar);
+  --tracking-display: 0;
+  --tracking-eyebrow: 0;
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-body: 1.8;
+}

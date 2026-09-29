@@ -1,0 +1,75 @@
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px;
+  padding-inline-start: var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.04);
+}
+
+.globe {
+  color: var(--color-text-muted);
+}
+
+.track {
+  --option-width: 52px;
+
+  position: relative;
+}
+
+.options {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--option-width);
+}
+
+/* Sliding indicator; logical inset keeps it correct in both directions. */
+.thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--option-width);
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  translate: calc(var(--active-index) * var(--option-width)) 0;
+  transition: translate var(--duration-base) var(--ease-out);
+}
+
+[dir="rtl"] .thumb {
+  translate: calc(var(--active-index) * var(--option-width) * -1) 0;
+}
+
+.option {
+  position: relative;
+  display: grid;
+  place-items: center;
+  block-size: 28px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+.option:lang(en) {
+  font-family: var(--font-en);
+  letter-spacing: 0.06em;
+  padding-block-start: 0.2em;
+}
+
+.option:lang(ar) {
+  font-family: var(--font-ar);
+  font-size: var(--text-sm);
+}
+
+.option:hover {
+  color: var(--color-text);
+}
+
+.active,
+.active:hover {
+  color: var(--color-bg);
+}
