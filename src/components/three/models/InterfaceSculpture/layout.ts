@@ -26,6 +26,12 @@ export const sculptureLayout = {
     radius: 0.32,
     position: [-2.05, 1.18, 0.45] as Vec3,
   },
+  /** Tilted ring the satellites travel on, centered on the display. */
+  orbit: {
+    radius: 2.55,
+    tilt: [0.32, 0, -0.14] as Vec3,
+    position: [0, 0.05, 0] as Vec3,
+  },
   pill: {
     radius: 0.13,
     length: 0.46,

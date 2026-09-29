@@ -12,17 +12,17 @@ export const heroSceneConfig = {
     /** Slight elevation so the camera looks down onto the model. */
     elevation: 0.35,
     /** Loop-driven dolly amplitude in world units. */
-    breathe: 0.06,
+    breathe: 0.12,
   },
 
   /** Approximate world-space bounds of the whole composition, used for framing. */
-  modelBounds: { width: 5.0, height: 3.3 },
+  modelBounds: { width: 5.6, height: 3.7 },
 
   /**
    * How much of the focus area the model fills. Values above 1 let floating
    * accents bleed slightly past the area, which keeps the model large.
    */
-  fill: { width: 0.95, height: 1.12 },
+  fill: { width: 1.05, height: 1.05 },
 
   /** Resting three-quarter orientation of the model (radians). */
   baseRotation: { x: 0.06, y: -0.34 },

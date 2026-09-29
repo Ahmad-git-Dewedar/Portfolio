@@ -9,6 +9,8 @@ import type { PointerTarget } from "../interaction/types";
 interface ModelRigProps {
   pointer: RefObject<PointerTarget>;
   interactive: boolean;
+  /** Flips the resting yaw so the model faces copy on its right. */
+  mirrored?: boolean;
   children: ReactNode;
 }
 
@@ -18,14 +20,16 @@ const { baseRotation, pointer: pointerConfig, intro } = heroSceneConfig;
  * Orients the model: a settle-in entrance, then a damped tilt toward the pointer.
  * Loop motion lives in the parts themselves, so the two never fight.
  */
-export function ModelRig({ pointer, interactive, children }: ModelRigProps) {
+export function ModelRig({ pointer, interactive, mirrored = false, children }: ModelRigProps) {
   const group = useRef<Group>(null);
   const animated = useLoopRunning();
+  const side = mirrored ? -1 : 1;
+  const restYaw = baseRotation.y * side;
   // Captured once so re-renders never reset the animated transform.
   const [initial] = useState(() =>
     animated
-      ? { rotation: [baseRotation.x, baseRotation.y + intro.yaw, 0] as const, y: intro.y }
-      : { rotation: [baseRotation.x, baseRotation.y, 0] as const, y: 0 },
+      ? { rotation: [baseRotation.x, restYaw + intro.yaw * side, 0] as const, y: intro.y }
+      : { rotation: [baseRotation.x, restYaw, 0] as const, y: 0 },
   );
 
   useLoopFrame((_, delta) => {
@@ -34,7 +38,7 @@ export function ModelRig({ pointer, interactive, children }: ModelRigProps) {
     const px = interactive ? pointer.current.x : 0;
     const py = interactive ? pointer.current.y : 0;
     const targetX = baseRotation.x - py * pointerConfig.rotate.x;
-    const targetY = baseRotation.y + px * pointerConfig.rotate.y;
+    const targetY = restYaw + px * pointerConfig.rotate.y;
 
     if (!animated) {
       g.rotation.set(targetX, targetY, 0);

@@ -41,12 +41,7 @@ const ar: Dictionary = {
     lead: "ألعاب وصفحات إطلاق منتجات وعروض ثلاثية الأبعاد، كل منها مبني ليبدو كمنتج مكتمل.",
     featured: "مميز",
     visit: "زيارة الموقع",
-    preview: "معاينة سريعة",
-    close: "إغلاق المعاينة",
-    previous: "المشروع السابق",
-    next: "المشروع التالي",
     highlights: "أبرز المميزات",
-    position: "{current} من {total}",
   },
   about: {
     eyebrow: "نبذة",

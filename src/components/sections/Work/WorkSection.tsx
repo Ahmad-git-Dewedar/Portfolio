@@ -17,12 +17,7 @@ export function WorkSection({ locale, content, externalLinkLabel }: WorkSectionP
   const labels: ProjectLabels = {
     featured: content.featured,
     visit: content.visit,
-    preview: content.preview,
-    close: content.close,
-    previous: content.previous,
-    next: content.next,
     highlights: content.highlights,
-    position: content.position,
     externalLink: externalLinkLabel,
   };
 

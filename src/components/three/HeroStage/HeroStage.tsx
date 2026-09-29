@@ -22,6 +22,8 @@ interface HeroStageProps {
   className?: string;
   /** Class for the content layer, e.g. to lay out the copy around the focus area. */
   contentClassName?: string;
+  /** Mirror the model's resting angle so it faces copy placed on its right (RTL layouts). */
+  mirrored?: boolean;
 }
 
 /**
@@ -29,7 +31,7 @@ interface HeroStageProps {
  * hero so the model can be large, and the camera frames it inside the element
  * marked with <HeroFocusArea />. A CSS poster covers loading and no-WebGL cases.
  */
-export function HeroStage({ label, children, className, contentClassName }: HeroStageProps) {
+export function HeroStage({ label, children, className, contentClassName, mirrored = false }: HeroStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [focusElement, setFocusElement] = useState<HTMLElement | null>(null);
   const [focusArea, setFocusArea] = useState<FocusArea>(FULL_FOCUS_AREA);
@@ -87,6 +89,7 @@ export function HeroStage({ label, children, className, contentClassName }: Hero
               reducedMotion={reducedMotion}
               pointer={pointer}
               focusArea={focusArea}
+              mirrored={mirrored}
               onReady={() => setIsReady(true)}
             />
           </div>

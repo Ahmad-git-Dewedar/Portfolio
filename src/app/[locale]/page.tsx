@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { AboutSection, ContactSection, Hero, SkillsSection, WorkSection } from "@/components/sections";
-import { isLocale } from "@/i18n/config";
+import { getDirection, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -10,7 +10,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   return (
     <>
-      <Hero person={dict.person} content={dict.hero} modelLabel={dict.a11y.heroModel} />
+      <Hero
+        person={dict.person}
+        content={dict.hero}
+        modelLabel={dict.a11y.heroModel}
+        direction={getDirection(locale)}
+      />
       <WorkSection locale={locale} content={dict.work} externalLinkLabel={dict.a11y.externalLink} />
       <AboutSection content={dict.about} />
       <SkillsSection locale={locale} content={dict.skills} />

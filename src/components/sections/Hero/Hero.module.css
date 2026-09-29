@@ -6,33 +6,59 @@
     var(--color-bg);
 }
 
-/* Copy on top, the model's slot in the middle, the pitch at the bottom. */
 .stage {
-  min-block-size: max(100svh, 760px);
+  min-block-size: max(100svh, 720px);
 }
 
 .layout {
   display: flex;
   min-block-size: inherit;
   flex-direction: column;
-  flex: 1;
-  padding-block: calc(var(--header-height) + var(--space-6)) var(--space-6);
+  padding-block: calc(var(--header-height) + var(--space-6)) var(--space-7);
 }
 
-.intro {
-  text-align: center;
+/* Two columns: copy on the reading-start side, the model's slot on the other. */
+.grid {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  text-align: start;
+}
+
+.copy > * {
+  animation: rise var(--duration-slow) var(--ease-out) both;
+}
+
+.copy > :nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.copy > :nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.copy > :nth-child(4) {
+  animation-delay: 230ms;
 }
 
 .heading {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  animation: rise var(--duration-slow) var(--ease-out) both;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 
 .name {
-  font-size: var(--text-display);
+  font-size: clamp(3rem, 1.5rem + 4.3vw, 6.25rem);
   font-weight: var(--weight-heavy);
   letter-spacing: var(--tracking-display);
   line-height: 0.98;
@@ -64,40 +90,8 @@
   font-weight: var(--weight-regular);
 }
 
-/* Reserved space the camera frames the 3D model into. */
-.focus {
-  flex: 1 0 auto;
-  min-block-size: clamp(340px, 52vh, 780px);
-}
-
-.caption {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-7);
-  padding-block-start: var(--space-5);
-  animation: rise var(--duration-slow) var(--ease-out) 200ms both;
-}
-
-/* Fading hairline instead of a hard rule, so the model's floor reads as open space. */
-.caption::before {
-  content: "";
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: var(--gutter);
-  block-size: 1px;
-  background: var(--gradient-hairline);
-}
-
-.pitch {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  max-inline-size: 38rem;
-}
-
 .tagline {
+  margin-block-start: var(--space-2);
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
@@ -105,7 +99,7 @@
 }
 
 .lead {
-  max-inline-size: var(--measure);
+  max-inline-size: 32rem;
   font-size: var(--text-md);
   color: var(--color-text-muted);
 }
@@ -114,7 +108,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  flex-shrink: 0;
+  margin-block-start: var(--space-2);
+}
+
+/* Reserved space the camera frames the 3D model into. */
+.focus {
+  align-self: stretch;
+  min-block-size: clamp(420px, 68vh, 820px);
 }
 
 @keyframes rise {
@@ -124,19 +124,20 @@
   }
 }
 
-@media (max-width: 860px) {
-  .caption {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-5);
+/* Tablet and below: stack the copy above the model. */
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--space-4);
+  }
+
+  .focus {
+    min-block-size: clamp(320px, 52vh, 560px);
   }
 }
 
 @media (max-width: 480px) {
-  .focus {
-    min-block-size: 300px;
-  }
-
   .actions {
     inline-size: 100%;
   }
@@ -144,15 +145,8 @@
   .actions > * {
     flex: 1 1 auto;
   }
-}
 
-/* Short laptop and tablet-landscape screens: keep the pitch within the first view. */
-@media (max-height: 860px) and (min-width: 481px) {
   .focus {
-    min-block-size: clamp(300px, 44vh, 780px);
-  }
-
-  .layout {
-    padding-block: calc(var(--header-height) + var(--space-5)) var(--space-5);
+    min-block-size: 300px;
   }
 }

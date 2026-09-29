@@ -39,12 +39,7 @@ const en = {
     lead: "Games, product launches and 3D showcases, each one built to feel like a finished product.",
     featured: "Featured",
     visit: "Visit live site",
-    preview: "Quick preview",
-    close: "Close preview",
-    previous: "Previous project",
-    next: "Next project",
     highlights: "Highlights",
-    position: "{current} of {total}",
   },
   about: {
     eyebrow: "About",

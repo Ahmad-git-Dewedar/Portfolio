@@ -21,6 +21,8 @@ export interface HeroSceneProps {
   reducedMotion: boolean;
   pointer: RefObject<PointerTarget>;
   focusArea: FocusArea;
+  /** Turns the model to face copy on its right instead of its left. */
+  mirrored?: boolean;
   onReady?: () => void;
 }
 
@@ -29,7 +31,7 @@ const { loopDuration, restPhase, camera, dpr, pixelBudget, floorY } = heroSceneC
 /** "low" is chosen automatically when the frame rate drops, and lowers the pixel ratio. */
 type Quality = "high" | "low";
 
-export function HeroScene({ active, reducedMotion, pointer, focusArea, onReady }: HeroSceneProps) {
+export function HeroScene({ active, reducedMotion, pointer, focusArea, mirrored = false, onReady }: HeroSceneProps) {
   const [quality, setQuality] = useState<Quality>("high");
   const [pixelRatio, setPixelRatio] = useState(1);
   const interactive = !reducedMotion;
@@ -57,7 +59,7 @@ export function HeroScene({ active, reducedMotion, pointer, focusArea, onReady }
         <CameraRig focusArea={focusArea} pointer={pointer} interactive={interactive} />
         <Suspense fallback={null}>
           <StudioLighting />
-          <ModelRig pointer={pointer} interactive={interactive}>
+          <ModelRig pointer={pointer} interactive={interactive} mirrored={mirrored}>
             <InterfaceSculpture floorY={floorY} />
           </ModelRig>
         </Suspense>

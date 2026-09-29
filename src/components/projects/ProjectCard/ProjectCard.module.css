@@ -44,19 +44,13 @@
   border-radius: var(--radius-md);
 }
 
-.previewTrigger {
+.mediaLink {
   position: relative;
   display: block;
-  inline-size: 100%;
   border-radius: var(--radius-md);
-  text-align: start;
 }
 
-.previewTrigger:focus-visible {
-  outline-offset: 4px;
-}
-
-.previewHint {
+.visitHint {
   position: absolute;
   inset-block-end: var(--space-4);
   inset-inline-end: var(--space-4);
@@ -79,8 +73,7 @@
     translate var(--duration-base) var(--ease-out);
 }
 
-.previewTrigger:hover .previewHint,
-.previewTrigger:focus-visible .previewHint {
+.mediaLink:hover .visitHint {
   opacity: 1;
   translate: 0 0;
 }
@@ -171,29 +164,17 @@
   padding-block-start: var(--space-3);
 }
 
-.visit,
-.previewLink {
+.visit {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-weight: var(--weight-semibold);
-  transition: color var(--duration-fast) var(--ease-out);
-}
-
-.visit {
   color: var(--color-text);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .visit:hover {
   color: var(--accent);
-}
-
-.previewLink {
-  color: var(--color-text-muted);
-}
-
-.previewLink:hover {
-  color: var(--color-text);
 }
 
 /* Featured: large preview beside the details on wide screens. */

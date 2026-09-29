@@ -30,7 +30,7 @@ src/
     ui/                Design-system primitives: Button, Container, Section, SectionHeading, Icon
     layout/            SiteHeader, LanguageSwitcher, BrandMark, SiteFooter, SkipLink
     sections/          Page sections: Hero, WorkSection, AboutSection, SkillsSection, ContactSection
-    projects/          ProjectShowcase, ProjectCard, ProjectFrame, ProjectPreviewDialog
+    projects/          ProjectShowcase, ProjectCard, ProjectFrame
     motion/            Reveal (scroll-in) and Tilt (pointer 3D tilt with glare)
     three/             3D hero (see "Hero scene" below)
   config/              site.ts (identity, email, socials), navigation.ts (sections, nav)
@@ -44,7 +44,7 @@ src/
 
 - **Copy**: edit `src/i18n/dictionaries/en.ts`; `ar.ts` is type-checked against it, so missing keys fail the build.
 - **New locale**: add it to `locales` and `localeMeta` in `src/i18n/config.ts`, then add a dictionary and register it in `src/i18n/dictionaries/index.ts`.
-- **Projects**: add an entry to `src/content/projects.ts` and its screenshot to `public/projects/`. Set `featured: true` for the large card and `accent` to the project's brand color, which drives its hover glow and highlights. Cards and the quick-preview dialog pick it up automatically.
+- **Projects**: add an entry to `src/content/projects.ts` and its screenshot to `public/projects/`. Set `featured: true` for the large card and `accent` to the project's brand color, which drives its hover glow and highlights. Cards pick it up automatically; images are shown at 16:9, so use covers of that ratio (about 1600x900).
 - **Skills**: edit groups and items in `src/content/skills.ts`. Tool names are plain strings (kept left-to-right in Arabic); practices take `{ en, ar }`.
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.
@@ -64,7 +64,7 @@ components/three/
     layout.ts            Resting placement of every part
     motion.ts            Pure loop choreography per part
     materials.ts         Shared physical materials
-    Display, GlassCard, Orb, AccentPill
+    Display, GlassCard, Orb, AccentPill, Satellites
   effects/               SoftShadow (world-anchored contact shadow), BackGlow, FloorGlow
   textures/ geometry/    Procedural canvas textures and rounded-rect geometry
 ```

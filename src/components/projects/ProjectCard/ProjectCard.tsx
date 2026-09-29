@@ -1,5 +1,3 @@
-"use client";
-
 import type { CSSProperties } from "react";
 import { Tilt } from "@/components/motion";
 import { Icon } from "@/components/ui";
@@ -11,11 +9,10 @@ import styles from "./ProjectCard.module.css";
 interface ProjectCardProps {
   project: ProjectView;
   labels: ProjectLabels;
-  onPreview: () => void;
   className?: string;
 }
 
-export function ProjectCard({ project, labels, onPreview, className }: ProjectCardProps) {
+export function ProjectCard({ project, labels, className }: ProjectCardProps) {
   const headingId = `project-${project.slug}-title`;
   const featured = project.featured;
 
@@ -27,22 +24,24 @@ export function ProjectCard({ project, labels, onPreview, className }: ProjectCa
       data-hover-root
     >
       <Tilt max={featured ? 4 : 6} className={styles.media}>
-        <button
-          type="button"
-          className={styles.previewTrigger}
-          onClick={onPreview}
-          aria-label={`${labels.preview}: ${project.title}`}
-          aria-haspopup="dialog"
+        {/* The image also opens the live site. It duplicates the text link below, so it stays out of the tab order. */}
+        <a
+          href={project.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.mediaLink}
+          tabIndex={-1}
+          aria-hidden="true"
         >
           <ProjectFrame
             project={project}
             sizes={featured ? "(min-width: 1100px) 760px, 100vw" : "(min-width: 1100px) 420px, (min-width: 760px) 50vw, 100vw"}
           />
-          <span className={styles.previewHint} aria-hidden="true">
-            <Icon name="eye" size={16} />
-            {labels.preview}
+          <span className={styles.visitHint}>
+            <span>{labels.visit}</span>
+            <Icon name="arrow-up-right" size={16} />
           </span>
-        </button>
+        </a>
       </Tilt>
 
       <div className={styles.body}>
@@ -81,11 +80,6 @@ export function ProjectCard({ project, labels, onPreview, className }: ProjectCa
             </span>
             <Icon name="arrow-up-right" size={16} />
           </a>
-          <button type="button" className={styles.previewLink} onClick={onPreview} aria-haspopup="dialog">
-            <Icon name="eye" size={16} />
-            <span>{labels.preview}</span>
-            <span className="visually-hidden"> {project.title}</span>
-          </button>
         </div>
       </div>
     </article>

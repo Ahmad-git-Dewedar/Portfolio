@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import { applyPose } from "../../core/applyPose";
+import { useLoopFrame } from "../../core/LoopClock";
 import type { Group, Mesh } from "three";
 import { BackGlow } from "../../effects/BackGlow";
 import { FloorGlow } from "../../effects/FloorGlow";
@@ -10,8 +12,10 @@ import { AccentPill } from "./AccentPill";
 import { Display } from "./Display";
 import { GlassCard } from "./GlassCard";
 import { Orb } from "./Orb";
+import { Satellites } from "./Satellites";
 import { sculptureLayout } from "./layout";
 import { useSculptureMaterials } from "./materials";
+import { sculpturePose } from "./motion";
 
 interface InterfaceSculptureProps {
   /** World-space floor height for contact shadows. */
@@ -19,8 +23,8 @@ interface InterfaceSculptureProps {
 }
 
 /**
- * The hero model: a floating display orbited by a glass card, a satin orb and an
- * accent pill. Procedural, so it ships without model files; each part owns its
+ * The hero model: a swaying display with a glass card, a satin orb, an accent
+ * pill and three satellites on a tilted orbit. Procedural, so it ships without model files; each part owns its
  * own loop motion and can be swapped (e.g. for a GLTF) independently.
  */
 export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
@@ -29,6 +33,11 @@ export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
   const card = useRef<Group>(null);
   const orb = useRef<Mesh>(null);
   const pill = useRef<Mesh>(null);
+  const sway = useRef<Group>(null);
+
+  useLoopFrame((phase) => {
+    if (sway.current) applyPose(sway.current, sculpturePose(phase));
+  });
 
   const restHeight = (y: number) => y - floorY;
 
@@ -37,10 +46,13 @@ export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
       <BackGlow color={sceneTheme.accent} position={[0.2, 0.3, -1.2]} scale={[9, 6]} intensity={0.5} />
       <FloorGlow color={sceneTheme.accent} floorY={floorY} />
 
-      <Display ref={display} materials={materials} />
-      <GlassCard ref={card} materials={materials} />
-      <Orb ref={orb} materials={materials} />
-      <AccentPill ref={pill} materials={materials} />
+      <group ref={sway}>
+        <Display ref={display} materials={materials} />
+        <GlassCard ref={card} materials={materials} />
+        <Orb ref={orb} materials={materials} />
+        <AccentPill ref={pill} materials={materials} />
+        <Satellites materials={materials} />
+      </group>
 
       <SoftShadow
         target={display}

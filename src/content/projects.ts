@@ -14,7 +14,7 @@ export interface Project {
   title: Localized;
   category: Localized;
   summary: Localized;
-  /** Short feature highlights shown on the featured card and in the preview. */
+  /** Short feature highlights, listed on the featured card. */
   highlights: Localized<readonly string[]>;
   tags: Localized<readonly string[]>;
   /** Live deployment. */
@@ -52,12 +52,12 @@ export const projects: readonly Project[] = [
     tags: { en: ["Game UI", "Web app", "Dashboard"], ar: ["واجهة لعبة", "تطبيق ويب", "لوحة تحكم"] },
     href: "https://ultimate-xi-1zky.onrender.com",
     image: {
-      src: "/projects/ultimate-xi.webp",
-      width: 1887,
-      height: 892,
+      src: "/projects/ultimate-xi-cover.webp",
+      width: 1600,
+      height: 893,
       alt: {
-        en: "Ultimate XI home screen showing the Squad Ready panel, team stats and the daily free pack",
-        ar: "الشاشة الرئيسية للعبة Ultimate XI وتظهر لوحة جاهزية الفريق وإحصاءاته والحزمة المجانية اليومية",
+        en: "Ultimate XI cover in gold lettering on navy, framed by two blue footballs",
+        ar: "غلاف Ultimate XI بخط ذهبي على خلفية كحلية تحيط به كرتا قدم زرقاوان",
       },
     },
     accent: "#ffc72c",
@@ -78,12 +78,12 @@ export const projects: readonly Project[] = [
     tags: { en: ["Landing page", "Motion", "Bilingual"], ar: ["صفحة هبوط", "حركة", "ثنائية اللغة"] },
     href: "https://iphone17promax-project.netlify.app",
     image: {
-      src: "/projects/iphone-17-pro-max.webp",
-      width: 1893,
-      height: 835,
+      src: "/projects/iphone-17-pro-max-cover.webp",
+      width: 1600,
+      height: 893,
       alt: {
-        en: "iPhone 17 Pro Max landing page hero with oversized white and orange headline",
-        ar: "واجهة صفحة iPhone 17 Pro Max بعنوان ضخم باللونين الأبيض والبرتقالي",
+        en: "iPhone 17 Pro Max cover with glowing orange camera module and phone edge on black",
+        ar: "غلاف iPhone 17 Pro Max مع وحدة كاميرا وحافة هاتف برتقالية متوهجة على خلفية سوداء",
       },
     },
     accent: "#ff7a1a",
@@ -103,12 +103,12 @@ export const projects: readonly Project[] = [
     tags: { en: ["3D", "Product page", "Bilingual"], ar: ["ثلاثي الأبعاد", "صفحة منتج", "ثنائية اللغة"] },
     href: "https://ps5-3d.netlify.app",
     image: {
-      src: "/projects/ps5-3d.webp",
-      width: 1895,
-      height: 837,
+      src: "/projects/ps5-3d-cover.webp",
+      width: 1600,
+      height: 893,
       alt: {
-        en: "PlayStation 5 console and DualSense controller on a table in a dark room with blue light",
-        ar: "جهاز PlayStation 5 ويد التحكم DualSense على طاولة في غرفة داكنة بإضاءة زرقاء",
+        en: "PlayStation 5 cover with a DualSense controller and console outlined in blue light",
+        ar: "غلاف PlayStation 5 مع يد التحكم DualSense والجهاز بإضاءة زرقاء",
       },
     },
     accent: "#2f6bff",
@@ -128,12 +128,12 @@ export const projects: readonly Project[] = [
     tags: { en: ["Fintech", "RTL", "Landing page"], ar: ["تقنية مالية", "من اليمين لليسار", "صفحة هبوط"] },
     href: "https://mizan-project.netlify.app",
     image: {
-      src: "/projects/mizan.webp",
-      width: 1883,
-      height: 773,
+      src: "/projects/mizan-cover.webp",
+      width: 1600,
+      height: 893,
       alt: {
-        en: "Mizan landing page in Arabic with a green logo and the headline about making money more logical",
-        ar: "صفحة هبوط ميزان بالعربية مع شعار أخضر وعنوان يدعو لجعل الأموال أكثر منطقية",
+        en: "Mizan cover in green with a rising chart and a stack of coins",
+        ar: "غلاف ميزان باللون الأخضر مع رسم بياني صاعد وكومة عملات",
       },
     },
     accent: "#3ddc97",
