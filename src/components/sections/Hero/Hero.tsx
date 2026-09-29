@@ -1,5 +1,5 @@
-import { HeroStage } from "@/components/three";
-import { Button, Container, Icon } from "@/components/ui";
+import { HeroFocusArea, HeroStage } from "@/components/three";
+import { Button, Container } from "@/components/ui";
 import { sectionIds } from "@/config/navigation";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./Hero.module.css";
@@ -13,13 +13,22 @@ interface HeroProps {
 export function Hero({ person, content, modelLabel }: HeroProps) {
   return (
     <section id={sectionIds.home} className={styles.hero} aria-labelledby="hero-title">
-      <Container size="wide" className={styles.inner}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>{content.eyebrow}</p>
-          <h1 id="hero-title" className={styles.name}>
-            {person.name}
+      <HeroStage label={modelLabel} className={styles.stage} contentClassName={styles.layout}>
+        <Container size="wide" className={styles.intro}>
+          <h1 id="hero-title" className={styles.heading}>
+            <span className={styles.name}>{person.name}</span>
+            <span className="visually-hidden">, </span>
+            <span className={styles.role}>{person.role}</span>
           </h1>
-          <p className={styles.tagline}>{content.title}</p>
+        </Container>
+
+        <HeroFocusArea className={styles.focus} />
+
+        <Container size="wide" className={styles.caption}>
+          <div className={styles.pitch}>
+            <p className={styles.tagline}>{content.title}</p>
+            <p className={styles.lead}>{content.lead}</p>
+          </div>
           <div className={styles.actions}>
             <Button href={`#${sectionIds.work}`} size="lg">
               {content.primaryCta}
@@ -28,20 +37,8 @@ export function Hero({ person, content, modelLabel }: HeroProps) {
               {content.secondaryCta}
             </Button>
           </div>
-        </div>
-
-        <HeroStage label={modelLabel} className={styles.stage} />
-
-        <div className={styles.caption}>
-          <p className={styles.lead}>{content.lead}</p>
-          <a href={`#${sectionIds.work}`} className={styles.scrollHint}>
-            <span>{content.scrollHint}</span>
-            <span className={styles.scrollIcon}>
-              <Icon name="arrow-down" size={16} />
-            </span>
-          </a>
-        </div>
-      </Container>
+        </Container>
+      </HeroStage>
     </section>
   );
 }

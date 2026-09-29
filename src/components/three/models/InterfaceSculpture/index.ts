@@ -1,0 +1,1 @@
+export { InterfaceSculpture } from "./InterfaceSculpture";

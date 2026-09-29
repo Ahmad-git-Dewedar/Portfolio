@@ -1,35 +1,69 @@
 "use client";
 
-import { ContactShadows } from "@react-three/drei";
+import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
+import { Suspense, useState, type RefObject } from "react";
+import { ACESFilmicToneMapping } from "three";
+import { heroSceneConfig } from "../config";
+import { LoopClock } from "../core/LoopClock";
+import type { FocusArea } from "../core/framing";
+import type { PointerTarget } from "../interaction/types";
 import { InterfaceSculpture } from "../models/InterfaceSculpture";
-import { PointerRig } from "./PointerRig";
+import { CameraRig } from "./CameraRig";
+import { ModelRig } from "./ModelRig";
 import { StudioLighting } from "./StudioLighting";
 
 export interface HeroSceneProps {
-  /** Pauses the render loop when false, e.g. while the hero is offscreen. */
-  active?: boolean;
-  reducedMotion?: boolean;
+  /** Pauses rendering entirely when false, e.g. while the hero is offscreen. */
+  active: boolean;
+  /** Holds a still pose and renders only on demand. */
+  reducedMotion: boolean;
+  pointer: RefObject<PointerTarget>;
+  focusArea: FocusArea;
   onReady?: () => void;
 }
 
-export function HeroScene({ active = true, reducedMotion = false, onReady }: HeroSceneProps) {
+const { loopDuration, restPhase, camera, dpr, floorY } = heroSceneConfig;
+
+/** "low" is chosen automatically when the frame rate drops, and lowers the pixel ratio. */
+type Quality = "high" | "low";
+
+export function HeroScene({ active, reducedMotion, pointer, focusArea, onReady }: HeroSceneProps) {
+  const [quality, setQuality] = useState<Quality>("high");
+  const interactive = !reducedMotion;
+  const frameloop = !active ? "never" : reducedMotion ? "demand" : "always";
+
   return (
     <Canvas
-      frameloop={active ? "always" : "never"}
-      dpr={[1, 1.75]}
-      camera={{ position: [0, 0, 6.6], fov: 32 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      frameloop={frameloop}
+      dpr={[1, quality === "high" ? dpr.high : dpr.low]}
+      camera={{ fov: camera.fov, near: 1, far: 40, position: [0, 0, 10] }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        stencil: false,
+        powerPreference: "high-performance",
+        toneMapping: ACESFilmicToneMapping,
+        toneMappingExposure: 1.05,
+      }}
       onCreated={() => onReady?.()}
     >
-      <Suspense fallback={null}>
-        <StudioLighting />
-        <PointerRig interactive={!reducedMotion}>
-          <InterfaceSculpture animate={!reducedMotion} />
-        </PointerRig>
-        <ContactShadows position={[0, -1.95, 0]} opacity={0.55} scale={12} blur={2.6} far={4} resolution={512} />
-      </Suspense>
+      {/* Steps quality down when the frame rate can't keep up, and back up when it recovers. */}
+      <PerformanceMonitor
+        onDecline={() => setQuality("low")}
+        onIncline={() => setQuality("high")}
+        onFallback={() => setQuality("low")}
+        flipflops={3}
+      />
+      <LoopClock duration={loopDuration} running={!reducedMotion} restPhase={restPhase}>
+        <CameraRig focusArea={focusArea} pointer={pointer} interactive={interactive} />
+        <Suspense fallback={null}>
+          <StudioLighting />
+          <ModelRig pointer={pointer} interactive={interactive}>
+            <InterfaceSculpture floorY={floorY} />
+          </ModelRig>
+        </Suspense>
+      </LoopClock>
     </Canvas>
   );
 }

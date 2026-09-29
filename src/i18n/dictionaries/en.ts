@@ -26,12 +26,10 @@ const en = {
     cta: "Let's talk",
   },
   hero: {
-    eyebrow: "Frontend Developer",
     title: "Interfaces, crafted like products.",
     lead: "I design and build fast, precise and accessible web experiences, with the attention to detail you expect from a finished product.",
     primaryCta: "View work",
     secondaryCta: "Get in touch",
-    scrollHint: "Scroll to explore",
   },
   work: {
     eyebrow: "Selected work",
