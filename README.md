@@ -29,11 +29,12 @@ src/
   components/
     ui/                Design-system primitives: Button, Container, Section, SectionHeading, Icon
     layout/            SiteHeader, LanguageSwitcher, BrandMark, SiteFooter, SkipLink
-    sections/          Page sections: Hero, WorkSection, ContactSection
-    projects/          ProjectGrid, ProjectCard, ProjectVisual (CSS 3D device stages)
+    sections/          Page sections: Hero, WorkSection, AboutSection, SkillsSection, ContactSection
+    projects/          ProjectShowcase, ProjectCard, ProjectFrame, ProjectPreviewDialog
+    motion/            Reveal (scroll-in) and Tilt (pointer 3D tilt with glare)
     three/             3D hero (see "Hero scene" below)
   config/              site.ts (identity, email, socials), navigation.ts (sections, nav)
-  content/             projects.ts (typed, localized project data)
+  content/             projects.ts and skills.ts (typed, localized data)
   i18n/                Locale config, path helpers, typed dictionaries (en, ar)
   hooks/               Reduced motion, in-view, WebGL support
   styles/              tokens.css (design tokens) and globals.css
@@ -43,7 +44,8 @@ src/
 
 - **Copy**: edit `src/i18n/dictionaries/en.ts`; `ar.ts` is type-checked against it, so missing keys fail the build.
 - **New locale**: add it to `locales` and `localeMeta` in `src/i18n/config.ts`, then add a dictionary and register it in `src/i18n/dictionaries/index.ts`.
-- **Projects**: replace the placeholder entries in `src/content/projects.ts`. Add `href` to show a link, or `visual.image` to swap the abstract device screen for a screenshot.
+- **Projects**: add an entry to `src/content/projects.ts` and its screenshot to `public/projects/`. Set `featured: true` for the large card and `accent` to the project's brand color, which drives its hover glow and highlights. Cards and the quick-preview dialog pick it up automatically.
+- **Skills**: edit groups and items in `src/content/skills.ts`. Tool names are plain strings (kept left-to-right in Arabic); practices take `{ en, ar }`.
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.
 - **Theme**: all colors, type, spacing, radii and motion live in `src/styles/tokens.css`.

@@ -1,7 +1,8 @@
-import { ProjectGrid } from "@/components/projects";
+import { Reveal } from "@/components/motion";
+import { ProjectShowcase, type ProjectLabels } from "@/components/projects";
 import { Section, SectionHeading } from "@/components/ui";
 import { sectionIds } from "@/config/navigation";
-import { projects } from "@/content/projects";
+import { getProjectViews } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./WorkSection.module.css";
@@ -13,19 +14,25 @@ interface WorkSectionProps {
 }
 
 export function WorkSection({ locale, content, externalLinkLabel }: WorkSectionProps) {
+  const labels: ProjectLabels = {
+    featured: content.featured,
+    visit: content.visit,
+    preview: content.preview,
+    close: content.close,
+    previous: content.previous,
+    next: content.next,
+    highlights: content.highlights,
+    position: content.position,
+    externalLink: externalLinkLabel,
+  };
+
   return (
-    <Section id={sectionIds.work} containerSize="wide" aria-labelledby="work-title">
-      <SectionHeading id="work-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
-      <div className={styles.grid}>
-        <ProjectGrid
-          projects={projects}
-          locale={locale}
-          labels={{
-            comingSoon: content.comingSoon,
-            viewProject: content.viewProject,
-            externalLink: externalLinkLabel,
-          }}
-        />
+    <Section id={sectionIds.work} containerSize="wide" className={styles.section} aria-labelledby="work-title">
+      <Reveal>
+        <SectionHeading id="work-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+      </Reveal>
+      <div className={styles.showcase}>
+        <ProjectShowcase projects={getProjectViews(locale)} labels={labels} />
       </div>
     </Section>
   );

@@ -1,0 +1,106 @@
+.frame {
+  position: relative;
+  display: block;
+  padding: 0 6px 6px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, #3a3a3f 0%, #1e1e21 55%, #151517 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 30px 60px -30px rgb(0 0 0 / 0.9);
+}
+
+/* Brand-colored light spill under the frame, strongest on hover. */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 12% -18px;
+  block-size: 40px;
+  background: var(--accent);
+  filter: blur(28px);
+  opacity: 0.18;
+  z-index: -1;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  block-size: 30px;
+  padding-inline: var(--space-2);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots > span {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.18);
+}
+
+.address {
+  flex: 1;
+  max-inline-size: 60%;
+  margin-inline: auto;
+  padding: 2px var(--space-3);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 0.35);
+  font-family: var(--font-en);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-subtle);
+}
+
+.viewport {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 2.2;
+  border-radius: calc(var(--radius-md) - 6px);
+  background: #050506;
+}
+
+.image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: scale 1.2s var(--ease-out);
+}
+
+/* Same diagonal light sweep as the hero's screen. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.14) 50%, transparent 65%);
+  translate: -100% 0;
+  pointer-events: none;
+}
+
+:global([data-hover-root]:hover) .frame::after,
+:global([data-hover-root]:focus-within) .frame::after {
+  opacity: 0.4;
+}
+
+:global([data-hover-root]:hover) .image,
+:global([data-hover-root]:focus-within) .image {
+  scale: 1.04;
+}
+
+:global([data-hover-root]:hover) .sheen {
+  animation: sweep 1.3s var(--ease-out);
+}
+
+@keyframes sweep {
+  to {
+    translate: 100% 0;
+  }
+}

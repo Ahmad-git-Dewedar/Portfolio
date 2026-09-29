@@ -1,3 +1,10 @@
-.grid {
+/* Carries the hero's blue light down into the showcase. */
+.section {
+  background:
+    radial-gradient(60% 420px at 50% 0%, rgb(41 151 255 / 0.1), transparent 70%),
+    var(--color-bg);
+}
+
+.showcase {
   margin-block-start: var(--space-8);
 }

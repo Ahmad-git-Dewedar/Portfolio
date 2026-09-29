@@ -4,6 +4,8 @@ import type { Dictionary } from "@/i18n/dictionaries/en";
 export const sectionIds = {
   home: "top",
   work: "work",
+  about: "about",
+  skills: "skills",
   contact: "contact",
 } as const;
 
@@ -16,5 +18,7 @@ export interface NavItem {
 
 export const primaryNav: readonly NavItem[] = [
   { key: "work", href: `#${sectionIds.work}` },
+  { key: "about", href: `#${sectionIds.about}` },
+  { key: "skills", href: `#${sectionIds.skills}` },
   { key: "contact", href: `#${sectionIds.contact}` },
 ];

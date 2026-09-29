@@ -37,6 +37,100 @@ export const icons = {
       </>
     ),
   },
+  "chevron-left": {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    directional: true,
+    body: <path d="m15 5-7 7 7 7" />,
+  },
+  "chevron-right": {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    directional: true,
+    body: <path d="m9 5 7 7-7 7" />,
+  },
+  eye: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: (
+      <>
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ),
+  },
+  copy: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: (
+      <>
+        <rect x="8.5" y="8.5" width="12" height="12" rx="2.5" />
+        <path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5" />
+      </>
+    ),
+  },
+  check: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="m5 12.5 4.5 4.5L19 7.5" />,
+  },
+  code: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15" />,
+  },
+  layers: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="m12 3.5 9 4.75-9 4.75-9-4.75 9-4.75ZM3 12.25 12 17l9-4.75M3 16.25 12 21l9-4.75" />,
+  },
+  cube: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="M12 2.8 20 7.4v9.2l-8 4.6-8-4.6V7.4l8-4.6ZM4 7.4l8 4.6 8-4.6M12 12v9.2" />,
+  },
+  sparkle: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="M12 3c.6 4.6 3.4 7.4 8 8-4.6.6-7.4 3.4-8 8-.6-4.6-3.4-7.4-8-8 4.6-.6 7.4-3.4 8-8ZM19 2.5v3M17.5 4h3" />,
+  },
+  rocket: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: (
+      <>
+        <path d="M14.5 4.5c2.5-1.3 4.8-1.3 6-1 .3 1.2.3 3.5-1 6L13 16l-5-5 6.5-6.5ZM8 11l-3.5-.5L7 7.5l4 .5M13 16l.5 3.5 3-2.5-.5-4M7.5 16.5 4 20" />
+        <circle cx="16" cy="8" r="1.4" />
+      </>
+    ),
+  },
+  zap: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12l1-8Z" />,
+  },
+  accessibility: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="7.6" r="0.9" fill="currentColor" />
+        <path d="M7.5 10.2 12 11l4.5-.8M12 11v3.2l-2.2 3.8M12 14.2l2.2 3.8" />
+      </>
+    ),
+  },
+  target: {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+      </>
+    ),
+  },
   globe: {
     viewBox: "0 0 24 24",
     kind: "stroke",

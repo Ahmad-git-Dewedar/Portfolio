@@ -13,11 +13,13 @@ export type SocialId = "github" | "linkedin" | "fiverr";
 export interface SocialLink {
   id: SocialId;
   label: string;
+  /** Account name as shown on the platform. */
+  handle: string;
   href: string;
 }
 
 export const socialLinks: readonly SocialLink[] = [
-  { id: "github", label: "GitHub", href: "https://github.com/Ahmad-git-Dewedar" },
-  { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/ahmad-dewedar-706a4339b" },
-  { id: "fiverr", label: "Fiverr", href: "https://www.fiverr.com/ahmad_dewedar" },
+  { id: "github", label: "GitHub", handle: "Ahmad-git-Dewedar", href: "https://github.com/Ahmad-git-Dewedar" },
+  { id: "linkedin", label: "LinkedIn", handle: "Ahmad Dewedar", href: "https://www.linkedin.com/in/ahmad-dewedar-706a4339b" },
+  { id: "fiverr", label: "Fiverr", handle: "ahmad_dewedar", href: "https://www.fiverr.com/ahmad_dewedar" },
 ];
