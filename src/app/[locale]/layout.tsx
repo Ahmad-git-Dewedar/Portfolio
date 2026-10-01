@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import { AmbientBackground, ScrollProgress } from "@/components/decor";
 import { SiteFooter, SiteHeader, SkipLink } from "@/components/layout";
+import { SpotlightTracker } from "@/components/motion";
 import { primaryNav, sectionIds } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { getDirection, isLocale, localeMeta, locales } from "@/i18n/config";
@@ -51,16 +53,20 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = await getDictionary(locale);
+  const navLinks = primaryNav.map((item) => ({ label: dict.nav.links[item.key], href: item.href }));
 
   return (
     <html lang={localeMeta[locale].htmlLang} dir={getDirection(locale)} className={fontVariables}>
       <body>
+        <AmbientBackground />
+        <ScrollProgress />
+        <SpotlightTracker />
         <SkipLink targetId={MAIN_ID} label={dict.a11y.skipToContent} />
         <SiteHeader
           locale={locale}
           brandName={dict.person.name}
           homeHref={`#${sectionIds.home}`}
-          links={primaryNav.map((item) => ({ label: dict.nav.links[item.key], href: item.href }))}
+          links={navLinks}
           cta={{ label: dict.nav.cta, href: `#${sectionIds.contact}` }}
           labels={{
             home: dict.a11y.homeLink,
@@ -76,8 +82,15 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <SiteFooter
           name={dict.person.name}
           role={dict.person.role}
-          rightsLabel={dict.footer.rights}
-          externalLinkLabel={dict.a11y.externalLink}
+          homeHref={`#${sectionIds.home}`}
+          homeLabel={dict.a11y.homeLink}
+          links={navLinks}
+          labels={{
+            rights: dict.footer.rights,
+            backToTop: dict.footer.backToTop,
+            externalLink: dict.a11y.externalLink,
+            primaryNav: dict.a11y.footerNav,
+          }}
         />
       </body>
     </html>

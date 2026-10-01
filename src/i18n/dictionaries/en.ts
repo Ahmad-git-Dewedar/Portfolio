@@ -12,9 +12,11 @@ const en = {
     skipToContent: "Skip to content",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    footerNav: "Footer",
     primaryNav: "Primary",
     homeLink: "Ahmad Dewedar, back to top",
     languageSwitcher: "Choose language",
+    skillsBand: "Skills and tools",
     heroModel: "Interactive 3D sculpture of layered interface panels",
     externalLink: "opens in a new tab",
   },
@@ -28,10 +30,17 @@ const en = {
     cta: "Let's talk",
   },
   hero: {
+    badge: "Available for freelance projects",
     title: "Interfaces, crafted like products.",
     lead: "I design and build fast, precise and accessible web experiences, with the attention to detail you expect from a finished product.",
     primaryCta: "View work",
     secondaryCta: "Get in touch",
+    stats: {
+      projects: "Live projects",
+      languages: "Bilingual builds",
+      realtime: "Real-time 3D",
+    },
+    scrollCue: "Scroll",
   },
   work: {
     eyebrow: "Selected work",
@@ -90,6 +99,7 @@ const en = {
     },
   },
   footer: {
+    backToTop: "Back to top",
     rights: "All rights reserved.",
   },
 };

@@ -26,10 +26,11 @@
   z-index: -1;
 }
 
+/* Transparent so the page-wide ambient backdrop shows through. */
 .base {
-  background: var(--color-bg);
+  background: transparent;
 }
 
 .raised {
-  background: var(--color-bg-raised);
+  background: linear-gradient(180deg, rgb(var(--rgb-white) / 0.018), rgb(var(--rgb-white) / 0.006));
 }

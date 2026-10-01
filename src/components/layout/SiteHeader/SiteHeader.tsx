@@ -58,45 +58,45 @@ export function SiteHeader({ locale, brandName, homeHref, links, cta, labels }: 
 
   return (
     <header className={cn(styles.header, (isScrolled || isMenuOpen) && styles.elevated)}>
-      <Container size="wide" className={styles.bar}>
-        <BrandMark href={homeHref} name={brandName} ariaLabel={labels.home} />
+      <Container size="wide" className={styles.frame}>
+        <div className={styles.bar}>
+          <BrandMark href={homeHref} name={brandName} ariaLabel={labels.home} />
 
-        <nav aria-label={labels.primaryNav} className={styles.nav}>
-          <ul role="list" className={styles.links}>
-            {links.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className={styles.link}
-                  aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label={labels.primaryNav} className={styles.nav}>
+            <ul role="list" className={styles.links}>
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className={styles.link}
+                    aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <div className={styles.actions}>
-          <LanguageSwitcher currentLocale={locale} label={labels.languageSwitcher} />
-          <Button href={cta.href} size="sm" className={styles.cta}>
-            {cta.label}
-          </Button>
-          <button
-            type="button"
-            className={styles.menuToggle}
-            aria-expanded={isMenuOpen}
-            aria-controls={menuId}
-            aria-label={isMenuOpen ? labels.closeMenu : labels.openMenu}
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            <Icon name={isMenuOpen ? "close" : "menu"} size={22} />
-          </button>
+          <div className={styles.actions}>
+            <LanguageSwitcher currentLocale={locale} label={labels.languageSwitcher} />
+            <Button href={cta.href} size="sm" className={styles.cta}>
+              {cta.label}
+            </Button>
+            <button
+              type="button"
+              className={styles.menuToggle}
+              aria-expanded={isMenuOpen}
+              aria-controls={menuId}
+              aria-label={isMenuOpen ? labels.closeMenu : labels.openMenu}
+              onClick={() => setIsMenuOpen((open) => !open)}
+            >
+              <Icon name={isMenuOpen ? "close" : "menu"} size={22} />
+            </button>
+          </div>
         </div>
-      </Container>
 
-      <div id={menuId} className={styles.menu} hidden={!isMenuOpen}>
-        <Container size="wide">
+        <div id={menuId} className={styles.menu} hidden={!isMenuOpen}>
           <nav aria-label={labels.primaryNav}>
             <ul role="list" className={styles.menuLinks}>
               {[...links, cta].map((link) => (
@@ -108,8 +108,8 @@ export function SiteHeader({ locale, brandName, homeHref, links, cta, labels }: 
               ))}
             </ul>
           </nav>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </header>
   );
 }

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { Tilt } from "@/components/motion";
 import { Icon } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { hexToRgbChannels } from "@/lib/color";
 import { ProjectFrame } from "../ProjectFrame";
 import type { ProjectLabels, ProjectView } from "../types";
 import styles from "./ProjectCard.module.css";
@@ -19,9 +20,10 @@ export function ProjectCard({ project, labels, className }: ProjectCardProps) {
   return (
     <article
       className={cn(styles.card, featured && styles.featured, className)}
-      style={{ "--accent": project.accent } as CSSProperties}
+      style={{ "--accent": project.accent, "--spot-rgb": hexToRgbChannels(project.accent) } as CSSProperties}
       aria-labelledby={headingId}
       data-hover-root
+      data-spotlight
     >
       <Tilt max={featured ? 4 : 6} className={styles.media}>
         {/* The image also opens the live site. It duplicates the text link below, so it stays out of the tab order. */}

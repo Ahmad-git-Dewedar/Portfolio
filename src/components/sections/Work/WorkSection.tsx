@@ -24,7 +24,7 @@ export function WorkSection({ locale, content, externalLinkLabel }: WorkSectionP
   return (
     <Section id={sectionIds.work} containerSize="wide" className={styles.section} aria-labelledby="work-title">
       <Reveal>
-        <SectionHeading id="work-title" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+        <SectionHeading id="work-title" index="01" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
       </Reveal>
       <div className={styles.showcase}>
         <ProjectShowcase projects={getProjectViews(locale)} labels={labels} />

@@ -1,0 +1,29 @@
+.progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .progress {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: calc(var(--z-header) + 1);
+    display: block;
+    block-size: 2px;
+    background: var(--gradient-accent-text);
+    transform-origin: left center;
+    scale: 0 1;
+    animation: progress linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  [dir="rtl"] .progress {
+    transform-origin: right center;
+  }
+}
+
+@keyframes progress {
+  to {
+    scale: 1 1;
+  }
+}

@@ -2,6 +2,7 @@
 export const sceneTheme = {
   accent: "#2997ff",
   accentAlt: "#8b6cff",
+  accentSoft: "#9fd0ff",
   success: "#30d158",
   aluminium: "#2b2b2f",
   glassTint: "#dcebff",

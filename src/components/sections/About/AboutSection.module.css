@@ -81,7 +81,12 @@
   margin-block-start: var(--space-heading);
 }
 
+.principleWrap {
+  block-size: 100%;
+}
+
 .principle {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);

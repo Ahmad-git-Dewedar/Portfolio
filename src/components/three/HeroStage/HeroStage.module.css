@@ -26,6 +26,9 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  /* Fade the model's surroundings out at the edges without painting over the backdrop. */
+  mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
   transition: opacity 900ms var(--ease-out) 150ms;
 }
 
@@ -70,7 +73,5 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, transparent 72%, var(--color-bg) 100%),
-    radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(0 0 0 / 0.55) 100%);
+  background: radial-gradient(130% 100% at 50% 40%, transparent 60%, rgb(0 0 0 / 0.35) 100%);
 }

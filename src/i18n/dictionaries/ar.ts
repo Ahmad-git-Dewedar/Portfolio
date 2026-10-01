@@ -14,9 +14,11 @@ const ar: Dictionary = {
     skipToContent: "انتقل إلى المحتوى",
     openMenu: "افتح القائمة",
     closeMenu: "أغلق القائمة",
+    footerNav: "روابط التذييل",
     primaryNav: "التنقل الرئيسي",
     homeLink: "أحمد دويدار، العودة إلى الأعلى",
     languageSwitcher: "اختر اللغة",
+    skillsBand: "المهارات والأدوات",
     heroModel: "مجسّم ثلاثي الأبعاد تفاعلي لطبقات من ألواح الواجهات",
     externalLink: "يفتح في علامة تبويب جديدة",
   },
@@ -30,10 +32,17 @@ const ar: Dictionary = {
     cta: "لنتحدث",
   },
   hero: {
+    badge: "متاح للمشاريع الحرة",
     title: "واجهات تُصنع بعناية المنتجات.",
     lead: "أصمّم وأطوّر تجارب ويب سريعة ودقيقة وسهلة الوصول، بنفس الاهتمام بالتفاصيل الذي تتوقعه من منتج مكتمل.",
     primaryCta: "استعرض الأعمال",
     secondaryCta: "تواصل معي",
+    stats: {
+      projects: "مشاريع منشورة",
+      languages: "بناء بلغتين",
+      realtime: "ثلاثي الأبعاد لحظي",
+    },
+    scrollCue: "مرّر",
   },
   work: {
     eyebrow: "أعمال مختارة",
@@ -92,6 +101,7 @@ const ar: Dictionary = {
     },
   },
   footer: {
+    backToTop: "العودة إلى الأعلى",
     rights: "جميع الحقوق محفوظة.",
   },
 };

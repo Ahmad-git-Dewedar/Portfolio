@@ -38,7 +38,7 @@ export function ContactSection({ content, externalLinkLabel }: ContactSectionPro
     <Section id={sectionIds.contact} tone="raised" containerSize="wide" aria-labelledby="contact-title">
       <div className={styles.panel}>
         <Reveal className={styles.pitch}>
-          <Eyebrow>{content.eyebrow}</Eyebrow>
+          <Eyebrow index="04">{content.eyebrow}</Eyebrow>
           <h2 id="contact-title" className={styles.title}>
             {content.title}
           </h2>

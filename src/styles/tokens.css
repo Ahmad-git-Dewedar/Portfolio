@@ -8,6 +8,7 @@
   --rgb-accent: 41 151 255;
   --rgb-accent-alt: 139 108 255;
   --rgb-success: 48 209 88;
+  --rgb-teal: 45 212 191;
 
   /* Color: surfaces */
   --color-bg: #000000;
@@ -43,6 +44,8 @@
   /* Gradients */
   --gradient-hero-glow: radial-gradient(60% 50% at 50% 40%, rgb(var(--rgb-accent) / 0.18), transparent 70%);
   --gradient-text: linear-gradient(180deg, #ffffff 0%, #e8e8ed 45%, #a1a1a6 100%);
+  /* Display text with a travelling highlight band (animate background-position). */
+  --gradient-text-shimmer: linear-gradient(100deg, #d2d2d7 0%, #ffffff 20%, #b8c9ff 28%, #ffffff 36%, #c7c7cc 60%, #a1a1a6 100%);
   --gradient-accent-text: linear-gradient(90deg, #2997ff 0%, #6ea8ff 55%, #a58bff 100%);
   --gradient-hairline: linear-gradient(90deg, transparent, rgb(var(--rgb-white) / 0.16) 30%, rgb(var(--rgb-accent) / 0.35) 50%, rgb(var(--rgb-white) / 0.16) 70%, transparent);
 

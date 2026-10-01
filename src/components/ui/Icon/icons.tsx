@@ -22,6 +22,11 @@ export const icons = {
     directional: true,
     body: <path d="M7 17 17 7M8.5 7H17v8.5" />,
   },
+  "arrow-up": {
+    viewBox: "0 0 24 24",
+    kind: "stroke",
+    body: <path d="M12 19V5M6 11l6-6 6 6" />,
+  },
   "arrow-down": {
     viewBox: "0 0 24 24",
     kind: "stroke",

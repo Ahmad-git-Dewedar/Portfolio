@@ -1,0 +1,1 @@
+export { SpotlightTracker } from "./SpotlightTracker";

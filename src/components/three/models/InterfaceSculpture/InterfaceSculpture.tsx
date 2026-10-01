@@ -5,6 +5,7 @@ import { applyPose } from "../../core/applyPose";
 import { useLoopFrame } from "../../core/LoopClock";
 import type { Group, Mesh } from "three";
 import { BackGlow } from "../../effects/BackGlow";
+import { Dust } from "../../effects/Dust";
 import { FloorGlow } from "../../effects/FloorGlow";
 import { SoftShadow } from "../../effects/SoftShadow";
 import { sceneTheme } from "../../theme";
@@ -45,6 +46,7 @@ export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
     <>
       <BackGlow color={sceneTheme.accent} position={[0.2, 0.3, -1.2]} scale={[9, 6]} intensity={0.5} />
       <FloorGlow color={sceneTheme.accent} floorY={floorY} />
+      <Dust color={sceneTheme.accentSoft} />
 
       <group ref={sway}>
         <Display ref={display} materials={materials} />

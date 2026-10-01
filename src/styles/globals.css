@@ -120,6 +120,44 @@ html {
   color: transparent;
 }
 
+/*
+ * Cursor spotlight: add `data-spotlight` to a card (with a border radius) and
+ * <SpotlightTracker /> feeds it the pointer position. Draws a glow that runs
+ * along the card's border, tinted by --spot-rgb (defaults to the brand accent).
+ */
+[data-spotlight] {
+  --spot-x: 50%;
+  --spot-y: 0%;
+}
+
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    360px circle at var(--spot-x) var(--spot-y),
+    rgb(var(--spot-rgb, var(--rgb-accent)) / 0.75),
+    transparent 45%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+[data-spotlight]:hover::after {
+  opacity: 1;
+}
+
 /* Mirrors directional glyphs (arrows, chevrons) in right-to-left layouts. */
 [dir="rtl"] .flip-rtl {
   transform: scaleX(-1);

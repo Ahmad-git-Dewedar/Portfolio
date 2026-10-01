@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
+import { TechMarquee } from "@/components/decor";
 import { AboutSection, ContactSection, Hero, SkillsSection, WorkSection } from "@/components/sections";
+import { getAllSkills } from "@/content/skills";
 import { getDirection, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
@@ -16,6 +18,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         modelLabel={dict.a11y.heroModel}
         direction={getDirection(locale)}
       />
+      <TechMarquee items={getAllSkills(locale)} label={dict.a11y.skillsBand} />
       <WorkSection locale={locale} content={dict.work} externalLinkLabel={dict.a11y.externalLink} />
       <AboutSection content={dict.about} />
       <SkillsSection locale={locale} content={dict.skills} />

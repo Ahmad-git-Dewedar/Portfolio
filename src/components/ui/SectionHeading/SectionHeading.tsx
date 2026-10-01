@@ -5,6 +5,8 @@ import styles from "./SectionHeading.module.css";
 
 export interface SectionHeadingProps {
   eyebrow?: string;
+  /** Section number shown in the eyebrow, e.g. "02". */
+  index?: string;
   title: ReactNode;
   lead?: ReactNode;
   align?: "start" | "center";
@@ -16,6 +18,7 @@ export interface SectionHeadingProps {
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   lead,
   align = "start",
@@ -25,7 +28,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <header className={cn(styles.heading, styles[align], className)}>
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      {eyebrow && <Eyebrow index={index}>{eyebrow}</Eyebrow>}
       <Heading id={id} className={styles.title}>
         {title}
       </Heading>

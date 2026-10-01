@@ -25,7 +25,7 @@ export function AboutSection({ content }: AboutSectionProps) {
     <Section id={sectionIds.about} tone="raised" containerSize="wide" aria-labelledby="about-title">
       <div className={styles.intro}>
         <Reveal className={styles.lede}>
-          <Eyebrow>{content.eyebrow}</Eyebrow>
+          <Eyebrow index="02">{content.eyebrow}</Eyebrow>
           <h2 id="about-title" className={styles.title}>
             {content.title}
           </h2>
@@ -48,12 +48,14 @@ export function AboutSection({ content }: AboutSectionProps) {
       <ul role="list" className={styles.principles}>
         {principles.map(([key, principle], index) => (
           <li key={key}>
-            <Reveal delay={index * 90} className={styles.principle}>
-              <span className={styles.iconWrap}>
-                <Icon name={principleIcons[key]} size={22} />
-              </span>
-              <h3 className={styles.principleTitle}>{principle.title}</h3>
-              <p className={styles.principleText}>{principle.text}</p>
+            <Reveal delay={index * 90} className={styles.principleWrap}>
+              <div className={styles.principle} data-spotlight>
+                <span className={styles.iconWrap}>
+                  <Icon name={principleIcons[key]} size={22} />
+                </span>
+                <h3 className={styles.principleTitle}>{principle.title}</h3>
+                <p className={styles.principleText}>{principle.text}</p>
+              </div>
             </Reveal>
           </li>
         ))}

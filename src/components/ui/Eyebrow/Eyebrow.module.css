@@ -23,3 +23,10 @@
 [dir="rtl"] .rule {
   background: linear-gradient(-90deg, transparent, currentColor);
 }
+
+.index {
+  font-family: var(--font-en);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: var(--color-text-subtle);
+}

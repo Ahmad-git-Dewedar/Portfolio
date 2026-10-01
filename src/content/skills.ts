@@ -1,4 +1,5 @@
 import type { IconName } from "@/components/ui/Icon";
+import type { Locale } from "@/i18n/config";
 import type { Localized } from "@/i18n/localized";
 
 export interface SkillGroup {
@@ -70,3 +71,8 @@ export const skillGroups: readonly SkillGroup[] = [
     items: ["Git", "GitHub", "Netlify", "Render"],
   },
 ];
+
+/** Every skill as a flat, localized list, e.g. for the marquee band. */
+export function getAllSkills(locale: Locale): string[] {
+  return skillGroups.flatMap((group) => group.items.map((item) => (typeof item === "string" ? item : item[locale])));
+}

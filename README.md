@@ -31,7 +31,8 @@ src/
     layout/            SiteHeader, LanguageSwitcher, BrandMark, SiteFooter, SkipLink
     sections/          Page sections: Hero, WorkSection, AboutSection, SkillsSection, ContactSection
     projects/          ProjectShowcase, ProjectCard, ProjectFrame
-    motion/            Reveal (scroll-in) and Tilt (pointer 3D tilt with glare)
+    motion/            Reveal (scroll-in), Tilt (pointer 3D tilt with glare), SpotlightTracker
+    decor/             AmbientBackground (color fields, grid, grain), ScrollProgress, TechMarquee
     three/             3D hero (see "Hero scene" below)
   config/              site.ts (identity, email, socials), navigation.ts (sections, nav)
   content/             projects.ts and skills.ts (typed, localized data)
@@ -48,7 +49,7 @@ src/
 - **Skills**: edit groups and items in `src/content/skills.ts`. Tool names are plain strings (kept left-to-right in Arabic); practices take `{ en, ar }`.
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.
-- **Theme**: all colors, type, spacing, radii, shadows and motion live in `src/styles/tokens.css`. Use the channel tokens for translucency (`rgb(var(--rgb-accent) / 0.2)`), `--surface-card` + `--shadow-card` for new cards, and `<Eyebrow>` / `<SectionHeading>` for section intros.
+- **Theme**: all colors, type, spacing, radii, shadows and motion live in `src/styles/tokens.css`. Add `data-spotlight` to any card to get the cursor-following border glow (tint it with `--spot-rgb`). Use the channel tokens for translucency (`rgb(var(--rgb-accent) / 0.2)`), `--surface-card` + `--shadow-card` for new cards, and `<Eyebrow>` / `<SectionHeading>` for section intros.
 
 ## Hero scene
 
