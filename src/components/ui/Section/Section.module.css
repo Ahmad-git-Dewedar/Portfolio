@@ -32,5 +32,5 @@
 }
 
 .raised {
-  background: linear-gradient(180deg, rgb(var(--rgb-white) / 0.018), rgb(var(--rgb-white) / 0.006));
+  background: linear-gradient(180deg, rgb(var(--rgb-contrast) / 0.018), rgb(var(--rgb-contrast) / 0.006));
 }

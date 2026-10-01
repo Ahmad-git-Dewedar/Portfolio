@@ -13,8 +13,8 @@ export function BrandMark({ href, name, ariaLabel }: BrandMarkProps) {
       <svg className={styles.mark} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="brand-mark-gradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ffffff" />
-            <stop offset="1" stopColor="#8e8e93" />
+            <stop offset="0" style={{ stopColor: "var(--color-text)" }} />
+            <stop offset="1" style={{ stopColor: "var(--color-text-subtle)" }} />
           </linearGradient>
         </defs>
         <rect x="1" y="1" width="30" height="30" rx="9" fill="none" stroke="url(#brand-mark-gradient)" strokeWidth="1.5" />

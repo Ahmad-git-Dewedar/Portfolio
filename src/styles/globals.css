@@ -90,7 +90,7 @@ p {
 }
 
 html {
-  scrollbar-color: rgb(var(--rgb-white) / 0.22) var(--color-bg);
+  scrollbar-color: rgb(var(--rgb-contrast) / 0.22) var(--color-bg);
 }
 
 :focus-visible {

@@ -21,6 +21,8 @@ import { sculpturePose } from "./motion";
 interface InterfaceSculptureProps {
   /** World-space floor height for contact shadows. */
   floorY: number;
+  /** Multiplier on shadow opacity (lighter page backgrounds need less). */
+  shadowStrength?: number;
 }
 
 /**
@@ -28,7 +30,7 @@ interface InterfaceSculptureProps {
  * pill and three satellites on a tilted orbit. Procedural, so it ships without model files; each part owns its
  * own loop motion and can be swapped (e.g. for a GLTF) independently.
  */
-export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
+export function InterfaceSculpture({ floorY, shadowStrength = 1 }: InterfaceSculptureProps) {
   const materials = useSculptureMaterials();
   const display = useRef<Group>(null);
   const card = useRef<Group>(null);
@@ -60,28 +62,28 @@ export function InterfaceSculpture({ floorY }: InterfaceSculptureProps) {
         target={display}
         floorY={floorY}
         size={[4.6, 1.3]}
-        opacity={0.6}
+        opacity={0.6 * shadowStrength}
         restHeight={restHeight(sculptureLayout.display.position[1])}
       />
       <SoftShadow
         target={card}
         floorY={floorY}
         size={[2.2, 0.9]}
-        opacity={0.4}
+        opacity={0.4 * shadowStrength}
         restHeight={restHeight(sculptureLayout.glassCard.position[1])}
       />
       <SoftShadow
         target={orb}
         floorY={floorY}
         size={[0.9, 0.9]}
-        opacity={0.3}
+        opacity={0.3 * shadowStrength}
         restHeight={restHeight(sculptureLayout.orb.position[1])}
       />
       <SoftShadow
         target={pill}
         floorY={floorY}
         size={[0.9, 0.45]}
-        opacity={0.4}
+        opacity={0.4 * shadowStrength}
         restHeight={restHeight(sculptureLayout.pill.position[1])}
       />
     </>

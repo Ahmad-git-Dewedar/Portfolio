@@ -9,6 +9,7 @@ import { PerformanceGovernor } from "../core/PerformanceGovernor";
 import { PixelBudget } from "../core/PixelBudget";
 import type { FocusArea } from "../core/framing";
 import type { PointerTarget } from "../interaction/types";
+import type { Theme } from "@/lib/theme";
 import { InterfaceSculpture } from "../models/InterfaceSculpture";
 import { CameraRig } from "./CameraRig";
 import { ModelRig } from "./ModelRig";
@@ -23,6 +24,8 @@ export interface HeroSceneProps {
   focusArea: FocusArea;
   /** Turns the model to face copy on its right instead of its left. */
   mirrored?: boolean;
+  /** Page theme; light backgrounds get softer shadows and glows. */
+  theme?: Theme;
   onReady?: () => void;
 }
 
@@ -31,7 +34,15 @@ const { loopDuration, restPhase, camera, dpr, pixelBudget, floorY } = heroSceneC
 /** "low" is chosen automatically when the frame rate drops, and lowers the pixel ratio. */
 type Quality = "high" | "low";
 
-export function HeroScene({ active, reducedMotion, pointer, focusArea, mirrored = false, onReady }: HeroSceneProps) {
+export function HeroScene({
+  active,
+  reducedMotion,
+  pointer,
+  focusArea,
+  mirrored = false,
+  theme = "dark",
+  onReady,
+}: HeroSceneProps) {
   const [quality, setQuality] = useState<Quality>("high");
   const [pixelRatio, setPixelRatio] = useState(1);
   const interactive = !reducedMotion;
@@ -60,7 +71,7 @@ export function HeroScene({ active, reducedMotion, pointer, focusArea, mirrored 
         <Suspense fallback={null}>
           <StudioLighting />
           <ModelRig pointer={pointer} interactive={interactive} mirrored={mirrored}>
-            <InterfaceSculpture floorY={floorY} />
+            <InterfaceSculpture floorY={floorY} shadowStrength={theme === "light" ? 0.4 : 1} />
           </ModelRig>
         </Suspense>
       </LoopClock>

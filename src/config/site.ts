@@ -8,7 +8,14 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 
-export type SocialId = "github" | "linkedin" | "fiverr";
+export const youtubeChannel = {
+  handle: "@AhmadDewedar",
+  url: "https://www.youtube.com/@AhmadDewedar",
+  /** Opens the channel with YouTube's subscribe confirmation. */
+  subscribeUrl: "https://www.youtube.com/@AhmadDewedar?sub_confirmation=1",
+} as const;
+
+export type SocialId = "github" | "linkedin" | "fiverr" | "youtube";
 
 export interface SocialLink {
   id: SocialId;
@@ -22,4 +29,5 @@ export const socialLinks: readonly SocialLink[] = [
   { id: "github", label: "GitHub", handle: "Ahmad-git-Dewedar", href: "https://github.com/Ahmad-git-Dewedar" },
   { id: "linkedin", label: "LinkedIn", handle: "Ahmad Dewedar", href: "https://www.linkedin.com/in/ahmad-dewedar-706a4339b" },
   { id: "fiverr", label: "Fiverr", handle: "ahmad_dewedar", href: "https://www.fiverr.com/ahmad_dewedar" },
+  { id: "youtube", label: "YouTube", handle: "@AhmadDewedar", href: youtubeChannel.url },
 ];

@@ -23,17 +23,17 @@ export const skillGroups: readonly SkillGroup[] = [
       en: "Semantic, typed foundations for every interface.",
       ar: "أساس دلالي ومحدد الأنواع لكل واجهة.",
     },
-    items: ["HTML", "CSS", "JavaScript", "TypeScript"],
+    items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python"],
   },
   {
     id: "frameworks",
     icon: "layers",
-    title: { en: "Frameworks", ar: "الأطر البرمجية" },
+    title: { en: "Frameworks", ar: "الأطر والأدوات" },
     description: {
       en: "Component-driven apps that stay fast as they grow.",
       ar: "تطبيقات قائمة على المكونات تبقى سريعة مع نموها.",
     },
-    items: ["React", "Next.js"],
+    items: ["React", "Next.js", "Node.js", "Tailwind CSS"],
   },
   {
     id: "3d-motion",

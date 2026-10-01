@@ -5,6 +5,9 @@
 :root {
   /* Color channels, for translucent variants: rgb(var(--rgb-accent) / 0.2) */
   --rgb-white: 255 255 255;
+  /* Foreground channel for translucent fills, borders and hairlines; flips per theme. */
+  --rgb-contrast: 255 255 255;
+  --rgb-bg: 0 0 0;
   --rgb-accent: 41 151 255;
   --rgb-accent-alt: 139 108 255;
   --rgb-success: 48 209 88;
@@ -18,17 +21,18 @@
   --color-surface-glass: rgb(18 18 20 / 0.72);
 
   /* Color: translucent fills, from faint to strong */
-  --color-fill-1: rgb(var(--rgb-white) / 0.03);
-  --color-fill-2: rgb(var(--rgb-white) / 0.06);
-  --color-fill-3: rgb(var(--rgb-white) / 0.09);
-  --color-fill-4: rgb(var(--rgb-white) / 0.13);
+  --color-fill-1: rgb(var(--rgb-contrast) / 0.03);
+  --color-fill-2: rgb(var(--rgb-contrast) / 0.06);
+  --color-fill-3: rgb(var(--rgb-contrast) / 0.09);
+  --color-fill-4: rgb(var(--rgb-contrast) / 0.13);
 
   /* Color: content (all pass WCAG AA on the dark surfaces) */
   --color-text: #f5f5f7;
+  --color-text-secondary: #d1d1d6;
   --color-text-muted: #a1a1a6;
   --color-text-subtle: #86868b;
-  --color-border: rgb(var(--rgb-white) / 0.08);
-  --color-border-strong: rgb(var(--rgb-white) / 0.16);
+  --color-border: rgb(var(--rgb-contrast) / 0.08);
+  --color-border-strong: rgb(var(--rgb-contrast) / 0.16);
 
   /* Color: brand. The bright accent is for text and light; filled controls use the deeper tone for contrast. */
   --color-accent: #2997ff;
@@ -40,6 +44,8 @@
   --color-focus: #6fb8ff;
   --color-success: #30d158;
   --color-success-text: #7ee29a;
+  /* Inset well inside cards (e.g. contact channels). */
+  --color-well: rgb(0 0 0 / 0.25);
 
   /* Gradients */
   --gradient-hero-glow: radial-gradient(60% 50% at 50% 40%, rgb(var(--rgb-accent) / 0.18), transparent 70%);
@@ -47,11 +53,11 @@
   /* Display text with a travelling highlight band (animate background-position). */
   --gradient-text-shimmer: linear-gradient(100deg, #d2d2d7 0%, #ffffff 20%, #b8c9ff 28%, #ffffff 36%, #c7c7cc 60%, #a1a1a6 100%);
   --gradient-accent-text: linear-gradient(90deg, #2997ff 0%, #6ea8ff 55%, #a58bff 100%);
-  --gradient-hairline: linear-gradient(90deg, transparent, rgb(var(--rgb-white) / 0.16) 30%, rgb(var(--rgb-accent) / 0.35) 50%, rgb(var(--rgb-white) / 0.16) 70%, transparent);
+  --gradient-hairline: linear-gradient(90deg, transparent, rgb(var(--rgb-contrast) / 0.16) 30%, rgb(var(--rgb-accent) / 0.35) 50%, rgb(var(--rgb-contrast) / 0.16) 70%, transparent);
 
   /* Surfaces: brushed metal (icon tiles, frames) and glass cards */
   --surface-metal: linear-gradient(150deg, #3c3c41 0%, #232326 55%, #18181a 100%);
-  --surface-card: linear-gradient(180deg, rgb(var(--rgb-white) / 0.045), rgb(var(--rgb-white) / 0.012) 55%), var(--color-surface);
+  --surface-card: linear-gradient(180deg, rgb(var(--rgb-contrast) / 0.045), rgb(var(--rgb-contrast) / 0.012) 55%), var(--color-surface);
 
   /* Typography: families (the font variables are injected by next/font) */
   --font-en: var(--font-martel), "Georgia", "Times New Roman", serif;
@@ -120,16 +126,17 @@
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 12px 32px -12px rgb(0 0 0 / 0.6);
   --shadow-lg: 0 40px 80px -30px rgb(0 0 0 / 0.8);
-  --shadow-inset: inset 0 1px 0 rgb(var(--rgb-white) / 0.06);
+  --shadow-inset: inset 0 1px 0 rgb(var(--rgb-contrast) / 0.06);
   /* Cards: hairline edge, top light catch and a soft drop */
   --shadow-card:
     inset 0 0 0 1px var(--color-border),
-    inset 0 1px 0 rgb(var(--rgb-white) / 0.06),
+    inset 0 1px 0 rgb(var(--rgb-contrast) / 0.06),
     0 30px 60px -45px rgb(0 0 0 / 0.9);
   --shadow-card-hover:
     inset 0 0 0 1px rgb(var(--rgb-accent) / 0.38),
-    inset 0 1px 0 rgb(var(--rgb-white) / 0.1),
+    inset 0 1px 0 rgb(var(--rgb-contrast) / 0.1),
     0 40px 90px -45px rgb(var(--rgb-accent) / 0.5);
+  --shadow-float: 0 18px 40px -24px rgb(0 0 0 / 0.9);
   --shadow-glow-accent: 0 12px 34px -10px rgb(var(--rgb-accent) / 0.65);
 
   /* Motion */
@@ -147,6 +154,54 @@
   --z-skip-link: 300;
 
   color-scheme: dark;
+}
+
+/*
+ * Light theme. Set by the inline theme script (stored choice, else the OS
+ * preference) before first paint, so there is no flash of the wrong theme.
+ */
+:root[data-theme="light"] {
+  --rgb-contrast: 20 20 28;
+  --rgb-bg: 245 245 247;
+  --rgb-accent: 0 113 227;
+
+  --color-bg: #f5f5f7;
+  --color-bg-raised: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-strong: #f0f0f3;
+  --color-surface-glass: rgb(255 255 255 / 0.72);
+
+  --color-text: #1d1d1f;
+  --color-text-secondary: #3a3a3c;
+  --color-text-muted: #55555b;
+  --color-text-subtle: #6e6e73;
+
+  --color-accent: #0066cc;
+  --color-accent-hover: #0077ed;
+  --color-accent-soft: #0071e3;
+  --color-focus: #0071e3;
+  --color-success-text: #1a7f37;
+  --color-well: rgb(255 255 255 / 0.75);
+
+  --gradient-text: linear-gradient(180deg, #1d1d1f 0%, #2c2c30 50%, #55555b 100%);
+  --gradient-text-shimmer: linear-gradient(100deg, #3a3a3c 0%, #1d1d1f 20%, #2f5fd0 28%, #1d1d1f 36%, #3a3a3c 60%, #55555b 100%);
+  --gradient-accent-text: linear-gradient(90deg, #0062cc 0%, #3a5bd9 55%, #6b46d6 100%);
+  --surface-metal: linear-gradient(150deg, #ffffff 0%, #f1f1f4 55%, #e4e4e9 100%);
+  --surface-card: linear-gradient(180deg, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.7));
+
+  --shadow-md: 0 12px 32px -12px rgb(20 20 40 / 0.18);
+  --shadow-lg: 0 40px 80px -30px rgb(20 20 40 / 0.25);
+  --shadow-float: 0 18px 40px -24px rgb(20 20 40 / 0.35);
+  --shadow-card:
+    inset 0 0 0 1px var(--color-border),
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 30px 60px -45px rgb(20 20 40 / 0.35);
+  --shadow-card-hover:
+    inset 0 0 0 1px rgb(var(--rgb-accent) / 0.4),
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 40px 90px -45px rgb(var(--rgb-accent) / 0.45);
+
+  color-scheme: light;
 }
 
 /* Arabic swaps the type families and relaxes metrics for connected script. */

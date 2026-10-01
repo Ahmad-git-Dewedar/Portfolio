@@ -29,13 +29,13 @@ src/
   components/
     ui/                Design-system primitives: Button, Container, Section, SectionHeading, Icon
     layout/            SiteHeader, LanguageSwitcher, BrandMark, SiteFooter, SkipLink
-    sections/          Page sections: Hero, WorkSection, AboutSection, SkillsSection, ContactSection
+    sections/          Hero, Work, About, Roadmap, Skills, YouTube, Faq, Contact
     projects/          ProjectShowcase, ProjectCard, ProjectFrame
     motion/            Reveal (scroll-in), Tilt (pointer 3D tilt with glare), SpotlightTracker
     decor/             AmbientBackground (color fields, grid, grain), ScrollProgress, TechMarquee
     three/             3D hero (see "Hero scene" below)
   config/              site.ts (identity, email, socials), navigation.ts (sections, nav)
-  content/             projects.ts and skills.ts (typed, localized data)
+  content/             projects, skills, roadmap and faq (typed, localized data)
   i18n/                Locale config, path helpers, typed dictionaries (en, ar)
   hooks/               Reduced motion, in-view, WebGL support
   styles/              tokens.css (design tokens) and globals.css
@@ -46,6 +46,11 @@ src/
 - **Copy**: edit `src/i18n/dictionaries/en.ts`; `ar.ts` is type-checked against it, so missing keys fail the build.
 - **New locale**: add it to `locales` and `localeMeta` in `src/i18n/config.ts`, then add a dictionary and register it in `src/i18n/dictionaries/index.ts`.
 - **Projects**: add an entry to `src/content/projects.ts` and its screenshot to `public/projects/`. Set `featured: true` for the large card and `accent` to the project's brand color, which drives its hover glow and highlights. Cards pick it up automatically; images are shown at 16:9, so use covers of that ratio (about 1600x900).
+- **Roadmap**: add or edit years in `src/content/roadmap.ts`; set `current: true` on the year in progress.
+- **FAQ**: add questions to `src/content/faq.ts` (English and Arabic side by side).
+- **Socials / YouTube**: links live in `src/config/site.ts`; adding one there updates Contact and the footer.
+- **Section order and numbers**: `sectionIds`, `sectionNumbers` and the header/footer nav lists in `src/config/navigation.ts`.
+- **Light/dark theme**: light values override the tokens under `:root[data-theme="light"]` in `tokens.css`. Use `--rgb-contrast` (not white) for translucent fills so they flip with the theme. The theme is set before paint by the inline script in `src/lib/theme.ts`.
 - **Skills**: edit groups and items in `src/content/skills.ts`. Tool names are plain strings (kept left-to-right in Arabic); practices take `{ en, ar }`.
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.

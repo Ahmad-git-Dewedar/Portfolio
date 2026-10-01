@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useCallback, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useInView } from "@/hooks/useInView";
+import { useTheme } from "@/hooks/useTheme";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useWebGLSupport } from "@/hooks/useWebGLSupport";
 import { cn } from "@/lib/cn";
@@ -40,6 +41,7 @@ export function HeroStage({ label, children, className, contentClassName, mirror
   const isInView = useInView(stageRef, "120px");
   const reducedMotion = usePrefersReducedMotion();
   const supportsWebGL = useWebGLSupport();
+  const theme = useTheme();
   const pointer = usePointerTarget(stageRef, !reducedMotion);
 
   useLayoutEffect(() => {
@@ -90,6 +92,7 @@ export function HeroStage({ label, children, className, contentClassName, mirror
               pointer={pointer}
               focusArea={focusArea}
               mirrored={mirrored}
+              theme={theme}
               onReady={() => setIsReady(true)}
             />
           </div>

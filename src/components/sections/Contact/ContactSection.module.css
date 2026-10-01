@@ -21,7 +21,7 @@
     var(--color-surface);
   box-shadow:
     inset 0 0 0 1px var(--color-border-strong),
-    inset 0 1px 0 rgb(var(--rgb-white) / 0.08),
+    inset 0 1px 0 rgb(var(--rgb-contrast) / 0.08),
     var(--shadow-lg);
 }
 
@@ -148,7 +148,7 @@
   gap: var(--space-4);
   padding: var(--space-4);
   border-radius: var(--radius-md);
-  background: rgb(0 0 0 / 0.25);
+  background: var(--color-well);
   box-shadow: inset 0 0 0 1px var(--color-border);
   transition:
     background-color var(--duration-base) var(--ease-out),

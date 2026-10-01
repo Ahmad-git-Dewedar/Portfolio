@@ -110,7 +110,7 @@
   line-height: 0.9;
   text-align: center;
   white-space: nowrap;
-  background: linear-gradient(180deg, rgb(var(--rgb-white) / 0.14), rgb(var(--rgb-white) / 0));
+  background: linear-gradient(180deg, rgb(var(--rgb-contrast) / 0.14), rgb(var(--rgb-contrast) / 0));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

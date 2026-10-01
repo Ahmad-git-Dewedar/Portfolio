@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 import type { Locale } from "@/i18n/config";
 import { BrandMark } from "../BrandMark";
 import { LanguageSwitcher } from "../LanguageSwitcher";
+import { ThemeToggle } from "../ThemeToggle";
 import styles from "./SiteHeader.module.css";
 
 export interface HeaderLink {
@@ -26,6 +27,8 @@ export interface SiteHeaderProps {
     openMenu: string;
     closeMenu: string;
     languageSwitcher: string;
+    themeToLight: string;
+    themeToDark: string;
   };
 }
 
@@ -79,6 +82,7 @@ export function SiteHeader({ locale, brandName, homeHref, links, cta, labels }: 
           </nav>
 
           <div className={styles.actions}>
+            <ThemeToggle labels={{ toLight: labels.themeToLight, toDark: labels.themeToDark }} />
             <LanguageSwitcher currentLocale={locale} label={labels.languageSwitcher} />
             <Button href={cta.href} size="sm" className={styles.cta}>
               {cta.label}

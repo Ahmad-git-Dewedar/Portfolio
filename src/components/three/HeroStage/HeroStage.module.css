@@ -73,5 +73,5 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(130% 100% at 50% 40%, transparent 60%, rgb(0 0 0 / 0.35) 100%);
+  background: radial-gradient(130% 100% at 50% 40%, transparent 60%, rgb(var(--rgb-bg) / 0.35) 100%);
 }

@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/motion";
 import { Icon, Section, SectionHeading } from "@/components/ui";
-import { sectionIds } from "@/config/navigation";
+import { sectionIds, sectionNumbers } from "@/config/navigation";
 import { skillGroups } from "@/content/skills";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -18,7 +18,7 @@ export function SkillsSection({ locale, content }: SkillsSectionProps) {
       <Reveal>
         <SectionHeading
           id="skills-title"
-          index="03"
+          index={sectionNumbers.skills}
           eyebrow={content.eyebrow}
           title={content.title}
           lead={content.lead}

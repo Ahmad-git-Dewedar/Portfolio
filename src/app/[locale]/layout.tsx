@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import { AmbientBackground, ScrollProgress } from "@/components/decor";
 import { SiteFooter, SiteHeader, SkipLink } from "@/components/layout";
 import { SpotlightTracker } from "@/components/motion";
-import { primaryNav, sectionIds } from "@/config/navigation";
+import { footerNav, primaryNav, sectionIds } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { getDirection, isLocale, localeMeta, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { localizePath } from "@/i18n/paths";
 import { fontVariables } from "@/lib/fonts";
+import { DEFAULT_THEME, themeInitScript } from "@/lib/theme";
 import "@/styles/globals.css";
 
 const MAIN_ID = "main";
@@ -21,7 +22,7 @@ export function generateStaticParams() {
 
 export const viewport: Viewport = {
   themeColor: "#000000",
-  colorScheme: "dark",
+  colorScheme: "dark light",
 };
 
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
@@ -53,10 +54,21 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = await getDictionary(locale);
-  const navLinks = primaryNav.map((item) => ({ label: dict.nav.links[item.key], href: item.href }));
+  const toLink = (item: (typeof primaryNav)[number]) => ({ label: dict.nav.links[item.key], href: item.href });
+  const navLinks = primaryNav.map(toLink);
 
   return (
-    <html lang={localeMeta[locale].htmlLang} dir={getDirection(locale)} className={fontVariables}>
+    // The theme attribute is finalized by the inline script before paint, so React must not fight it.
+    <html
+      lang={localeMeta[locale].htmlLang}
+      dir={getDirection(locale)}
+      className={fontVariables}
+      data-theme={DEFAULT_THEME}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <AmbientBackground />
         <ScrollProgress />
@@ -74,6 +86,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             openMenu: dict.a11y.openMenu,
             closeMenu: dict.a11y.closeMenu,
             languageSwitcher: dict.a11y.languageSwitcher,
+            themeToLight: dict.a11y.themeToLight,
+            themeToDark: dict.a11y.themeToDark,
           }}
         />
         <main id={MAIN_ID} tabIndex={-1}>
@@ -84,7 +98,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           role={dict.person.role}
           homeHref={`#${sectionIds.home}`}
           homeLabel={dict.a11y.homeLink}
-          links={navLinks}
+          links={footerNav.map(toLink)}
           labels={{
             rights: dict.footer.rights,
             backToTop: dict.footer.backToTop,

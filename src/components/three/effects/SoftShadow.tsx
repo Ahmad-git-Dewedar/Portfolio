@@ -1,7 +1,7 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, useMemo, useRef, type RefObject } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from "react";
 import { Euler, Quaternion, Vector3, type Mesh, type Object3D } from "three";
 import { getRadialTexture } from "../textures/createRadialTexture";
 
@@ -32,6 +32,10 @@ const LIE_FLAT = new Euler(-Math.PI / 2, 0, 0);
 export function SoftShadow({ target, floorY, size, opacity = 0.5, restHeight }: SoftShadowProps) {
   const mesh = useRef<Mesh>(null);
   const texture = useMemo(() => getRadialTexture("#000000"), []);
+  const invalidate = useThree((state) => state.invalidate);
+
+  // A new strength (e.g. after a theme switch) must repaint even in on-demand mode.
+  useEffect(() => invalidate(), [opacity, invalidate]);
 
   useLayoutEffect(() => {
     // The world matrix is written by hand each frame.

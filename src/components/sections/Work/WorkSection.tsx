@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/motion";
 import { ProjectShowcase, type ProjectLabels } from "@/components/projects";
 import { Section, SectionHeading } from "@/components/ui";
-import { sectionIds } from "@/config/navigation";
+import { sectionIds, sectionNumbers } from "@/config/navigation";
 import { getProjectViews } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -24,7 +24,7 @@ export function WorkSection({ locale, content, externalLinkLabel }: WorkSectionP
   return (
     <Section id={sectionIds.work} containerSize="wide" className={styles.section} aria-labelledby="work-title">
       <Reveal>
-        <SectionHeading id="work-title" index="01" eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
+        <SectionHeading id="work-title" index={sectionNumbers.work} eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
       </Reveal>
       <div className={styles.showcase}>
         <ProjectShowcase projects={getProjectViews(locale)} labels={labels} />
