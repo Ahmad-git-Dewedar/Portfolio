@@ -22,6 +22,12 @@ const en = {
     heroModel: "Interactive 3D sculpture of layered interface panels",
     externalLink: "opens in a new tab",
   },
+  cursor: {
+    view: "View project",
+    explore: "Explore",
+    open: "Open",
+    watch: "Watch",
+  },
   nav: {
     links: {
       work: "Work",
@@ -52,6 +58,7 @@ const en = {
     title: "Projects in focus.",
     lead: "Games, product launches and 3D showcases, each one built to feel like a finished product.",
     featured: "Featured",
+    count: "projects, each in its own scene",
     visit: "Visit live site",
     highlights: "Highlights",
   },

@@ -29,9 +29,11 @@ src/
   components/
     ui/                Design-system primitives: Button, Container, Section, SectionHeading, Icon
     layout/            SiteHeader, LanguageSwitcher, BrandMark, SiteFooter, SkipLink
-    sections/          Hero, Work, About, Roadmap, Skills, YouTube, Faq, Contact
-    projects/          ProjectShowcase, ProjectCard, ProjectFrame
-    motion/            Reveal (scroll-in), Tilt (pointer 3D tilt with glare), SpotlightTracker
+    sections/          Hero, About, Work, Roadmap, Skills, YouTube, Faq, Contact
+    projects/          ProjectScene (one cinematic scene per project), ProjectFrame
+    scroll/            ScrollEngine, ScrollScene, SplitText (the cinematic scroll system)
+    cursor/            CursorLabel (contextual "View project" style cursor)
+    motion/            Reveal (scroll-in), SpotlightTracker
     decor/             AmbientBackground (color fields, grid, grain), ScrollProgress, TechMarquee
     three/             3D hero (see "Hero scene" below)
   config/              site.ts (identity, email, socials), navigation.ts (sections, nav)
@@ -55,6 +57,19 @@ src/
 - **Navigation**: add a section id and nav item in `src/config/navigation.ts` plus a label under `nav.links` in the dictionaries.
 - **3D model**: the hero model lives in `components/three/models/InterfaceSculpture/`, one file per part. Swap a part (or the whole model) for a GLTF (`useGLTF`) without touching the canvas, camera, lighting or interaction.
 - **Theme**: all colors, type, spacing, radii, shadows and motion live in `src/styles/tokens.css`. Add `data-spotlight` to any card to get the cursor-following border glow (tint it with `--spot-rgb`). Use the channel tokens for translucency (`rgb(var(--rgb-accent) / 0.2)`), `--surface-card` + `--shadow-card` for new cards, and `<Eyebrow>` / `<SectionHeading>` for section intros.
+
+## Cinematic scroll system
+
+The page plays as one sequence: Hero → About → Projects (one scene each) → Roadmap → Skills → YouTube → FAQ → Contact.
+
+- **ScrollEngine** (mounted once) gives every `[data-scene]` element a smoothed `--p` from 0 to 1. One rAF loop: read all geometry, then write, and only while something is moving.
+- **ScrollScene** is a tall track with a pinned, viewport-sized stage. Everything inside reads `--p`; CSS turns it into scale, parallax, masks and opacity. `length` sets how long a scene lasts (in viewport heights).
+- `data-scene="view"` (used by Contact) gives progress through the viewport without pinning.
+- **SplitText** splits a sentence into words (never letters, so Arabic stays joined) for word-by-word highlight or masked rises.
+- **Motion styles are opt-in**: base CSS is a calm static layout; cinematic rules live under `:root[data-scroll="on"]`, which a head script sets before paint unless the visitor prefers reduced motion. No JavaScript or reduced motion = static layout.
+- Phase variables (`--in`, `--info`, `--out`, ...) are registered with `@property` in `src/styles/motion-properties.css` so style recalculation stays cheap. Register new ones there.
+- **Project scenes**: set `scene.variant` (`zoom`, `slit`, `rise`, `light`), `scene.background` and `scene.tone` per project in `src/content/projects.ts`. Each scene's exit fades into the next scene's background, so there are no gaps.
+- **Cursor**: add `data-cursor="Label"` to any element to show a labelled cursor over it (mouse and trackpad only).
 
 ## Hero scene
 

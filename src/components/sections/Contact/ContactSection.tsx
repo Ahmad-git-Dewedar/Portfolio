@@ -1,5 +1,5 @@
-import { Reveal } from "@/components/motion";
-import { Button, Eyebrow, Icon, Section, type IconName } from "@/components/ui";
+import { SplitText } from "@/components/scroll";
+import { Button, Container, Eyebrow, Icon, type IconName } from "@/components/ui";
 import { sectionIds, sectionNumbers } from "@/config/navigation";
 import { siteConfig, socialLinks } from "@/config/site";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -9,77 +9,76 @@ import styles from "./ContactSection.module.css";
 interface ContactSectionProps {
   content: Dictionary["contact"];
   externalLinkLabel: string;
+  cursorLabel: string;
 }
 
 interface Channel {
   id: keyof Dictionary["contact"]["channels"];
   icon: IconName;
   label: string;
-  handle: string;
   href: string;
-  external: boolean;
+  description: string;
 }
 
-export function ContactSection({ content, externalLinkLabel }: ContactSectionProps) {
+/**
+ * Closing scene: the headline rises word by word out of masked lines as the
+ * section arrives, then the address and one clear call to action settle in.
+ */
+export function ContactSection({ content, externalLinkLabel, cursorLabel }: ContactSectionProps) {
   const mailto = `mailto:${siteConfig.email}`;
-  const channels: Channel[] = [
-    { id: "email", icon: "mail", label: "Email", handle: siteConfig.email, href: mailto, external: false },
-    ...socialLinks.map((social) => ({
-      id: social.id,
-      icon: social.id,
-      label: social.label,
-      handle: social.handle,
-      href: social.href,
-      external: true,
-    })),
-  ];
+  const channels: Channel[] = socialLinks.map((social) => ({
+    id: social.id,
+    icon: social.id,
+    label: social.label,
+    href: social.href,
+    description: content.channels[social.id],
+  }));
 
   return (
-    <Section id={sectionIds.contact} tone="raised" containerSize="wide" aria-labelledby="contact-title">
-      <div className={styles.panel}>
-        <Reveal className={styles.pitch}>
-          <Eyebrow index={sectionNumbers.contact}>{content.eyebrow}</Eyebrow>
-          <h2 id="contact-title" className={styles.title}>
-            {content.title}
-          </h2>
-          <p className={styles.lead}>{content.lead}</p>
+    <section id={sectionIds.contact} data-scene="view" className={styles.contact} aria-labelledby="contact-title">
+      <div className={styles.halo} aria-hidden="true" />
+      <Container size="wide" className={styles.inner}>
+        <Eyebrow index={sectionNumbers.contact}>{content.eyebrow}</Eyebrow>
+        <SplitText as="h2" id="contact-title" text={content.title} variant="mask" from={0.1} to={0.42} className={styles.title} />
+        <p className={styles.lead}>{content.lead}</p>
 
-          <div className={styles.emailRow}>
-            <Button href={mailto} size="lg" icon="mail" iconPosition="start">
-              {content.emailCta}
-            </Button>
-            <CopyEmailButton email={siteConfig.email} label={content.copyEmail} copiedLabel={content.copied} />
-          </div>
-        </Reveal>
+        <a href={mailto} className={styles.email} dir="ltr" data-cursor={cursorLabel}>
+          <span>{siteConfig.email}</span>
+          <Icon name="arrow-up-right" size={28} className={styles.emailArrow} />
+        </a>
 
-        <Reveal delay={120} className={styles.channels}>
+        <div className={styles.actions}>
+          <Button href={mailto} size="lg" icon="mail" iconPosition="start">
+            {content.emailCta}
+          </Button>
+          <CopyEmailButton email={siteConfig.email} label={content.copyEmail} copiedLabel={content.copied} />
+        </div>
+
+        <div className={styles.channels}>
           <p className={styles.channelsTitle}>{content.channelsTitle}</p>
           <ul role="list" className={styles.channelList}>
             {channels.map((channel) => (
               <li key={channel.id}>
                 <a
                   href={channel.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.channel}
-                  {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : null)}
+                  title={channel.description}
                 >
-                  <span className={styles.channelIcon}>
-                    <Icon name={channel.icon} size={20} />
+                  <Icon name={channel.icon} size={18} />
+                  <span>{channel.label}</span>
+                  <span className="visually-hidden">
+                    {" "}
+                    {channel.description} ({externalLinkLabel})
                   </span>
-                  <span className={styles.channelText}>
-                    <span className={styles.channelLabel}>{channel.label}</span>
-                    <span className={styles.channelDescription}>{content.channels[channel.id]}</span>
-                  </span>
-                  <span className={styles.channelHandle} dir="ltr">
-                    {channel.handle}
-                  </span>
-                  {channel.external && <span className="visually-hidden"> ({externalLinkLabel})</span>}
-                  <Icon name={channel.external ? "arrow-up-right" : "arrow-right"} size={18} className={styles.channelArrow} />
+                  <Icon name="arrow-up-right" size={14} className={styles.channelArrow} />
                 </a>
               </li>
             ))}
           </ul>
-        </Reveal>
-      </div>
-    </Section>
+        </div>
+      </Container>
+    </section>
   );
 }

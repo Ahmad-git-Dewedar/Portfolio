@@ -1,7 +1,7 @@
+import { ScrollScene } from "@/components/scroll";
 import { HeroFocusArea, HeroStage } from "@/components/three";
 import { Button, Container } from "@/components/ui";
 import { sectionIds } from "@/config/navigation";
-import { projects } from "@/content/projects";
 import type { Direction } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import styles from "./Hero.module.css";
@@ -13,17 +13,21 @@ interface HeroProps {
   direction: Direction;
 }
 
-/** Copy on the reading-start side, the 3D model beside it on the other. */
+/**
+ * Opening scene. While pinned, scrolling lifts the copy away, draws the 3D
+ * model to the center as it recedes, and wipes in the statement that bridges
+ * into About, so the hero transforms rather than simply scrolling off.
+ */
 export function Hero({ person, content, modelLabel, direction }: HeroProps) {
-  // Values are language-neutral; labels come from the dictionary.
-  const stats = [
-    { value: String(projects.length).padStart(2, "0"), label: content.stats.projects },
-    { value: "EN·AR", label: content.stats.languages },
-    { value: "3D", label: content.stats.realtime },
-  ];
-
   return (
-    <section id={sectionIds.home} className={styles.hero} aria-labelledby="hero-title">
+    <ScrollScene
+      id={sectionIds.home}
+      length={2.3}
+      lengthSm={1.9}
+      className={styles.hero}
+      stageClassName={styles.scene}
+      aria-labelledby="hero-title"
+    >
       <HeroStage
         label={modelLabel}
         mirrored={direction === "rtl"}
@@ -41,7 +45,6 @@ export function Hero({ person, content, modelLabel, direction }: HeroProps) {
               <span className="visually-hidden">, </span>
               <span className={styles.role}>{person.role}</span>
             </h1>
-            <p className={styles.tagline}>{content.title}</p>
             <p className={styles.lead}>{content.lead}</p>
             <div className={styles.actions}>
               <Button href={`#${sectionIds.work}`} size="lg">
@@ -51,28 +54,23 @@ export function Hero({ person, content, modelLabel, direction }: HeroProps) {
                 {content.secondaryCta}
               </Button>
             </div>
-            <dl className={styles.stats}>
-              {stats.map((stat) => (
-                <div key={stat.label} className={styles.stat}>
-                  <dt className={styles.statLabel}>{stat.label}</dt>
-                  <dd className={styles.statValue} dir="ltr">
-                    {stat.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           <HeroFocusArea className={styles.focus} />
         </Container>
-
-        <a href={`#${sectionIds.work}`} className={styles.scrollCue}>
-          <span className={styles.mouse} aria-hidden="true">
-            <span className={styles.wheel} />
-          </span>
-          <span>{content.scrollCue}</span>
-        </a>
       </HeroStage>
-    </section>
+
+      {/* Bridge line: wiped in as the hero recedes, then hands over to About. */}
+      <p className={styles.statement}>
+        <span className={styles.statementInner}>{content.title}</span>
+      </p>
+
+      <a href={`#${sectionIds.about}`} className={styles.scrollCue}>
+        <span className={styles.mouse} aria-hidden="true">
+          <span className={styles.wheel} />
+        </span>
+        <span>{content.scrollCue}</span>
+      </a>
+    </ScrollScene>
   );
 }

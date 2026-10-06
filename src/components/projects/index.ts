@@ -1,4 +1,3 @@
-export * from "./ProjectCard";
 export * from "./ProjectFrame";
-export * from "./ProjectShowcase";
+export * from "./ProjectScene";
 export type * from "./types";

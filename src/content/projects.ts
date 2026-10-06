@@ -9,6 +9,23 @@ export interface ProjectImage {
   alt: Localized;
 }
 
+/**
+ * How a project's cinematic scene enters and leaves.
+ * - zoom: the visual grows from a small tilted card, then the camera zooms through it.
+ * - slit: a narrow vertical slit opens to full frame; exits into giant typography.
+ * - rise: the visual stands up from a 3D tilt; exits behind a sweeping light.
+ * - light: a bright scene; the visual rises through a mask; exits to the page.
+ */
+export type SceneVariant = "zoom" | "slit" | "rise" | "light";
+
+export interface ProjectScene {
+  variant: SceneVariant;
+  /** Scene background behind the visual. */
+  background: string;
+  /** Light scenes switch text to dark ink. */
+  tone: "dark" | "light";
+}
+
 export interface Project {
   slug: string;
   title: Localized;
@@ -22,8 +39,9 @@ export interface Project {
   image: ProjectImage;
   /** Brand color of the project, used for hover glows and accents. */
   accent: string;
-  /** Featured projects get the large, full-width card. */
+  /** Featured projects get a badge in their scene. */
   featured?: boolean;
+  scene: ProjectScene;
 }
 
 export const projects: readonly Project[] = [
@@ -62,6 +80,7 @@ export const projects: readonly Project[] = [
     },
     accent: "#ffc72c",
     featured: true,
+    scene: { variant: "zoom", background: "#0b1328", tone: "dark" },
   },
   {
     slug: "iphone-17-pro-max",
@@ -87,6 +106,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#ff7a1a",
+    scene: { variant: "slit", background: "#0d0704", tone: "dark" },
   },
   {
     slug: "ps5-3d",
@@ -112,6 +132,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#2f6bff",
+    scene: { variant: "rise", background: "#050a1c", tone: "dark" },
   },
   {
     slug: "mizan",
@@ -137,6 +158,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#3ddc97",
+    scene: { variant: "light", background: "#eaf7ef", tone: "light" },
   },
 ];
 
@@ -154,9 +176,14 @@ export interface ProjectView {
   image: { src: string; width: number; height: number; alt: string };
   accent: string;
   featured: boolean;
+  scene: ProjectScene;
+  /** Background of the scene that follows, so each exit can hand over seamlessly. */
+  nextBackground: string | null;
+  /** 1-based position, for the "01 / 04" counter. */
+  position: number;
 }
 
-export function toProjectView(project: Project, locale: Locale): ProjectView {
+export function toProjectView(project: Project, locale: Locale, index = 0, list: readonly Project[] = [project]): ProjectView {
   return {
     slug: project.slug,
     title: pick(project.title, locale),
@@ -169,9 +196,12 @@ export function toProjectView(project: Project, locale: Locale): ProjectView {
     image: { ...project.image, alt: pick(project.image.alt, locale) },
     accent: project.accent,
     featured: Boolean(project.featured),
+    scene: project.scene,
+    nextBackground: list[index + 1]?.scene.background ?? null,
+    position: index + 1,
   };
 }
 
 export function getProjectViews(locale: Locale): ProjectView[] {
-  return projects.map((project) => toProjectView(project, locale));
+  return projects.map((project, index) => toProjectView(project, locale, index, projects));
 }

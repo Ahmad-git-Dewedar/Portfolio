@@ -2,13 +2,16 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { AmbientBackground, ScrollProgress } from "@/components/decor";
 import { SiteFooter, SiteHeader, SkipLink } from "@/components/layout";
+import { CursorLabel } from "@/components/cursor";
 import { SpotlightTracker } from "@/components/motion";
+import { ScrollEngine } from "@/components/scroll";
 import { footerNav, primaryNav, sectionIds } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { getDirection, isLocale, localeMeta, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { localizePath } from "@/i18n/paths";
 import { fontVariables } from "@/lib/fonts";
+import { motionInitScript } from "@/lib/motion";
 import { DEFAULT_THEME, themeInitScript } from "@/lib/theme";
 import "@/styles/globals.css";
 
@@ -67,12 +70,14 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + motionInitScript }} />
       </head>
       <body>
         <AmbientBackground />
         <ScrollProgress />
         <SpotlightTracker />
+        <ScrollEngine />
+        <CursorLabel />
         <SkipLink targetId={MAIN_ID} label={dict.a11y.skipToContent} />
         <SiteHeader
           locale={locale}

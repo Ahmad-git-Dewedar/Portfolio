@@ -1,0 +1,502 @@
+/* =====================================================================
+ * Project scene
+ * Base styles: a calm, stacked case study (reduced motion, no JavaScript).
+ * :root[data-scroll="on"] styles: the pinned cinematic shot, driven by --p.
+ * ===================================================================== */
+
+.scene {
+  --ink: #f5f5f7;
+  --ink-muted: rgb(245 245 247 / 0.74);
+  --ink-line: rgb(255 255 255 / 0.18);
+  --accent-ink: color-mix(in srgb, var(--accent) 72%, #ffffff);
+
+  position: relative;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* Bright scene: dark ink and deeper accents. */
+.light {
+  --ink: #0d2a1d;
+  --ink-muted: #2f5444;
+  --ink-line: rgb(13 42 29 / 0.2);
+  --accent-ink: color-mix(in srgb, var(--accent) 45%, #000000);
+}
+
+.stage {
+  display: grid;
+  gap: var(--space-7);
+  padding: var(--space-9) var(--gutter);
+  max-inline-size: calc(var(--container-wide) + var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.backdrop,
+.ghost,
+.scrim,
+.side,
+.exit {
+  display: none;
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 90px -50px rgb(0 0 0 / 0.8);
+}
+
+.mediaFrame {
+  position: absolute;
+  inset: 0;
+}
+
+.mediaImage {
+  object-fit: cover;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ---------- Details ---------- */
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-inline-size: 40rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.counter {
+  font-family: var(--font-en);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+}
+
+.badge {
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #0b0b0c;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  line-height: 1.9;
+}
+
+.category {
+  font-weight: var(--weight-semibold);
+  color: var(--accent-ink);
+}
+
+.title {
+  font-size: clamp(2.5rem, 1rem + 4.2vw, 5.75rem);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  padding-block-start: 0.08em;
+  color: var(--ink);
+}
+
+:lang(ar) .title {
+  line-height: 1.2;
+}
+
+.summary {
+  max-inline-size: 34rem;
+  font-size: var(--text-lg);
+  color: var(--ink-muted);
+}
+
+.highlights {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--ink);
+}
+
+.check {
+  flex-shrink: 0;
+  margin-block-start: 0.3em;
+  color: var(--accent-ink);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tags li {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--ink-line);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  line-height: 1.8;
+  color: var(--ink-muted);
+}
+
+.visit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-start: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: var(--weight-semibold);
+  box-shadow: 0 18px 40px -18px var(--accent);
+  transition:
+    translate var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.visit > span:first-child {
+  padding-block-start: 0.15em;
+}
+
+:lang(ar) .visit > span:first-child {
+  padding-block-start: 0;
+}
+
+.visit:hover {
+  translate: 0 -2px;
+  box-shadow: 0 24px 50px -16px var(--accent);
+}
+
+/* =====================================================================
+ * Cinematic shot
+ * ===================================================================== */
+:global(:root[data-scroll="on"]) .scene {
+  /* Phases of the shot. */
+  --in: clamp(0, calc(var(--p) / 0.38), 1);
+  --in-e: calc(1 - (1 - var(--in)) * (1 - var(--in)) * (1 - var(--in)));
+  --info: clamp(0, calc((var(--p) - 0.34) / 0.2), 1);
+  --side: clamp(0, calc((var(--p) - 0.42) / 0.24), 1);
+  --side-e: calc(1 - (1 - var(--side)) * (1 - var(--side)));
+  --out: clamp(0, calc((var(--p) - 0.8) / 0.2), 1);
+  --out-e: calc(var(--out) * var(--out));
+  /* How strongly the next scene's color shows; variants retime it. */
+  --out-bg: var(--out-e);
+
+  background: none;
+}
+
+:global(:root[data-scroll="on"]) .stage {
+  display: block;
+  max-inline-size: none;
+  margin: 0;
+  padding: 0;
+}
+
+:global(:root[data-scroll="on"]) .backdrop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--bg);
+}
+
+/* The next scene's color rises underneath during the exit, so scenes chain without gaps. */
+:global(:root[data-scroll="on"]) .backdropNext {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-next);
+  opacity: var(--out-bg);
+}
+
+/* Giant outlined title behind the visual; drifts against the scroll for depth. */
+:global(:root[data-scroll="on"]) .ghost {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 17rem);
+  font-weight: var(--weight-heavy);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: translate3d(calc(var(--dir) * (12vw - var(--p) * 30vw)), -50%, 0);
+  opacity: calc(1 - var(--in) * 0.65);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The visual: generic entrance shaped by per-variant start values. */
+:global(:root[data-scroll="on"]) .media {
+  --s: calc(var(--from-scale, 1) + (1 - var(--from-scale, 1)) * var(--in-e));
+
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  transform: perspective(1600px) translate3d(0, calc((1 - var(--in-e)) * var(--from-y, 0svh)), 0)
+    rotateX(calc((1 - var(--in-e)) * var(--from-rx, 0deg)))
+    rotate(calc((1 - var(--in-e)) * var(--from-rot, 0deg) * var(--dir))) scale(calc(var(--s) * var(--out-scale, 1)));
+  opacity: var(--media-opacity, 1);
+  will-change: transform;
+}
+
+:global(:root[data-scroll="on"]) .mediaFrame {
+  overflow: hidden;
+  /* Recedes into a backdrop once the details take the stage. */
+  opacity: calc(1 - var(--info) * 0.5);
+  clip-path: inset(
+    calc((1 - var(--in-e)) * var(--clip-y, 0%)) calc((1 - var(--in-e)) * var(--clip-x, 0%))
+      round calc((1 - var(--in-e)) * 44px)
+  );
+  box-shadow: 0 60px 120px -40px rgb(0 0 0 / 0.7);
+}
+
+/* Slow push-in inside the frame. */
+:global(:root[data-scroll="on"]) .mediaImage {
+  transform: scale(calc(1.16 - var(--p) * 0.14)) translate3d(0, calc((var(--p) - 0.5) * -3svh), 0);
+}
+
+/* Legibility wash on the reading-start side, in the scene's own color. */
+:global(:root[data-scroll="on"]) .scrim {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Once details arrive, the full-bleed image becomes a moody backdrop and the framed card carries the detail. */
+  background:
+    linear-gradient(
+      calc(90deg * var(--dir)),
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 94%, transparent) 36%,
+      color-mix(in srgb, var(--bg) 62%, transparent) 62%,
+      color-mix(in srgb, var(--bg) 38%, transparent) 100%
+    ),
+    linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent), transparent 35%);
+  opacity: calc(var(--info) * (1 - var(--out)));
+  pointer-events: none;
+}
+
+/* Additional visual: a crisp framed copy of the interface glides in from the far side. */
+:global(:root[data-scroll="on"]) .side {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--gutter);
+  display: block;
+  inline-size: min(32vw, 540px);
+  perspective: 1400px;
+  transform: translate3d(calc(var(--dir) * (1 - var(--side-e)) * 34vw), calc(-50% + (1 - var(--side-e)) * 8svh), 0);
+  opacity: calc(var(--side) * 1.4 - var(--out) * 3);
+  pointer-events: none;
+}
+
+:global(:root[data-scroll="on"]) .frame {
+  transform: rotateY(calc(var(--dir) * (-18deg + var(--side-e) * 10deg))) rotateX(4deg);
+  box-shadow: 0 50px 100px -40px rgb(0 0 0 / 0.75);
+}
+
+/* Details rise in line by line. */
+:global(:root[data-scroll="on"]) .info {
+  position: absolute;
+  inset-block: calc(var(--header-height) + var(--space-5)) var(--space-7);
+  inset-inline-start: var(--gutter);
+  z-index: 2;
+  justify-content: center;
+  max-inline-size: min(40rem, 46vw);
+  transform: translate3d(0, calc(var(--out-e) * -8svh), 0);
+  opacity: calc(1 - var(--out) * 1.6);
+}
+
+:global(:root[data-scroll="on"]) .info > * {
+  --c: clamp(0, calc((var(--p) - 0.34 - var(--k, 0) * 0.035) / 0.16), 1);
+
+  opacity: var(--c);
+  transform: translate3d(0, calc((1 - var(--c)) * 5svh), 0);
+}
+
+.info > :nth-child(2) {
+  --k: 1;
+}
+
+.info > :nth-child(3) {
+  --k: 2;
+}
+
+.info > :nth-child(4) {
+  --k: 3;
+}
+
+.info > :nth-child(5) {
+  --k: 4;
+}
+
+.info > :nth-child(6) {
+  --k: 5;
+}
+
+:global(:root[data-scroll="on"]) .exit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ---------- Variant: zoom (Ultimate XI) ----------
+ * Starts as a small tilted card under the giant title, grows to fill the frame,
+ * then the camera pushes through it into the next scene's color. */
+:global(:root[data-scroll="on"]) .zoom {
+  --from-scale: 0.34;
+  --from-rot: -6deg;
+  --from-y: 6svh;
+  --out-scale: calc(1 + var(--out-e) * 0.45);
+  --media-opacity: calc(1 - var(--out-e));
+}
+
+/* ---------- Variant: slit (iPhone 17 Pro Max) ----------
+ * A narrow vertical slit (the phone's silhouette) opens to full frame; at the
+ * end the image dissolves into giant solid typography. */
+:global(:root[data-scroll="on"]) .slit {
+  --clip-x: 44%;
+  --clip-y: 7%;
+  --media-opacity: calc(1 - var(--out) * 1.3);
+  --out-bg: clamp(0, calc((var(--out) - 0.5) * 2), 1);
+  --out-bg-fade: clamp(0, calc((var(--out) - 0.7) * 3.3), 1);
+}
+
+:global(:root[data-scroll="on"]) .slit .ghost {
+  color: color-mix(in srgb, var(--accent) calc(var(--out) * 100%), transparent);
+  transform: translate3d(calc(var(--dir) * (12vw - var(--p) * 30vw)), -50%, 0) scale(calc(1 + var(--out-e) * 0.5));
+  opacity: calc(1 - var(--in) + var(--out) * 1.6 - var(--out-bg-fade, 0));
+  z-index: 2;
+}
+
+/* ---------- Variant: rise (PS5 3D) ----------
+ * Stands up from a deep 3D tilt; at the end a sweep of light crosses the
+ * screen and leaves the bright next scene behind it. */
+:global(:root[data-scroll="on"]) .rise {
+  --from-scale: 0.7;
+  --from-rx: 62deg;
+  --from-y: 24svh;
+  --sweep: clamp(0, calc((var(--p) - 0.8) / 0.17), 1);
+  --out-bg: clamp(0, calc((var(--sweep) - 0.45) * 4), 1);
+  --media-opacity: calc(1 - var(--out-bg));
+}
+
+:global(:root[data-scroll="on"]) .rise .exit {
+  display: block;
+  inset-block: -10%;
+  inset-inline-start: -60%;
+  inline-size: 60%;
+  background: linear-gradient(
+    calc(90deg * var(--dir)),
+    transparent,
+    color-mix(in srgb, var(--accent) 70%, transparent) 30%,
+    #ffffff 50%,
+    color-mix(in srgb, #3ddc97 50%, transparent) 70%,
+    transparent
+  );
+  filter: blur(18px);
+  transform: translate3d(calc(var(--dir) * var(--sweep) * 270%), 0, 0) skewX(calc(var(--dir) * -12deg));
+  opacity: calc(var(--sweep) * (1 - var(--sweep)) * 4);
+}
+
+:global(:root[dir="rtl"][data-scroll="on"]) .rise .exit {
+  inset-inline-start: auto;
+  inset-inline-end: -60%;
+}
+
+/* ---------- Variant: light (Mizan) ----------
+ * A bright scene: the visual rises through the floor of the frame, then the
+ * whole composition lifts away into the page. */
+:global(:root[data-scroll="on"]) .light {
+  --from-scale: 0.84;
+  --from-y: 46svh;
+  --clip-y: 10%;
+  --media-opacity: calc(1 - var(--out-e));
+}
+
+:global(:root[data-scroll="on"]) .light .mediaFrame {
+  box-shadow: 0 60px 120px -50px rgb(13 42 29 / 0.45);
+}
+
+:global(:root[data-scroll="on"]) .light .ghost {
+  -webkit-text-stroke-color: rgb(13 42 29 / 0.16);
+}
+
+/* ---------- Narrow screens: framed visual on top, details below ---------- */
+@media (max-width: 1023px) {
+  :global(:root[data-scroll="on"]) .media {
+    inset: calc(var(--header-height) + 3svh) 0 auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  :global(:root[data-scroll="on"]) .ghost {
+    inset-block-start: calc(var(--header-height) + 3svh + 31vw);
+    font-size: 26vw;
+  }
+
+  :global(:root[data-scroll="on"]) .side {
+    display: none;
+  }
+
+  /* The visual sits above the details here, so it stays bright. */
+  :global(:root[data-scroll="on"]) .mediaFrame {
+    opacity: 1;
+  }
+
+  :global(:root[data-scroll="on"]) .scrim {
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg) 42%, transparent 62%);
+  }
+
+  :global(:root[data-scroll="on"]) .info {
+    inset-block: auto var(--space-6);
+    inset-inline: var(--gutter);
+    max-inline-size: none;
+    gap: var(--space-3);
+  }
+
+  :global(:root[data-scroll="on"]) .title {
+    font-size: clamp(2.25rem, 1rem + 6vw, 4rem);
+  }
+
+  :global(:root[data-scroll="on"]) .summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--text-base);
+  }
+
+  :global(:root[data-scroll="on"]) .highlights {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) and (max-height: 720px) {
+  :global(:root[data-scroll="on"]) .summary {
+    -webkit-line-clamp: 2;
+  }
+
+  :global(:root[data-scroll="on"]) .tags {
+    display: none;
+  }
+}

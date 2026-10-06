@@ -1,104 +1,102 @@
-/* Animatable angle for the rotating border light (falls back to a static ring). */
-@property --border-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
+.contact {
+  --p: 1;
 
-.panel {
   position: relative;
-  isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-9);
   align-items: center;
-  padding: clamp(var(--space-6), 4vw, var(--space-9));
-  overflow: hidden;
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(70% 90% at 0% 0%, rgb(var(--rgb-accent) / 0.18), transparent 60%),
-    radial-gradient(60% 80% at 100% 100%, rgb(var(--rgb-accent-alt) / 0.12), transparent 60%),
-    var(--color-surface);
-  box-shadow:
-    inset 0 0 0 1px var(--color-border-strong),
-    inset 0 1px 0 rgb(var(--rgb-contrast) / 0.08),
-    var(--shadow-lg);
+  min-block-size: 100svh;
+  padding-block: var(--space-section);
+  overflow: clip;
+  isolation: isolate;
 }
 
-/* Rotating light that runs around the panel's edge. */
-.panel::before {
-  content: "";
+/* Soft light pooling behind the headline. */
+.halo {
   position: absolute;
-  inset: 0;
+  inset-block-start: 10%;
+  inset-inline-start: 50%;
   z-index: -1;
-  padding: 1px;
-  border-radius: inherit;
-  background: conic-gradient(
-    from var(--border-angle),
-    transparent 0deg,
-    rgb(var(--rgb-accent) / 0.9) 60deg,
-    rgb(var(--rgb-accent-alt) / 0.8) 110deg,
-    transparent 170deg,
-    transparent 360deg
+  inline-size: 90vmax;
+  block-size: 60vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--rgb-accent) / 0.18),
+    rgb(var(--rgb-accent-alt) / 0.08) 55%,
+    transparent
   );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box exclude,
-    linear-gradient(#000 0 0);
-  animation: orbit-border 8s linear infinite;
+  translate: -50% 0;
   pointer-events: none;
 }
 
-@keyframes orbit-border {
-  to {
-    --border-angle: 360deg;
-  }
+[dir="rtl"] .halo {
+  translate: 50% 0;
 }
 
-:global([dir="rtl"]) .panel {
-  background:
-    radial-gradient(70% 90% at 100% 0%, rgb(var(--rgb-accent) / 0.18), transparent 60%),
-    radial-gradient(60% 80% at 0% 100%, rgb(var(--rgb-accent-alt) / 0.12), transparent 60%),
-    var(--color-surface);
-}
-
-.pitch {
+.inner {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .title {
-  font-size: clamp(2.5rem, 1.4rem + 3vw, 4.25rem);
+  max-inline-size: 14ch;
+  font-size: clamp(3rem, 1rem + 8vw, 10rem);
   font-weight: var(--weight-heavy);
   letter-spacing: var(--tracking-display);
-  line-height: 1.05;
-  padding-block-start: 0.08em;
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  line-height: 0.95;
+  padding-block-start: 0.06em;
 }
 
 :lang(ar) .title {
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .lead {
-  max-inline-size: 30rem;
-  font-size: var(--text-lg);
+  max-inline-size: 34rem;
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
   color: var(--color-text-muted);
 }
 
-.emailRow {
+/* The address as the hero of the closing scene. */
+.email {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-inline-size: 100%;
+  margin-block-start: var(--space-4);
+  font-family: var(--font-en);
+  font-size: clamp(1.25rem, 0.6rem + 2.6vw, 3rem);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% 2px;
+  padding-block-end: 0.15em;
+  transition:
+    background-size var(--duration-slow) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+
+.email:hover {
+  background-size: 100% 2px;
+  color: var(--color-accent);
+}
+
+.emailArrow {
+  flex-shrink: 0;
+  transition: translate var(--duration-base) var(--ease-out);
+}
+
+.email:hover .emailArrow {
+  translate: 4px -4px;
+}
+
+.actions {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-block-start: var(--space-4);
 }
 
 .copyButton {
@@ -127,8 +125,14 @@
 }
 
 .channels {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-4);
+  margin-block-start: var(--space-6);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--color-border);
+  inline-size: 100%;
 }
 
 .channelsTitle {
@@ -137,95 +141,71 @@
 }
 
 .channelList {
-  display: grid;
-  gap: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .channel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-well);
-  box-shadow: inset 0 0 0 1px var(--color-border);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-fill-1);
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  font-family: var(--font-en);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
   transition:
-    background-color var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
     translate var(--duration-base) var(--ease-out);
 }
 
-.channel:hover,
-.channel:focus-visible {
-  background: var(--color-fill-2);
-  box-shadow: inset 0 0 0 1px rgb(var(--rgb-accent) / 0.4);
-  translate: 4px 0;
+.channel > span:not(:global(.visually-hidden)) {
+  padding-block-start: 0.15em;
 }
 
-:global([dir="rtl"]) .channel:hover,
-.channel:focus-visible {
-  translate: -4px 0;
-}
-
-.channelIcon {
-  display: grid;
-  place-items: center;
-  inline-size: 44px;
-  block-size: 44px;
-  border-radius: 12px;
-  background: var(--surface-metal);
-  box-shadow: inset 0 1px 0 var(--color-fill-4);
-}
-
-.channelText {
-  display: grid;
-  gap: 2px;
-  min-inline-size: 0;
-}
-
-.channelLabel {
-  font-family: var(--font-en);
-  font-weight: var(--weight-bold);
-}
-
-.channelDescription {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.channelHandle {
-  font-family: var(--font-en);
-  font-size: var(--text-sm);
-  color: var(--color-text-subtle);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-inline-size: 16rem;
+.channel:hover {
+  background: var(--color-fill-3);
+  box-shadow: inset 0 0 0 1px rgb(var(--rgb-accent) / 0.45);
+  translate: 0 -2px;
 }
 
 .channelArrow {
   color: var(--color-text-subtle);
-  transition: color var(--duration-fast) var(--ease-out);
 }
 
-.channel:hover .channelArrow {
-  color: var(--color-accent);
+/* ---------- Cinematic arrival (progress through the viewport) ---------- */
+:global(:root[data-scroll="on"]) .contact {
+  --p: 0;
 }
 
-@media (max-width: 1099px) {
-  .panel {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-7);
-  }
+:global(:root[data-scroll="on"]) .inner > :not(h2) {
+  --c: clamp(0, calc((var(--p) - 0.3 - var(--k, 0) * 0.03) / 0.14), 1);
+
+  opacity: var(--c);
+  transform: translate3d(0, calc((1 - var(--c)) * 4svh), 0);
 }
 
-@media (max-width: 560px) {
-  .channel {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-  }
+:global(:root[data-scroll="on"]) .halo {
+  transform: scale(calc(0.6 + var(--p) * 0.6));
+  opacity: clamp(0, calc(var(--p) * 2), 1);
+}
 
-  .channelHandle {
-    display: none;
-  }
+.inner > :nth-child(3) {
+  --k: 1;
+}
+
+.inner > :nth-child(4) {
+  --k: 2;
+}
+
+.inner > :nth-child(5) {
+  --k: 3;
+}
+
+.inner > :nth-child(6) {
+  --k: 4;
 }

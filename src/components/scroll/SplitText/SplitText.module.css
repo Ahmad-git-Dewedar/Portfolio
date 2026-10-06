@@ -1,0 +1,35 @@
+.word {
+  display: inline-block;
+}
+
+.inner {
+  display: inline-block;
+}
+
+/* Words light up in reading order as the scene progresses. */
+:global(:root[data-scroll="on"]) .highlight {
+  --w: clamp(0, calc((var(--p) - var(--from)) / var(--span) * var(--n) - var(--i)), 1);
+}
+
+:global(:root[data-scroll="on"]) .highlight .word {
+  opacity: calc(0.14 + 0.86 * var(--w));
+  filter: blur(calc((1 - var(--w)) * 2px));
+  transition: none;
+}
+
+/* Words rise out of a clipped line, staggered. */
+.mask .word {
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  vertical-align: top;
+  padding-block-end: 0.08em;
+}
+
+:global(:root[data-scroll="on"]) .mask {
+  --w: clamp(0, calc((var(--p) - var(--from)) / var(--span) * (var(--n) + 2) - var(--i)), 1);
+}
+
+:global(:root[data-scroll="on"]) .mask .inner {
+  translate: 0 calc((1 - var(--w)) * 110%);
+  rotate: calc((1 - var(--w)) * 4deg);
+}

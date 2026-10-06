@@ -5,10 +5,13 @@
   touch-action: pan-y;
 }
 
+/* Scroll scenes drive the 3D layer through these hooks without reaching into this component. */
 .backdrop {
   position: absolute;
   inset: 0;
   z-index: 0;
+  transform: var(--hero-backdrop-transform, none);
+  opacity: var(--hero-backdrop-opacity, 1);
 }
 
 /* Layered copy lets gestures fall through to the stage, except on interactive elements. */
@@ -27,8 +30,15 @@
   inset: 0;
   opacity: 0;
   /* Fade the model's surroundings out at the edges without painting over the backdrop. */
-  mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+  /* Feather all four edges so the glow never shows the canvas rectangle, even when scaled. */
+  mask-image:
+    linear-gradient(180deg, #000 78%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(180deg, #000 78%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
   transition: opacity 900ms var(--ease-out) 150ms;
 }
 

@@ -1,0 +1,26 @@
+.track {
+  --p: 0;
+
+  position: relative;
+}
+
+.stage {
+  position: relative;
+}
+
+:global(:root[data-scroll="on"]) .track {
+  block-size: calc(var(--length) * 100svh);
+}
+
+:global(:root[data-scroll="on"]) .stage {
+  position: sticky;
+  inset-block-start: 0;
+  block-size: 100svh;
+  overflow: clip;
+}
+
+@media (max-width: 760px) {
+  :global(:root[data-scroll="on"]) .track {
+    block-size: calc(var(--length-sm) * 100svh);
+  }
+}

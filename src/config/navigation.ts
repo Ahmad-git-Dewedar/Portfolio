@@ -14,8 +14,8 @@ export const sectionIds = {
 
 /** Section numbers shown in the eyebrows, in page order. Reorder sections here. */
 export const sectionNumbers = {
-  work: "01",
-  about: "02",
+  about: "01",
+  work: "02",
   roadmap: "03",
   skills: "04",
   youtube: "05",
@@ -32,8 +32,8 @@ export interface NavItem {
 
 /** Header navigation: the main stops, kept short so it fits the capsule. */
 export const primaryNav: readonly NavItem[] = [
-  { key: "work", href: `#${sectionIds.work}` },
   { key: "about", href: `#${sectionIds.about}` },
+  { key: "work", href: `#${sectionIds.work}` },
   { key: "roadmap", href: `#${sectionIds.roadmap}` },
   { key: "youtube", href: `#${sectionIds.youtube}` },
   { key: "contact", href: `#${sectionIds.contact}` },
@@ -41,8 +41,8 @@ export const primaryNav: readonly NavItem[] = [
 
 /** Footer navigation: every section. */
 export const footerNav: readonly NavItem[] = [
-  { key: "work", href: `#${sectionIds.work}` },
   { key: "about", href: `#${sectionIds.about}` },
+  { key: "work", href: `#${sectionIds.work}` },
   { key: "roadmap", href: `#${sectionIds.roadmap}` },
   { key: "skills", href: `#${sectionIds.skills}` },
   { key: "youtube", href: `#${sectionIds.youtube}` },

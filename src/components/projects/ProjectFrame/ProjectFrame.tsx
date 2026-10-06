@@ -9,6 +9,8 @@ interface ProjectFrameProps {
   /** Responsive `sizes` hint for the screenshot. */
   sizes: string;
   priority?: boolean;
+  /** Use when the same screenshot is already described elsewhere on the page. */
+  decorative?: boolean;
   className?: string;
 }
 
@@ -17,7 +19,7 @@ interface ProjectFrameProps {
  * aluminium and glass language as the hero display. Rendered with spans so it
  * can sit inside a button.
  */
-export function ProjectFrame({ project, sizes, priority, className }: ProjectFrameProps) {
+export function ProjectFrame({ project, sizes, priority, decorative, className }: ProjectFrameProps) {
   return (
     <span className={cn(styles.frame, className)} style={{ "--accent": project.accent } as CSSProperties}>
       <span className={styles.chrome} aria-hidden="true">
@@ -33,7 +35,7 @@ export function ProjectFrame({ project, sizes, priority, className }: ProjectFra
       <span className={styles.viewport}>
         <Image
           src={project.image.src}
-          alt={project.image.alt}
+          alt={decorative ? "" : project.image.alt}
           width={project.image.width}
           height={project.image.height}
           sizes={sizes}

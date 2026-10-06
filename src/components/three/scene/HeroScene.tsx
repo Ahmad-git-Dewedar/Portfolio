@@ -51,6 +51,8 @@ export function HeroScene({
   return (
     <Canvas
       frameloop={frameloop}
+      // Measure layout size, not the visual box: scroll scenes scale this canvas with CSS transforms.
+      resize={{ offsetSize: true }}
       dpr={pixelRatio}
       camera={{ fov: camera.fov, near: 1, far: 40, position: [0, 0, 10] }}
       gl={{

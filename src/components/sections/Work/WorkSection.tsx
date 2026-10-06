@@ -1,6 +1,7 @@
-import { Reveal } from "@/components/motion";
-import { ProjectShowcase, type ProjectLabels } from "@/components/projects";
-import { Section, SectionHeading } from "@/components/ui";
+import type { CSSProperties } from "react";
+import { ProjectScene, type ProjectLabels } from "@/components/projects";
+import { ScrollScene, SplitText } from "@/components/scroll";
+import { Container, Eyebrow } from "@/components/ui";
 import { sectionIds, sectionNumbers } from "@/config/navigation";
 import { getProjectViews } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
@@ -11,24 +12,44 @@ interface WorkSectionProps {
   locale: Locale;
   content: Dictionary["work"];
   externalLinkLabel: string;
+  cursorLabel: string;
 }
 
-export function WorkSection({ locale, content, externalLinkLabel }: WorkSectionProps) {
+/**
+ * An opening title scene, then one full-screen scene per project. Each scene
+ * ends in the next one's color, so the whole showcase plays as one sequence.
+ */
+export function WorkSection({ locale, content, externalLinkLabel, cursorLabel }: WorkSectionProps) {
+  const projects = getProjectViews(locale);
   const labels: ProjectLabels = {
     featured: content.featured,
     visit: content.visit,
     highlights: content.highlights,
     externalLink: externalLinkLabel,
+    cursor: cursorLabel,
   };
+  const introStyle = { "--bg-next": projects[0]?.scene.background ?? "var(--color-bg)" } as CSSProperties;
 
   return (
-    <Section id={sectionIds.work} containerSize="wide" className={styles.section} aria-labelledby="work-title">
-      <Reveal>
-        <SectionHeading id="work-title" index={sectionNumbers.work} eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
-      </Reveal>
-      <div className={styles.showcase}>
-        <ProjectShowcase projects={getProjectViews(locale)} labels={labels} />
-      </div>
-    </Section>
+    <section id={sectionIds.work} className={styles.work} aria-labelledby="work-title">
+      <ScrollScene as="div" length={1.9} lengthSm={1.7} className={styles.intro} stageClassName={styles.introStage} style={introStyle}>
+        <span className={styles.introNext} aria-hidden="true" />
+        <Container size="wide" className={styles.introInner}>
+          <Eyebrow index={sectionNumbers.work}>{content.eyebrow}</Eyebrow>
+          <SplitText as="h2" id="work-title" text={content.title} variant="mask" from={0.02} to={0.3} className={styles.title} />
+          <p className={styles.lead}>{content.lead}</p>
+          <p className={styles.count}>
+            <span className={styles.countValue} dir="ltr">
+              {String(projects.length).padStart(2, "0")}
+            </span>
+            <span>{content.count}</span>
+          </p>
+        </Container>
+      </ScrollScene>
+
+      {projects.map((project) => (
+        <ProjectScene key={project.slug} project={project} total={projects.length} labels={labels} />
+      ))}
+    </section>
   );
 }

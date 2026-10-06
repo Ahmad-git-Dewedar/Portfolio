@@ -1,4 +1,5 @@
 @import "./tokens.css";
+@import "./motion-properties.css";
 
 /* Reset */
 *,
@@ -97,6 +98,15 @@ html {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
+}
+
+/* Reading direction as a number, for direction-aware motion math. */
+:root {
+  --dir: 1;
+}
+
+:root[dir="rtl"] {
+  --dir: -1;
 }
 
 /* Utilities */

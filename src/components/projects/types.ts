@@ -6,4 +6,6 @@ export interface ProjectLabels {
   visit: string;
   highlights: string;
   externalLink: string;
+  /** Contextual cursor label over the visual, e.g. "View project". */
+  cursor: string;
 }

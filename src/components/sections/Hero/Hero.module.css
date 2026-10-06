@@ -1,7 +1,12 @@
+/* `clip`, not `hidden`: a scroll container would break the pinned stage. */
 .hero {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   background: radial-gradient(120% 60% at 50% 0%, var(--color-fill-2), transparent 60%);
+}
+
+.scene {
+  isolation: isolate;
 }
 
 .stage {
@@ -137,13 +142,6 @@
   font-weight: var(--weight-regular);
 }
 
-.tagline {
-  margin-block-start: var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
 
 .lead {
   max-inline-size: 32rem;
@@ -158,38 +156,6 @@
   margin-block-start: var(--space-2);
 }
 
-/* Proof points under the calls to action. */
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-  margin-block-start: var(--space-4);
-  padding-block-start: var(--space-5);
-  border-block-start: 1px solid var(--color-border);
-}
-
-.stat {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: var(--space-1);
-}
-
-.statValue {
-  font-family: var(--font-en);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-  line-height: 1;
-  padding-block-start: 0.1em;
-  background: var(--gradient-accent-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.statLabel {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
 
 /* Mouse-shaped scroll cue, centered at the bottom of the hero. */
 .scrollCue {
@@ -232,6 +198,30 @@
   border-radius: 2px;
   background: currentColor;
   animation: wheel 1.8s var(--ease-in-out) infinite;
+}
+
+/*
+ * Bridge statement. Static layout: a quiet line under the hero.
+ * Cinematic layout: centered over the stage, wiped in as the hero recedes.
+ */
+.statement {
+  margin: 0 auto;
+  padding: var(--space-8) var(--gutter) var(--space-6);
+  max-inline-size: 22ch;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.statementInner {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Reserved space the camera frames the 3D model into. */
@@ -311,5 +301,101 @@
 
   .focus {
     min-block-size: 300px;
+  }
+}
+
+/* ---------- Cinematic scroll choreography (pinned stage, driven by --p) ---------- */
+:global(:root[data-scroll="on"]) .scene {
+  /* Phases: copy leaves, model drifts to center and recedes, statement wipes in. */
+  --leave: clamp(0, calc(var(--p) / 0.42), 1);
+  --leave-e: calc(var(--leave) * var(--leave));
+  --drift: clamp(0, calc((var(--p) - 0.04) / 0.62), 1);
+  --drift-e: calc(1 - (1 - var(--drift)) * (1 - var(--drift)));
+  --fade: clamp(0, calc((var(--p) - 0.5) / 0.32), 1);
+  --wipe: clamp(0, calc((var(--p) - 0.34) / 0.36), 1);
+  --wipe-e: calc(1 - (1 - var(--wipe)) * (1 - var(--wipe)));
+  --rise: clamp(0, calc((var(--p) - 0.82) / 0.18), 1);
+
+  --hero-backdrop-transform: translate3d(calc(var(--dir) * var(--drift-e) * -20vw), calc(var(--drift-e) * 4svh), 0)
+    scale(calc(1 - var(--drift-e) * 0.42));
+  --hero-backdrop-opacity: calc(1 - var(--fade) * 0.88);
+}
+
+:global(:root[data-scroll="on"]) .stage {
+  block-size: 100svh;
+  min-block-size: 0;
+}
+
+:global(:root[data-scroll="on"]) .layout {
+  min-block-size: 100%;
+  block-size: 100%;
+  padding-block-end: var(--space-8);
+}
+
+:global(:root[data-scroll="on"]) .copy {
+  transform: translate3d(0, calc(var(--leave-e) * -16svh), 0) scale(calc(1 - var(--leave) * 0.06));
+  transform-origin: var(--copy-origin, left) center;
+  opacity: calc(1 - var(--leave) * 1.15);
+  filter: blur(calc(var(--leave) * 6px));
+  will-change: transform, opacity;
+}
+
+:global(:root[dir="rtl"][data-scroll="on"]) .copy {
+  --copy-origin: right;
+}
+
+:global(:root[data-scroll="on"]) .statement {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  max-inline-size: none;
+  margin: 0;
+  padding: var(--gutter);
+  font-size: clamp(2.5rem, 1rem + 5.4vw, 7.25rem);
+  pointer-events: none;
+  /* Reading-direction wipe, then a gentle lift as About arrives. */
+  clip-path: inset(0 calc((1 - var(--wipe-e)) * 100%) 0 0);
+  transform: translate3d(0, calc((1 - var(--wipe-e)) * 4svh - var(--rise) * 8svh), 0)
+    scale(calc(0.92 + var(--wipe-e) * 0.08));
+  opacity: calc(var(--wipe) * 1.6 - var(--rise) * 0.6);
+}
+
+:global(:root[dir="rtl"][data-scroll="on"]) .statement {
+  clip-path: inset(0 0 0 calc((1 - var(--wipe-e)) * 100%));
+}
+
+:global(:root[data-scroll="on"]) .statementInner {
+  max-inline-size: 16ch;
+}
+
+:global(:root[data-scroll="on"]) .scrollCue {
+  opacity: calc(1 - var(--p) * 7);
+}
+
+/* Narrow screens: the model fills the space above the copy, which sits low. */
+@media (max-width: 1023px) {
+  :global(:root[data-scroll="on"]) .grid {
+    grid-template-rows: minmax(0, 1fr) auto;
+    align-content: stretch;
+  }
+
+  :global(:root[data-scroll="on"]) .focus {
+    grid-row: 1;
+    min-block-size: 0;
+  }
+
+  :global(:root[data-scroll="on"]) .copy {
+    grid-row: 2;
+    gap: var(--space-4);
+  }
+
+  :global(:root[data-scroll="on"]) .scene {
+    --hero-backdrop-transform: translate3d(0, calc(var(--drift-e) * 10svh), 0) scale(calc(1 - var(--drift-e) * 0.3));
+  }
+
+  :global(:root[data-scroll="on"]) .layout {
+    padding-block: calc(var(--header-height) + var(--space-3)) var(--space-6);
   }
 }

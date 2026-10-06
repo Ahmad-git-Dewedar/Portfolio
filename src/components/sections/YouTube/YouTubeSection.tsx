@@ -9,10 +9,11 @@ interface YouTubeSectionProps {
   name: string;
   content: Dictionary["youtube"];
   externalLinkLabel: string;
+  cursorLabel: string;
 }
 
 /** Channel spotlight: pitch and subscribe on one side, a player-style card on the other. */
-export function YouTubeSection({ name, content, externalLinkLabel }: YouTubeSectionProps) {
+export function YouTubeSection({ name, content, externalLinkLabel, cursorLabel }: YouTubeSectionProps) {
   return (
     <Section id={sectionIds.youtube} containerSize="wide" aria-labelledby="youtube-title">
       <div className={styles.panel} data-spotlight>
@@ -41,6 +42,7 @@ export function YouTubeSection({ name, content, externalLinkLabel }: YouTubeSect
             target="_blank"
             rel="noopener noreferrer"
             className={styles.player}
+            data-cursor={cursorLabel}
             aria-label={`${content.playerLabel} ${youtubeChannel.handle} (${externalLinkLabel})`}
           >
             <span className={styles.screen} aria-hidden="true">
