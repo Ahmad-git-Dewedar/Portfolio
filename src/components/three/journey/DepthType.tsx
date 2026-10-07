@@ -17,8 +17,8 @@ interface DepthTypeProps {
   direction: "ltr" | "rtl";
 }
 
-/** Depth of each line: the first passes behind the model, the next ones in front, so it occludes without hiding a whole word. */
-const LINE_DEPTHS = [-1.7, 1.3, 1.3, -1.7];
+/** Depth of each line: alternating back and front, for parallax as the camera moves. */
+const LINE_DEPTHS = [-1.7, 1.3, -1.7, 1.3];
 /** Line height on screen, as a fraction of the frame height. */
 const LINE_SIZE = { wide: 0.12, narrow: 0.07 };
 /** Characters per line before wrapping. */
@@ -34,8 +34,8 @@ interface Line {
 
 /**
  * The bridge statement as real 3D type: each line is a plane at its own depth,
- * so the model genuinely passes between them, hidden by the front line and
- * covering the back ones, with true parallax as the camera dollies and orbits.
+ * with true parallax as the camera dollies and orbits. The model leaves the
+ * frame for this beat (see keyframes.ts), so the type plays on its own.
  * Lines drift in opposite directions with the scroll; opacity follows the
  * journey. The readable HTML statement stays in the page for assistive tech.
  */

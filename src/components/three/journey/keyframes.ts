@@ -33,23 +33,33 @@ type Partial3 = Omit<Keyframe, "dolly" | "orbit" | "type" | "rz"> & Partial<Pick
 
 const frame = (k: Partial3): Keyframe => ({ dolly: 1, orbit: 0, type: 0, rz: 0, ...k });
 
-/** Landscape screens: the model opens on the right, crosses through the typography, settles left of About, then rises away. */
+/*
+ * The model leaves the frame for the statement, so the type plays alone, and
+ * comes back for About once the type has faded. Off-screen it travels around
+ * the frame (never across it), so easing can never sweep it through the type.
+ */
+
+/** Landscape screens: the model opens on the right, exits right for the statement, rises from below to the left of About, then lifts away. */
 export const wideJourney: readonly Keyframe[] = [
   frame({ at: 0, x: 0.46, y: -0.02, size: 0.44, rx: 0.06, ry: -0.42, phase: 0 }),
-  frame({ at: 0.9, x: 0.2, y: 0.02, size: 0.4, rx: 0.1, ry: 0.1, dolly: 0.97, orbit: 0.06, phase: 0.18 }),
-  frame({ at: 1.65, x: 0, y: 0, size: 0.34, rx: 0.14, ry: 0.62, rz: -0.03, dolly: 0.86, orbit: 0.12, type: 1, phase: 0.36 }),
-  frame({ at: 2.3, x: -0.1, y: 0.02, size: 0.33, rx: 0.12, ry: 0.52, dolly: 0.88, orbit: 0.08, type: 1, phase: 0.5 }),
+  frame({ at: 0.7, x: 0.56, y: -0.04, size: 0.42, rx: 0.08, ry: -0.2, orbit: 0.03, phase: 0.14 }),
+  frame({ at: 1.3, x: 1.65, y: -0.2, size: 0.38, rx: 0.12, ry: 0.35, dolly: 0.92, orbit: 0.08, type: 0.6, phase: 0.28 }),
+  frame({ at: 1.65, x: 1.75, y: -1.8, size: 0.34, rx: 0.12, ry: 0.5, dolly: 0.88, orbit: 0.1, type: 1, phase: 0.36 }),
+  frame({ at: 2.3, x: -0.5, y: -1.8, size: 0.34, rx: 0.1, ry: 0.6, dolly: 0.9, orbit: 0.06, type: 1, phase: 0.5 }),
+  frame({ at: 2.55, x: -0.49, y: -1.05, size: 0.34, rx: 0.08, ry: 0.52, dolly: 0.95, orbit: 0.03, phase: 0.57 }),
   frame({ at: 2.9, x: -0.47, y: -0.02, size: 0.34, rx: 0.06, ry: 0.44, phase: 0.64 }),
   frame({ at: 3.8, x: -0.49, y: 0.03, size: 0.32, rx: 0.04, ry: 0.16, phase: 0.86 }),
   frame({ at: 4.4, x: -0.42, y: 1.25, size: 0.26, rx: -0.1, ry: -0.18, phase: 1 }),
 ];
 
-/** Portrait screens: the model leads from the top, passes between the lines of type, then rises away above About. */
+/** Portrait screens: the model leads from the top, rises away for the statement, comes back down into its place above About, then lifts away. */
 export const narrowJourney: readonly Keyframe[] = [
   frame({ at: 0, x: 0, y: 0.42, size: 0.82, rx: 0.06, ry: -0.3, phase: 0 }),
-  frame({ at: 0.9, x: 0, y: 0.26, size: 0.78, rx: 0.1, ry: 0.06, dolly: 0.97, phase: 0.18 }),
-  frame({ at: 1.65, x: 0, y: 0.02, size: 0.68, rx: 0.14, ry: 0.55, rz: -0.03, dolly: 0.9, type: 1, phase: 0.36 }),
-  frame({ at: 2.3, x: 0, y: 0.06, size: 0.66, rx: 0.12, ry: 0.45, dolly: 0.9, type: 1, phase: 0.5 }),
+  frame({ at: 0.7, x: 0, y: 0.5, size: 0.8, rx: 0.08, ry: -0.1, phase: 0.14 }),
+  frame({ at: 1.3, x: 0, y: 1.75, size: 0.74, rx: 0.12, ry: 0.3, dolly: 0.94, type: 0.6, phase: 0.28 }),
+  frame({ at: 1.65, x: 0, y: 1.75, size: 0.7, rx: 0.12, ry: 0.45, dolly: 0.9, type: 1, phase: 0.36 }),
+  frame({ at: 2.3, x: 0, y: 1.75, size: 0.66, rx: 0.1, ry: 0.4, dolly: 0.9, type: 1, phase: 0.5 }),
+  frame({ at: 2.55, x: 0, y: 1.45, size: 0.63, rx: 0.08, ry: 0.36, dolly: 0.95, phase: 0.57 }),
   frame({ at: 2.9, x: 0, y: 0.56, size: 0.6, rx: 0.06, ry: 0.32, phase: 0.64 }),
   frame({ at: 3.8, x: 0, y: 0.58, size: 0.58, rx: 0.04, ry: 0.12, phase: 0.86 }),
   frame({ at: 4.4, x: 0, y: 1.6, size: 0.5, rx: -0.1, ry: -0.18, phase: 1 }),

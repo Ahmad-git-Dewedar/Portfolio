@@ -97,8 +97,8 @@ components/three/
 ```
 
 - **Scroll is the timeline**: nothing moves on a timer. Scroll distance through the journey picks a pose between keyframes (smoothstep), and also drives the part choreography (`LoopClock` phase), so scrolling back plays everything in reverse. Edit `keyframes.ts` to restage the scene.
-- **Layout**: on load the model sits on the far side of the hero copy (mirrored in Arabic), moves to the center while the statement wraps around it, then shifts aside for About and lifts away. Portrait screens use their own keyframes (model above the text).
-- **Real depth**: the statement is drawn as text planes in the scene. The first line sits behind the model and the next lines in front of it, so the model occludes and passes through the type. The HTML copy stays in the page for screen readers and for the no-WebGL fallback.
+- **Layout**: on load the model sits on the far side of the hero copy (mirrored in Arabic), slides out of frame so the statement plays on its own, rises back in beside About and finally lifts away. Portrait screens use their own keyframes (the model leaves upward and returns above the text). Off-screen, the model travels around the frame, never across it.
+- **Real depth**: the statement is drawn as text planes at alternating depths in the scene, so its lines separate with true parallax as the camera dollies and orbits. The HTML copy stays in the page for screen readers and for the no-WebGL fallback.
 - **Interaction**: mouse and pen add a small tilt and camera parallax (damped). Touch only scrolls.
 - **Performance**: renders on demand (only while scroll or pointer is moving), pauses offscreen, fits a per-tier pixel budget and drops a tier when the frame rate does (`PerformanceGovernor`); lighting is baked once from emissive panels and shadows are textured quads.
 - **Fallbacks**: without WebGL a CSS poster stands in and the statement shows as page text; with reduced motion the scene holds a still pose and the sections are a static layout.
