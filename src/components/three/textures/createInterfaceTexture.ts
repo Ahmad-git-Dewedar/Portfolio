@@ -38,7 +38,7 @@ export function createInterfaceTexture(width = 1600): CanvasTexture {
     ctx.fillRect(0, 0, width, height);
   };
   glow(720, 120, 520, "rgba(41,151,255,0.45)");
-  glow(160, 600, 460, "rgba(139,108,255,0.28)");
+  glow(160, 600, 460, "rgba(148,163,184,0.12)");
 
   // Window chrome
   ["#ff5f57", "#febc2e", "#28c840"].forEach((color, i) => {

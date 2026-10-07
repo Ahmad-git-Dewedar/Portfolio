@@ -1,13 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Icon } from "@/components/ui";
 import { useTheme } from "@/hooks/useTheme";
-import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
+import { DEFAULT_THEME, THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 import styles from "./ThemeToggle.module.css";
 
 interface ThemeToggleProps {
   labels: { toLight: string; toDark: string };
+}
+
+function readStoredTheme(): Theme {
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    return stored === "light" || stored === "dark" ? stored : DEFAULT_THEME;
+  } catch {
+    return DEFAULT_THEME;
+  }
 }
 
 function applyTheme(theme: Theme) {
@@ -16,25 +25,18 @@ function applyTheme(theme: Theme) {
 }
 
 /**
- * Sun/moon switch. The initial theme is set by the inline head script; this
- * component only reads it, toggles it, remembers the choice, and keeps
- * following the OS setting until the visitor picks a theme explicitly.
+ * Sun/moon switch. The initial theme (dark unless the visitor chose light) is
+ * set by the inline head script; this component reads it, toggles it and
+ * remembers the choice.
  */
 export function ThemeToggle({ labels }: ThemeToggleProps) {
   const theme = useTheme();
 
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: light)");
-    const onChange = () => {
-      try {
-        if (localStorage.getItem(THEME_STORAGE_KEY)) return;
-      } catch {
-        // Storage unavailable: still follow the OS.
-      }
-      applyTheme(media.matches ? "light" : "dark");
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
+  // Switching language remounts the root layout, which resets <html> to the
+  // default theme; restore the stored choice in the same commit, before paint.
+  useLayoutEffect(() => {
+    const stored = readStoredTheme();
+    if (document.documentElement.dataset.theme !== stored) applyTheme(stored);
   }, []);
 
   const toggle = () => {

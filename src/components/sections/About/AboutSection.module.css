@@ -1,8 +1,4 @@
-.about {
-  position: relative;
-}
-
-/* ---------- Reading scene ---------- */
+/* ---------- Reading scene (text on the reading-end side; the model holds the other) ---------- */
 .scene {
   display: grid;
   align-items: center;
@@ -10,10 +6,14 @@
 }
 
 .sceneInner {
-  position: relative;
-  z-index: 1;
   display: grid;
-  gap: var(--space-7);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.text {
+  grid-column: 2;
+  display: grid;
+  gap: var(--space-6);
 }
 
 .kicker {
@@ -23,86 +23,56 @@
   gap: var(--space-3);
 }
 
+/* Sized against both width and height so the pinned scene never cuts it off. */
 .statement {
-  max-inline-size: 22ch;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 0.9rem + 4.2vw, 5.4rem);
+  font-size: clamp(1.75rem, min(0.6rem + 3vw, 6svh), 4.25rem);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-display);
-  line-height: 1.08;
+  line-height: 1.16;
 }
 
 :lang(ar) .statement {
-  line-height: 1.4;
-}
-
-.glow {
-  display: none;
-}
-
-.watermark {
-  display: none;
+  line-height: 1.5;
 }
 
 :global(:root[data-scroll="on"]) .scene {
-  --drift: calc(var(--p) * 2 - 1);
-
   padding-block: calc(var(--header-height) + var(--space-5)) var(--space-6);
 }
 
-/* Soft light that sweeps behind the words and shifts from blue to violet. */
-:global(:root[data-scroll="on"]) .glow {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
-  display: block;
-  inline-size: 70vmax;
-  block-size: 70vmax;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(var(--rgb-accent) / calc(0.22 - var(--p) * 0.12)),
-    rgb(var(--rgb-accent-alt) / calc(0.04 + var(--p) * 0.14)) 55%,
-    transparent
-  );
-  transform: translate3d(calc(-50% + var(--drift) * 22vw), calc(-50% - var(--drift) * 10svh), 0)
-    scale(calc(0.8 + var(--p) * 0.4));
-  pointer-events: none;
-}
-
-:global(:root[dir="rtl"][data-scroll="on"]) .glow {
-  transform: translate3d(calc(50% - var(--drift) * 22vw), calc(-50% - var(--drift) * 10svh), 0)
-    scale(calc(0.8 + var(--p) * 0.4));
-}
-
-/* Giant name drifting against the reading direction for depth. */
-:global(:root[data-scroll="on"]) .watermark {
-  position: absolute;
-  inset-block-end: -0.12em;
-  inset-inline-start: 0;
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(6rem, 18vw, 22rem);
-  font-weight: var(--weight-heavy);
-  line-height: 1;
-  letter-spacing: var(--tracking-display);
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(var(--rgb-contrast) / 0.08);
-  transform: translate3d(calc(var(--dir) * (8vw - var(--p) * 40vw)), 0, 0);
-  pointer-events: none;
-  user-select: none;
-}
-
 :global(:root[data-scroll="on"]) .kicker {
-  opacity: calc(1 - clamp(0, calc((var(--p) - 0.78) / 0.2), 1));
+  opacity: calc(1 - clamp(0, calc((var(--p) - 0.8) / 0.18), 1));
 }
 
 :global(:root[data-scroll="on"]) .statement {
-  transform: translate3d(0, calc((0.5 - var(--p)) * 8svh), 0);
+  transform: translate3d(0, calc((0.5 - var(--p)) * 6svh), 0);
+}
+
+/* Portrait: the model sits above, the text below. */
+@media (max-aspect-ratio: 9 / 10) {
+  .sceneInner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .text {
+    grid-column: 1;
+  }
+
+  :global(:root[data-scroll="on"]) .scene {
+    align-items: end;
+    padding-block: calc(var(--header-height) + 34svh) var(--space-6);
+  }
+
+  .statement {
+    font-size: clamp(1.5rem, min(6.4vw, 4.4svh), 3rem);
+  }
 }
 
 /* ---------- Details below the scene ---------- */
+.detailsWrap {
+  position: relative;
+}
+
 .details {
   display: grid;
   gap: var(--space-heading);
@@ -144,6 +114,8 @@
   background: var(--gradient-accent-text);
   -webkit-background-clip: text;
   background-clip: text;
+  /* Room for descenders and diacritics, which text clipping would otherwise cut. */
+  padding-block-end: 0.14em;
   color: transparent;
 }
 
@@ -181,6 +153,8 @@
   background: var(--gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
+  /* Room for descenders and diacritics, which text clipping would otherwise cut. */
+  padding-block-end: 0.14em;
   color: transparent;
 }
 

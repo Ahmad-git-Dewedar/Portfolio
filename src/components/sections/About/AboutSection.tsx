@@ -16,17 +16,46 @@ const principleIcons: Record<PrincipleKey, IconName> = {
   performance: "zap",
 };
 
-interface AboutSectionProps {
-  name: string;
+interface AboutSceneProps {
+  content: Dictionary["about"];
+}
+
+/**
+ * The reading scene that closes the opening journey: the statement lights up
+ * word by word on the reading-end side while the 3D model, in the journey
+ * layer behind, settles on the other side.
+ */
+export function AboutScene({ content }: AboutSceneProps) {
+  return (
+    <ScrollScene
+      id={sectionIds.about}
+      length={2.6}
+      lengthSm={2.4}
+      stageClassName={styles.scene}
+      aria-labelledby="about-title"
+    >
+      <Container size="wide" className={styles.sceneInner}>
+        <div className={styles.text}>
+          <div className={styles.kicker}>
+            <Eyebrow index={sectionNumbers.about}>{content.eyebrow}</Eyebrow>
+            <h2 id="about-title" className={styles.title}>
+              {content.title}
+            </h2>
+          </div>
+          <SplitText text={content.statement} from={0.06} to={0.72} className={styles.statement} />
+        </div>
+      </Container>
+    </ScrollScene>
+  );
+}
+
+interface AboutDetailsProps {
   content: Dictionary["about"];
   stats: Dictionary["hero"]["stats"];
 }
 
-/**
- * A pinned reading scene (the statement lights up word by word over a drifting
- * glow and a giant watermark), followed by the story, proof points and principles.
- */
-export function AboutSection({ name, content, stats }: AboutSectionProps) {
+/** The story, proof points and principles that follow the reading scene. */
+export function AboutDetails({ content, stats }: AboutDetailsProps) {
   const principles = Object.entries(content.principles) as [PrincipleKey, { title: string; text: string }][];
   // Values are language-neutral; labels come from the dictionary.
   const figures = [
@@ -36,23 +65,7 @@ export function AboutSection({ name, content, stats }: AboutSectionProps) {
   ];
 
   return (
-    <section id={sectionIds.about} className={styles.about} aria-labelledby="about-title">
-      <ScrollScene as="div" length={2.6} lengthSm={2.3} stageClassName={styles.scene}>
-        <div className={styles.glow} aria-hidden="true" />
-        <p className={styles.watermark} aria-hidden="true">
-          {name}
-        </p>
-        <Container size="wide" className={styles.sceneInner}>
-          <div className={styles.kicker}>
-            <Eyebrow index={sectionNumbers.about}>{content.eyebrow}</Eyebrow>
-            <h2 id="about-title" className={styles.title}>
-              {content.title}
-            </h2>
-          </div>
-          <SplitText text={content.statement} from={0.08} to={0.78} className={styles.statement} />
-        </Container>
-      </ScrollScene>
-
+    <div className={styles.detailsWrap}>
       <Container size="wide" className={styles.details}>
         <div className={styles.story}>
           <Reveal className={styles.storyAside}>
@@ -96,6 +109,6 @@ export function AboutSection({ name, content, stats }: AboutSectionProps) {
           ))}
         </ul>
       </Container>
-    </section>
+    </div>
   );
 }

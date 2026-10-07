@@ -19,21 +19,21 @@
 .fieldA {
   inset-block-start: -30vmax;
   inset-inline-start: -15vmax;
-  background: radial-gradient(closest-side, rgb(var(--rgb-accent) / 0.16), transparent);
+  background: radial-gradient(closest-side, rgb(var(--rgb-contrast) / 0.045), transparent);
   animation: drift-a 38s var(--ease-in-out) infinite alternate;
 }
 
 .fieldB {
   inset-block-start: 30vh;
   inset-inline-end: -25vmax;
-  background: radial-gradient(closest-side, rgb(var(--rgb-accent-alt) / 0.12), transparent);
+  background: radial-gradient(closest-side, rgb(var(--rgb-contrast) / 0.035), transparent);
   animation: drift-b 46s var(--ease-in-out) infinite alternate;
 }
 
 .fieldC {
   inset-block-end: -35vmax;
   inset-inline-start: 20vw;
-  background: radial-gradient(closest-side, rgb(var(--rgb-teal) / 0.08), transparent);
+  background: radial-gradient(closest-side, rgb(var(--rgb-contrast) / 0.025), transparent);
   animation: drift-c 52s var(--ease-in-out) infinite alternate;
 }
 

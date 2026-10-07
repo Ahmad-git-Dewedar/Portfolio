@@ -46,8 +46,8 @@ export function InterfaceSculpture({ floorY, shadowStrength = 1 }: InterfaceScul
 
   return (
     <>
-      <BackGlow color={sceneTheme.accent} position={[0.2, 0.3, -1.2]} scale={[9, 6]} intensity={0.5} />
-      <FloorGlow color={sceneTheme.accent} floorY={floorY} />
+      <BackGlow color={sceneTheme.halo} position={[0.2, 0.3, -1.2]} scale={[9, 6]} intensity={0.2} />
+      <FloorGlow color={sceneTheme.halo} floorY={floorY} intensity={0.14} />
       <Dust color={sceneTheme.accentSoft} />
 
       <group ref={sway}>

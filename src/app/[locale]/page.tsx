@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import { TechMarquee } from "@/components/decor";
 import {
-  AboutSection,
+  AboutDetails,
+  AboutScene,
+  Bridge,
   ContactSection,
   FaqSection,
   Hero,
+  Journey,
   RoadmapSection,
   SkillsSection,
   WorkSection,
@@ -21,13 +24,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   return (
     <>
-      <Hero
-        person={dict.person}
-        content={dict.hero}
-        modelLabel={dict.a11y.heroModel}
-        direction={getDirection(locale)}
-      />
-      <AboutSection name={dict.person.name} content={dict.about} stats={dict.hero.stats} />
+      <Journey label={dict.a11y.heroModel} direction={getDirection(locale)} typeText={dict.hero.title}>
+        <Hero person={dict.person} content={dict.hero} />
+        <Bridge text={dict.hero.title} />
+        <AboutScene content={dict.about} />
+      </Journey>
+      <AboutDetails content={dict.about} stats={dict.hero.stats} />
       <WorkSection
         locale={locale}
         content={dict.work}

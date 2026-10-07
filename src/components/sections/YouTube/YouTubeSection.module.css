@@ -37,6 +37,8 @@
   background: var(--gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
+  /* Room for descenders and diacritics, which text clipping would otherwise cut. */
+  padding-block-end: 0.14em;
   color: transparent;
 }
 
@@ -186,7 +188,7 @@
   inline-size: 42px;
   block-size: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2997ff, #8b6cff);
+  background: linear-gradient(135deg, #2997ff, #1c3d66);
   font-family: var(--font-en);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);

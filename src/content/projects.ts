@@ -14,9 +14,9 @@ export interface ProjectImage {
  * - zoom: the visual grows from a small tilted card, then the camera zooms through it.
  * - slit: a narrow vertical slit opens to full frame; exits into giant typography.
  * - rise: the visual stands up from a 3D tilt; exits behind a sweeping light.
- * - light: a bright scene; the visual rises through a mask; exits to the page.
+ * - lift: the visual rises through a mask; the whole shot lifts away into the page.
  */
-export type SceneVariant = "zoom" | "slit" | "rise" | "light";
+export type SceneVariant = "zoom" | "slit" | "rise" | "lift";
 
 export interface ProjectScene {
   variant: SceneVariant;
@@ -80,7 +80,7 @@ export const projects: readonly Project[] = [
     },
     accent: "#ffc72c",
     featured: true,
-    scene: { variant: "zoom", background: "#0b1328", tone: "dark" },
+    scene: { variant: "zoom", background: "#06080d", tone: "dark" },
   },
   {
     slug: "iphone-17-pro-max",
@@ -106,7 +106,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#ff7a1a",
-    scene: { variant: "slit", background: "#0d0704", tone: "dark" },
+    scene: { variant: "slit", background: "#0a0706", tone: "dark" },
   },
   {
     slug: "ps5-3d",
@@ -132,7 +132,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#2f6bff",
-    scene: { variant: "rise", background: "#050a1c", tone: "dark" },
+    scene: { variant: "rise", background: "#05060a", tone: "dark" },
   },
   {
     slug: "mizan",
@@ -158,7 +158,7 @@ export const projects: readonly Project[] = [
       },
     },
     accent: "#3ddc97",
-    scene: { variant: "light", background: "#eaf7ef", tone: "light" },
+    scene: { variant: "lift", background: "#050807", tone: "dark" },
   },
 ];
 

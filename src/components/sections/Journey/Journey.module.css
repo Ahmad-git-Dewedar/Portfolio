@@ -1,0 +1,10 @@
+.journey {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Sections ride above the pinned 3D layer (the first child). */
+.journey > :not(:first-child) {
+  position: relative;
+  z-index: 1;
+}

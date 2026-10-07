@@ -15,7 +15,7 @@
   background: var(--bg);
 }
 
-/* Bright scene: dark ink and deeper accents. */
+/* Bright-toned scene (tone: "light"): dark ink and deeper accents. */
 .light {
   --ink: #0d2a1d;
   --ink-muted: #2f5444;
@@ -224,21 +224,25 @@
   opacity: var(--out-bg);
 }
 
-/* Giant outlined title behind the visual; drifts against the scroll for depth. */
+/*
+ * Giant outlined title behind the visual. Sized from its character count so it
+ * always fits inside the screen, and drifts only gently, so it is never cut.
+ */
 :global(:root[data-scroll="on"]) .ghost {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: 0;
+  inset-inline: 0;
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(5rem, 15vw, 17rem);
+  font-size: min(15vw, calc(140vw / var(--chars)), 17rem);
   font-weight: var(--weight-heavy);
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: var(--tracking-display);
+  text-align: center;
   white-space: nowrap;
   color: transparent;
   -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 55%, transparent);
-  transform: translate3d(calc(var(--dir) * (12vw - var(--p) * 30vw)), -50%, 0);
+  transform: translate3d(calc(var(--dir) * (3vw - var(--p) * 6vw)), -50%, 0);
   opacity: calc(1 - var(--in) * 0.65);
   pointer-events: none;
   user-select: none;
@@ -292,7 +296,8 @@
       color-mix(in srgb, var(--bg) 38%, transparent) 100%
     ),
     linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent), transparent 35%);
-  opacity: calc(var(--info) * (1 - var(--out)));
+  /* Leads the details in, so even a bright cover is dimmed before text lands on it. */
+  opacity: calc(min(1, var(--info) * 2.2) * (1 - var(--out)));
   pointer-events: none;
 }
 
@@ -384,7 +389,7 @@
 
 :global(:root[data-scroll="on"]) .slit .ghost {
   color: color-mix(in srgb, var(--accent) calc(var(--out) * 100%), transparent);
-  transform: translate3d(calc(var(--dir) * (12vw - var(--p) * 30vw)), -50%, 0) scale(calc(1 + var(--out-e) * 0.5));
+  transform: translate3d(calc(var(--dir) * (3vw - var(--p) * 6vw)), -50%, 0) scale(calc(1 + var(--out-e) * 0.08));
   opacity: calc(1 - var(--in) + var(--out) * 1.6 - var(--out-bg-fade, 0));
   z-index: 2;
 }
@@ -424,16 +429,17 @@
   inset-inline-end: -60%;
 }
 
-/* ---------- Variant: light (Mizan) ----------
- * A bright scene: the visual rises through the floor of the frame, then the
- * whole composition lifts away into the page. */
-:global(:root[data-scroll="on"]) .light {
+/* ---------- Variant: lift (Mizan) ----------
+ * The visual rises through the floor of the frame, then the whole
+ * composition lifts away into the page. */
+:global(:root[data-scroll="on"]) .lift {
   --from-scale: 0.84;
   --from-y: 46svh;
   --clip-y: 10%;
   --media-opacity: calc(1 - var(--out-e));
 }
 
+/* Bright-toned scenes: shadows and outlines in the dark ink. */
 :global(:root[data-scroll="on"]) .light .mediaFrame {
   box-shadow: 0 60px 120px -50px rgb(13 42 29 / 0.45);
 }
@@ -451,7 +457,7 @@
 
   :global(:root[data-scroll="on"]) .ghost {
     inset-block-start: calc(var(--header-height) + 3svh + 31vw);
-    font-size: 26vw;
+    font-size: min(26vw, calc(140vw / var(--chars)));
   }
 
   :global(:root[data-scroll="on"]) .side {
@@ -479,10 +485,6 @@
   }
 
   :global(:root[data-scroll="on"]) .summary {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
     font-size: var(--text-base);
   }
 
@@ -492,10 +494,31 @@
 }
 
 @media (max-width: 1023px) and (max-height: 720px) {
-  :global(:root[data-scroll="on"]) .summary {
-    -webkit-line-clamp: 2;
+  :global(:root[data-scroll="on"]) .media {
+    aspect-ratio: 16 / 8;
   }
 
+  :global(:root[data-scroll="on"]) .tags {
+    display: none;
+  }
+}
+
+/* Short landscape screens (laptops): keep every line inside the pinned frame. */
+@media (min-width: 1024px) and (max-height: 860px) {
+  :global(:root[data-scroll="on"]) .title {
+    font-size: clamp(2.25rem, min(1rem + 4.2vw, 9svh), 5.75rem);
+  }
+
+  :global(:root[data-scroll="on"]) .highlights {
+    display: none;
+  }
+
+  :global(:root[data-scroll="on"]) .info {
+    gap: var(--space-3);
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 640px) {
   :global(:root[data-scroll="on"]) .tags {
     display: none;
   }

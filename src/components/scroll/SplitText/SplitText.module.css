@@ -17,19 +17,16 @@
   transition: none;
 }
 
-/* Words rise out of a clipped line, staggered. */
-.mask .word {
-  overflow: clip;
-  overflow-clip-margin: 0.12em;
-  vertical-align: top;
-  padding-block-end: 0.08em;
-}
-
+/*
+ * Words rise into place, staggered. Nothing is clipped: each word fades and
+ * sharpens as it settles, so glyphs are never cut at any point of the motion.
+ */
 :global(:root[data-scroll="on"]) .mask {
   --w: clamp(0, calc((var(--p) - var(--from)) / var(--span) * (var(--n) + 2) - var(--i)), 1);
 }
 
 :global(:root[data-scroll="on"]) .mask .inner {
-  translate: 0 calc((1 - var(--w)) * 110%);
-  rotate: calc((1 - var(--w)) * 4deg);
+  opacity: var(--w);
+  filter: blur(calc((1 - var(--w)) * 6px));
+  translate: 0 calc((1 - var(--w)) * 0.45em);
 }

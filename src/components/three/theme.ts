@@ -1,8 +1,10 @@
 /** Scene palette, mirrored from the CSS design tokens so 2D and 3D stay in sync. */
 export const sceneTheme = {
   accent: "#2997ff",
-  accentAlt: "#8b6cff",
+  accentAlt: "#94a3b8",
   accentSoft: "#9fd0ff",
+  /** Neutral graphite light for halos and floor pools: the stage stays black, not tinted. */
+  halo: "#8f959e",
   success: "#30d158",
   aluminium: "#2b2b2f",
   glassTint: "#dcebff",

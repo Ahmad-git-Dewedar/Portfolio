@@ -167,6 +167,9 @@
 :global(:root[data-scroll="on"]) .viewport {
   max-inline-size: none;
   overflow: visible;
+  /* Cards fade in and out at the screen edges instead of looking cut off. */
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 
 :global(:root[data-scroll="on"]) .track {
@@ -197,6 +200,21 @@
 
   opacity: var(--t);
   transform: translate3d(0, calc((1 - var(--t)) * 14px), 0) scale(calc(0.85 + 0.15 * var(--t)));
+}
+
+/* Short laptop screens: a tighter header so the pinned frame holds everything. */
+@media (min-width: 761px) and (max-height: 760px) {
+  :global(:root[data-scroll="on"]) .stage {
+    gap: var(--space-5);
+  }
+
+  :global(:root[data-scroll="on"]) .header p:last-child {
+    display: none;
+  }
+
+  :global(:root[data-scroll="on"]) .card {
+    min-block-size: min(360px, 46svh);
+  }
 }
 
 @media (max-width: 760px) {

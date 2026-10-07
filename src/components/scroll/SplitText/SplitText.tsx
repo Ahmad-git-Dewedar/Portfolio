@@ -7,7 +7,7 @@ interface SplitTextProps {
   as?: "p" | "h2" | "h3" | "span";
   /**
    * highlight: words brighten one by one as `--p` advances (scrubbed reading).
-   * mask: words slide up out of a clipping line.
+   * mask: words rise into place, fading and sharpening (never clipped).
    */
   variant?: "highlight" | "mask";
   /** Portion of the scene's `--p` the reveal spans. */

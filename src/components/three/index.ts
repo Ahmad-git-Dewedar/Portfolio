@@ -1,1 +1,1 @@
-export { HeroFocusArea, HeroStage } from "./HeroStage";
+export { JourneyStage } from "./journey";

@@ -1,0 +1,29 @@
+/*
+ * Static layout (reduced motion, no JavaScript): the layer covers the hero only.
+ * Cinematic layout: it sticks to the viewport for the journey's full length and
+ * takes no space (negative margin), so the sections scroll over it.
+ */
+.layer {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 0;
+  block-size: 100svh;
+  pointer-events: none;
+}
+
+:global(:root[data-scroll="on"]) .layer {
+  position: sticky;
+  margin-block-end: -100svh;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out) 150ms;
+}
+
+.canvasVisible {
+  opacity: 1;
+}

@@ -1,1 +1,1 @@
-export { AboutSection } from "./AboutSection";
+export { AboutDetails, AboutScene } from "./AboutSection";

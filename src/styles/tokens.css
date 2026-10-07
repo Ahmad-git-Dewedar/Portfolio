@@ -9,13 +9,13 @@
   --rgb-contrast: 255 255 255;
   --rgb-bg: 0 0 0;
   --rgb-accent: 41 151 255;
-  --rgb-accent-alt: 139 108 255;
+  /* Secondary tone: a cool steel gray (the palette is black, graphite and one blue). */
+  --rgb-accent-alt: 148 163 184;
   --rgb-success: 48 209 88;
-  --rgb-teal: 45 212 191;
 
   /* Color: surfaces */
   --color-bg: #000000;
-  --color-bg-raised: #0a0a0b;
+  --color-bg-raised: #070708;
   --color-surface: #131315;
   --color-surface-strong: #1c1c1e;
   --color-surface-glass: rgb(18 18 20 / 0.72);
@@ -48,11 +48,11 @@
   --color-well: rgb(0 0 0 / 0.25);
 
   /* Gradients */
-  --gradient-hero-glow: radial-gradient(60% 50% at 50% 40%, rgb(var(--rgb-accent) / 0.18), transparent 70%);
+  --gradient-hero-glow: radial-gradient(60% 50% at 50% 40%, rgb(var(--rgb-contrast) / 0.06), transparent 70%);
   --gradient-text: linear-gradient(180deg, #ffffff 0%, #e8e8ed 45%, #a1a1a6 100%);
   /* Display text with a travelling highlight band (animate background-position). */
-  --gradient-text-shimmer: linear-gradient(100deg, #d2d2d7 0%, #ffffff 20%, #b8c9ff 28%, #ffffff 36%, #c7c7cc 60%, #a1a1a6 100%);
-  --gradient-accent-text: linear-gradient(90deg, #2997ff 0%, #6ea8ff 55%, #a58bff 100%);
+  --gradient-text-shimmer: linear-gradient(100deg, #d2d2d7 0%, #ffffff 20%, #dbe7f5 28%, #ffffff 36%, #c7c7cc 60%, #a1a1a6 100%);
+  --gradient-accent-text: linear-gradient(90deg, #2997ff 0%, #6cb6ff 55%, #c8d6e5 100%);
   --gradient-hairline: linear-gradient(90deg, transparent, rgb(var(--rgb-contrast) / 0.16) 30%, rgb(var(--rgb-accent) / 0.35) 50%, rgb(var(--rgb-contrast) / 0.16) 70%, transparent);
 
   /* Surfaces: brushed metal (icon tiles, frames) and glass cards */
@@ -185,7 +185,7 @@
 
   --gradient-text: linear-gradient(180deg, #1d1d1f 0%, #2c2c30 50%, #55555b 100%);
   --gradient-text-shimmer: linear-gradient(100deg, #3a3a3c 0%, #1d1d1f 20%, #2f5fd0 28%, #1d1d1f 36%, #3a3a3c 60%, #55555b 100%);
-  --gradient-accent-text: linear-gradient(90deg, #0062cc 0%, #3a5bd9 55%, #6b46d6 100%);
+  --gradient-accent-text: linear-gradient(90deg, #0062cc 0%, #1d5fa8 55%, #3b4a5c 100%);
   --surface-metal: linear-gradient(150deg, #ffffff 0%, #f1f1f4 55%, #e4e4e9 100%);
   --surface-card: linear-gradient(180deg, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.7));
 

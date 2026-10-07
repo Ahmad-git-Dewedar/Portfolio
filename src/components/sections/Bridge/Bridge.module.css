@@ -1,0 +1,46 @@
+.bridge {
+  --p: 0.5;
+
+  padding: var(--space-9) var(--gutter);
+}
+
+.statement {
+  max-inline-size: 18ch;
+  margin-inline: auto;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, min(1rem + 5vw, 10svh), 6.5rem);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.12;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-text);
+}
+
+:lang(ar) .statement {
+  line-height: 1.4;
+}
+
+/* Cinematic: a long beat for the 3D type; without 3D the line holds centered and fades. */
+:global(:root[data-scroll="on"]) .bridge {
+  block-size: 175svh;
+  padding: 0 var(--gutter);
+}
+
+:global(:root[data-scroll="on"]) .statement {
+  position: sticky;
+  inset-block-start: 38svh;
+  opacity: calc(1 - max(var(--p) - 0.5, 0.5 - var(--p)) * 3.2);
+  transform: translate3d(0, calc((0.5 - var(--p)) * 10svh), 0);
+}
+
+/* The 3D scene draws the statement; keep this copy for screen readers only. */
+:global(:root[data-scroll="on"][data-stage3d="ready"]) .statement {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

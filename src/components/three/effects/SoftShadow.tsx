@@ -1,14 +1,14 @@
 "use client";
 
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from "react";
+import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { Euler, Quaternion, Vector3, type Mesh, type Object3D } from "three";
 import { getRadialTexture } from "../textures/createRadialTexture";
 
 interface SoftShadowProps {
   /** Object whose footprint this shadow follows. */
   target: RefObject<Object3D | null>;
-  /** World-space floor height. */
+  /** Floor height in the shadow's parent space (the model's own space). */
   floorY: number;
   /** Footprint size (width, depth) when the target rests at `restHeight`. */
   size: [number, number];
@@ -17,17 +17,16 @@ interface SoftShadowProps {
   restHeight: number;
 }
 
-const worldPosition = new Vector3();
-const worldQuaternion = new Quaternion();
+const position = new Vector3();
+const parentQuaternion = new Quaternion();
+const targetQuaternion = new Quaternion();
 const euler = new Euler();
-const flatQuaternion = new Quaternion();
-const flatScale = new Vector3();
-const LIE_FLAT = new Euler(-Math.PI / 2, 0, 0);
 
 /**
- * A cheap, blurred contact shadow anchored in world space: it stays flat on the
- * floor whatever its parent does, follows the target's footprint and yaw, and
- * softens as the target floats higher. Costs one textured quad, no shadow maps.
+ * A cheap, blurred contact shadow on the model's own floor: it follows the
+ * target's footprint and yaw and softens as the target lifts. Because it lives
+ * in the model's space it travels, scales and turns with the model as the
+ * scroll journey moves it. One textured quad, no shadow maps.
  */
 export function SoftShadow({ target, floorY, size, opacity = 0.5, restHeight }: SoftShadowProps) {
   const mesh = useRef<Mesh>(null);
@@ -37,28 +36,24 @@ export function SoftShadow({ target, floorY, size, opacity = 0.5, restHeight }: 
   // A new strength (e.g. after a theme switch) must repaint even in on-demand mode.
   useEffect(() => invalidate(), [opacity, invalidate]);
 
-  useLayoutEffect(() => {
-    // The world matrix is written by hand each frame.
-    if (mesh.current) mesh.current.matrixWorldAutoUpdate = false;
-  }, []);
-
   useFrame(() => {
     const shadow = mesh.current;
     const object = target.current;
-    if (!shadow || !object) return;
+    const parent = shadow?.parent;
+    if (!shadow || !object || !parent) return;
 
-    object.updateWorldMatrix(true, false);
-    object.matrixWorld.decompose(worldPosition, worldQuaternion, flatScale);
-    euler.setFromQuaternion(worldQuaternion, "YXZ");
+    object.getWorldPosition(position);
+    parent.worldToLocal(position);
+    parent.getWorldQuaternion(parentQuaternion);
+    object.getWorldQuaternion(targetQuaternion);
+    euler.setFromQuaternion(parentQuaternion.invert().multiply(targetQuaternion), "YXZ");
 
-    const lift = worldPosition.y - floorY - restHeight;
+    const lift = position.y - floorY - restHeight;
     const spread = 1 + lift * 0.18;
-    flatQuaternion.setFromEuler(LIE_FLAT);
-    flatQuaternion.premultiply(worldQuaternion.setFromEuler(euler.set(0, euler.y, 0)));
-
-    worldPosition.y = floorY;
-    flatScale.set(size[0] * spread, size[1] * spread, 1);
-    shadow.matrixWorld.compose(worldPosition, flatQuaternion, flatScale);
+    shadow.position.set(position.x, floorY, position.z);
+    // Lie flat, then turn within the floor plane to match the target's yaw.
+    shadow.rotation.set(-Math.PI / 2, 0, euler.y);
+    shadow.scale.set(size[0] * spread, size[1] * spread, 1);
 
     const material = shadow.material as { opacity: number };
     material.opacity = opacity * Math.min(1, Math.max(0.25, 1 - lift * 0.35));

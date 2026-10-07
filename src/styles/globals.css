@@ -127,6 +127,8 @@ html {
   background: var(--gradient-text);
   -webkit-background-clip: text;
   background-clip: text;
+  /* Room for ascenders, descenders and diacritics, which text clipping would otherwise cut. */
+  padding-block: 0.1em 0.14em;
   color: transparent;
 }
 

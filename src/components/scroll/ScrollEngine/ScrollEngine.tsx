@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { SCROLL_ATTRIBUTE } from "@/lib/motion";
 
 type SceneMode = "sticky" | "view";
@@ -37,7 +37,10 @@ function measure(element: HTMLElement, mode: SceneMode, viewport: number): numbe
  * something is still moving. Mount once, in the root layout.
  */
 export function ScrollEngine() {
-  useEffect(() => {
+  // A layout effect, so the motion flag is back in the same commit when React
+  // remounts the root layout (switching language clears <html> attributes).
+  // A paint without it would lay out the short static page and clamp the scroll.
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const states = new WeakMap<HTMLElement, SceneState>();

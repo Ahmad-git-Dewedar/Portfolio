@@ -29,6 +29,8 @@ export function ProjectScene({ project, total, labels }: ProjectSceneProps) {
     "--spot-rgb": hexToRgbChannels(project.accent),
     "--bg": project.scene.background,
     "--bg-next": project.nextBackground ?? "var(--color-bg)",
+    // Lets the giant outlined title size itself to always fit the screen width.
+    "--chars": Math.max(6, project.title.length),
   } as CSSProperties;
 
   return (
